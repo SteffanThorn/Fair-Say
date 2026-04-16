@@ -3,32 +3,51 @@ import { auth } from '@/auth';
 import { Resend } from 'resend';
 
 function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-NZ', {
-    style: 'currency',
-    currency: 'NZD',
-  }).format(amount);
+  return new Intl.NumberFormat('en-NZ', { style: 'currency', currency: 'NZD' }).format(amount);
 }
+
+const BASE_STYLE = `font-family: system-ui, Arial, sans-serif; line-height: 1.65; color: #0f172a; max-width: 580px; margin: 0 auto;`;
+const FOOTER = `<hr style="margin:32px 0;border:none;border-top:1px solid #e2e8f0"/>
+  <p style="font-size:12px;color:#64748b">
+    CivicEchoNZ — 100% apolitical civic education for New Zealanders.<br>
+    We never endorse any party, candidate, or ideology.
+  </p>`;
 
 function getHtml(emailType, data) {
   if (emailType === 'welcome') {
-    return `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #0f172a;">
-        <h1>Welcome, ${data.name}!</h1>
-        <p>Your new app starter is ready to build on.</p>
-        <p>Next steps: connect your product flows, customize the UI, and ship.</p>
-      </div>
-    `;
+    return `<div style="${BASE_STYLE}">
+      <h1 style="color:#065f46">Welcome to CivicEchoNZ, ${data.name || 'there'}! 🌿</h1>
+      <p>You now have access to:</p>
+      <ul>
+        <li>📰 <strong>Grounded News</strong> — NZ politics from multiple neutral sources</li>
+        <li>🗳️ <strong>Parties & MPs</strong> — factual, apolitical profiles</li>
+        <li>📚 <strong>Civics</strong> — how NZ government really works</li>
+        <li>📊 <strong>Polls & Pairwise</strong> — anonymous community voice</li>
+      </ul>
+      <p><a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}" style="color:#059669">Explore CivicEchoNZ →</a></p>
+      ${FOOTER}
+    </div>`;
   }
 
   if (emailType === 'order-confirmation') {
-    return `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #0f172a;">
-        <h1>Payment confirmed</h1>
-        <p>Hi ${data.name},</p>
-        <p>Your payment for <strong>${data.itemName}</strong> was successful.</p>
-        <p>Total: <strong>${formatCurrency(data.amount)}</strong></p>
-      </div>
-    `;
+    return `<div style="${BASE_STYLE}">
+      <h1 style="color:#065f46">Payment confirmed ✅</h1>
+      <p>Hi ${data.name || 'there'},</p>
+      <p>Your payment for <strong>${data.itemName}</strong> was successful.</p>
+      <p>Total: <strong>${formatCurrency(data.amount)}</strong></p>
+      <p>Thank you for supporting CivicEchoNZ.</p>
+      ${FOOTER}
+    </div>`;
+  }
+
+  if (emailType === 'newsletter') {
+    return `<div style="${BASE_STYLE}">
+      <h1 style="color:#065f46">🌿 CivicEchoNZ — Objective Truth Edition</h1>
+      <p>${data.intro || 'This week in NZ civic life:'}</p>
+      ${data.body || ''}
+      <p style="margin-top:24px"><a href="${data.unsubscribeUrl || '#'}" style="color:#64748b;font-size:12px">Unsubscribe</a></p>
+      ${FOOTER}
+    </div>`;
   }
 
   return '<p>Unsupported email type</p>';
@@ -54,10 +73,15 @@ export async function POST(request) {
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const subject = emailType === 'welcome' ? 'Welcome to your new app' : 'Payment confirmed';
+    const subjectMap = {
+      'welcome': `Welcome to CivicEchoNZ, ${data?.name || 'there'}!`,
+      'order-confirmation': 'CivicEchoNZ — Payment confirmed',
+      'newsletter': data?.subject || 'CivicEchoNZ — Objective Truth Edition',
+    };
+    const subject = subjectMap[emailType] || 'CivicEchoNZ notification';
 
     const result = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'Starter Template <onboarding@resend.dev>',
+      from: process.env.EMAIL_FROM || 'CivicEchoNZ <noreply@civicechonz.nz>',
       to,
       subject,
       html: getHtml(emailType, data || {}),

@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import dbConnect from '@/lib/mongodb';
-import MealPlan from '@/lib/models/MealPlan';
-import Recipe from '@/lib/models/Recipe';
-import UserSubmittedPrice from '@/lib/models/UserSubmittedPrice';
-import UserSubmittedRecipe from '@/lib/models/UserSubmittedRecipe';
+import User from '@/lib/models/User';
+import UserPollVote from '@/lib/models/UserPollVote';
 
 export async function GET() {
   try {
@@ -16,49 +14,17 @@ export async function GET() {
 
     await dbConnect();
 
-    const [mealPlans, submittedPrices, submittedRecipeLinks] = await Promise.all([
-      MealPlan.find({ userId: session.user.id }).sort({ createdAt: -1 }).limit(8).lean(),
-      UserSubmittedPrice.find({ userId: session.user.id }).sort({ createdAt: -1 }).limit(8).populate('storeId productId').lean(),
-      UserSubmittedRecipe.find({ userId: session.user.id }).sort({ createdAt: -1 }).limit(8).populate('recipeId').lean(),
+    const [user, voteCount] = await Promise.all([
+      User.findById(session.user.id).select('preferredElectorate newsletterSubscribed pollHistory createdAt').lean(),
+      UserPollVote.countDocuments({ user: session.user.id }),
     ]);
-
-    const recipeIds = submittedRecipeLinks.map((item) => item.recipeId?._id).filter(Boolean);
-    const moderationCounts = await Recipe.aggregate([
-      { $match: { _id: { $in: recipeIds } } },
-      { $group: { _id: '$status', count: { $sum: 1 } } },
-    ]);
-
-    const moderationMap = new Map(moderationCounts.map((row) => [row._id, row.count]));
-
-    const contributionScore = (submittedPrices.length * 2)
-      + (submittedRecipeLinks.length * 5)
-      + (Number(moderationMap.get('approved') || 0) * 3);
 
     return NextResponse.json({
-      savedMealPlans: mealPlans.map((plan) => ({
-        id: plan._id.toString(),
-        createdAt: plan.createdAt,
-        budget: plan.budget,
-        people: plan.people,
-        foodType: plan.foodType,
-        meals: plan.meals,
-        estimatedCosts: plan.estimatedCosts,
-      })),
-      submittedPrices: submittedPrices.map((item) => ({
-        id: item._id.toString(),
-        storeName: item.storeId?.name || 'Unknown Store',
-        productName: item.productId?.name || 'Unknown Product',
-        price: item.price,
-        createdAt: item.createdAt,
-      })),
-      submittedRecipes: submittedRecipeLinks.map((item) => ({
-        id: item._id.toString(),
-        recipeId: item.recipeId?._id?.toString(),
-        name: item.recipeId?.name || 'Deleted Recipe',
-        status: item.recipeId?.status || 'unknown',
-        createdAt: item.createdAt,
-      })),
-      contributionScore,
+      preferredElectorate: user?.preferredElectorate || '',
+      newsletterSubscribed: Boolean(user?.newsletterSubscribed),
+      pollHistoryCount: user?.pollHistory?.length || 0,
+      totalVotes: voteCount,
+      joinedAt: user?.createdAt || null,
     });
   } catch (error) {
     console.error('Dashboard summary error:', error);

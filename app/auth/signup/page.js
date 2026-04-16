@@ -2,12 +2,11 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 
 export default function SignUpPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', preferredElectorate: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -30,34 +29,25 @@ export default function SignUpPage() {
       return;
     }
 
-    const result = await signIn('credentials', {
-      email: form.email,
-      password: form.password,
-      redirect: false,
-    });
-
     setLoading(false);
 
-    if (result?.error) {
-      setError(result.error);
-      return;
-    }
-
-    router.push('/dashboard');
+    router.push('/auth/signin?created=1');
   }
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md items-center px-6 py-16">
       <form onSubmit={handleSubmit} className="card w-full rounded-3xl p-8">
+        <p className="text-xs uppercase tracking-widest text-emerald-400 mb-2">CivicEchoNZ</p>
         <h1 className="text-3xl font-semibold">Create account</h1>
-        <p className="mt-2 text-sm text-slate-300">This uses the same signup + welcome-email pattern as your main project.</p>
+        <p className="mt-2 text-sm text-slate-300">Join thousands of NZers getting better civic info.</p>
         <div className="mt-6 space-y-4">
           <input type="text" placeholder="Name" value={form.name} onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))} className="w-full rounded-lg border border-white/10 bg-slate-950/60 px-4 py-3 text-white outline-none" required />
           <input type="email" placeholder="Email" value={form.email} onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))} className="w-full rounded-lg border border-white/10 bg-slate-950/60 px-4 py-3 text-white outline-none" required />
           <input type="password" placeholder="Password (8+ chars)" value={form.password} onChange={(event) => setForm((prev) => ({ ...prev, password: event.target.value }))} className="w-full rounded-lg border border-white/10 bg-slate-950/60 px-4 py-3 text-white outline-none" minLength={8} required />
+          <input type="text" placeholder="Your electorate (optional, e.g. Ilam)" value={form.preferredElectorate} onChange={(event) => setForm((prev) => ({ ...prev, preferredElectorate: event.target.value }))} className="w-full rounded-lg border border-white/10 bg-slate-950/60 px-4 py-3 text-white outline-none" />
         </div>
         {error ? <p className="mt-4 text-sm text-red-300">{error}</p> : null}
-        <button type="submit" disabled={loading} className="mt-6 w-full rounded-lg bg-violet-500 px-4 py-3 font-medium text-white hover:bg-violet-400 disabled:opacity-60">
+        <button type="submit" disabled={loading} className="mt-6 w-full rounded-lg bg-emerald-600 px-4 py-3 font-medium text-white hover:bg-emerald-500 disabled:opacity-60">
           {loading ? 'Creating…' : 'Create account'}
         </button>
         <p className="mt-4 text-sm text-slate-300">

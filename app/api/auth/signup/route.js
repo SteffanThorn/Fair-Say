@@ -5,7 +5,7 @@ import { sendWelcomeEmail } from '@/lib/email';
 
 export async function POST(request) {
   try {
-    const { name, email, password } = await request.json();
+    const { name, email, password, preferredElectorate } = await request.json();
 
     if (!name || !email || !password) {
       return NextResponse.json({ error: 'Name, email, and password are required' }, { status: 400 });
@@ -26,6 +26,7 @@ export async function POST(request) {
       name,
       email: email.toLowerCase(),
       password,
+      preferredElectorate: preferredElectorate?.trim() || '',
     });
 
     sendWelcomeEmail({ email: user.email, name: user.name }).catch((error) => {

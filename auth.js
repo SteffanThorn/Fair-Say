@@ -41,6 +41,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: user.email,
           name: user.name,
           role: user.role,
+          preferredElectorate: user.preferredElectorate || '',
+          newsletterSubscribed: user.newsletterSubscribed || false,
         };
       },
     }),
@@ -57,6 +59,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.preferredElectorate = user.preferredElectorate || '';
+        token.newsletterSubscribed = user.newsletterSubscribed || false;
       }
       return token;
     },
@@ -64,6 +68,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.preferredElectorate = token.preferredElectorate || '';
+        session.user.newsletterSubscribed = token.newsletterSubscribed || false;
       }
       return session;
     },
