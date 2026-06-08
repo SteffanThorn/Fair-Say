@@ -1,5 +1,7 @@
 import { Suspense } from 'react';
 import { getNZNews } from '@/lib/newsCache';
+import { getDataClient } from '@/lib/supabase/data';
+import NewsSourcesSection from '@/components/news/NewsSourcesSection';
 
 export const metadata = {
   title: 'Grounded News',
@@ -17,25 +19,24 @@ const CATEGORY_BADGE = {
   environment: { label: 'Environment', cls: 'badge-green' },
 };
 
-function timeAgo(date) {
-  const diff = Date.now() - new Date(date).getTime();
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 60)  return `${mins}m ago`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24)   return `${hrs}h ago`;
-  const days = Math.floor(hrs / 24);
-  return `${days}d ago`;
+function timeAgo(dateStr) {
+  const date = new Date(dateStr);
+  if (!dateStr || isNaN(date.getTime())) return 'Recently';
+  const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return `${Math.floor(diff / 86400)}d ago`;
 }
 
 function ArticleCard({ article }) {
   const badge = CATEGORY_BADGE[article.category] || CATEGORY_BADGE.politics;
   return (
     <article className="card rounded-2xl overflow-hidden flex flex-col hover:border-white/20 transition-colors">
-      {article.imageUrl && (
+      {article.image_url && (
         <div className="h-44 overflow-hidden bg-slate-800">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={article.imageUrl}
+            src={article.image_url}
             alt=""
             className="h-full w-full object-cover opacity-90"
             loading="lazy"
@@ -46,7 +47,7 @@ function ArticleCard({ article }) {
         <div className="flex items-center gap-2 mb-3">
           <span className={`badge ${badge.cls}`}>{badge.label}</span>
           <span className="text-xs text-slate-400">{article.source}</span>
-          <span className="text-xs text-slate-500 ml-auto">{timeAgo(article.publishedDate)}</span>
+          <span className="text-xs text-slate-500 ml-auto">{timeAgo(article.published_date)}</span>
         </div>
 
         <h2 className="text-base font-semibold leading-snug text-white mb-2 line-clamp-3">
@@ -128,7 +129,20 @@ async function NewsFeed() {
   );
 }
 
-export default function NewsPage() {
+export default async function NewsPage() {
+  let sources = [];
+  try {
+    const supabase = getDataClient();
+    const { data } = await supabase
+      .from('news_sources')
+      .select('*')
+      .eq('active', true)
+      .order('name');
+    sources = data || [];
+  } catch {
+    // Table not yet created — section shows empty state
+  }
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
       {/* Header */}
@@ -155,6 +169,9 @@ export default function NewsPage() {
           </p>
         </div>
       </header>
+
+      {/* Sources directory */}
+      <NewsSourcesSection sources={sources} />
 
       {/* Feed */}
       <Suspense
