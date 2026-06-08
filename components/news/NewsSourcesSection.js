@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const BIAS_POS = {
-  'left':         { pct: 8,  color: '#3b82f6' },
-  'centre-left':  { pct: 30, color: '#93c5fd' },
-  'centre':       { pct: 50, color: '#9ca3af' },
-  'centre-right': { pct: 70, color: '#fca5a5' },
-  'right':        { pct: 92, color: '#ef4444' },
+  'left':           { pct: 8,  color: '#3b82f6' },
+  'centre-left':    { pct: 30, color: '#93c5fd' },
+  'centre':         { pct: 50, color: '#9ca3af' },
+  'centre-right':   { pct: 70, color: '#fca5a5' },
+  'right':          { pct: 92, color: '#ef4444' },
+  'focused-agenda': { pct: 50, color: '#f59e0b' },
 };
 
 const TYPE_COLORS = {
@@ -37,12 +38,99 @@ const VALIDITY_CONFIG = {
 const DISPLAY_LABELS = {
   'centre-left':    'Centre-Left',
   'centre-right':   'Centre-Right',
-  'focused-agenda': 'Focused Agenda',
+  'focused-agenda': 'Focused',
 };
 
 function displayLabel(val) {
   return DISPLAY_LABELS[val] || val.charAt(0).toUpperCase() + val.slice(1);
 }
+
+function timeAgo(dateStr) {
+  const date = new Date(dateStr);
+  if (!dateStr || isNaN(date.getTime())) return 'Recently';
+  const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return `${Math.floor(diff / 86400)}d ago`;
+}
+
+function BiasPill({ bias }) {
+  if (!bias) return null;
+  const cfg = BIAS_POS[bias];
+  if (!cfg) return null;
+  return (
+    <span
+      className="text-xs px-2 py-0.5 rounded-full border shrink-0"
+      style={{
+        background: `${cfg.color}20`,
+        color: cfg.color,
+        borderColor: `${cfg.color}40`,
+      }}
+    >
+      {bias === 'focused-agenda' ? '🎯 Focused' : displayLabel(bias)}
+    </span>
+  );
+}
+
+function ArticleCard({ article }) {
+  const validityCfg = VALIDITY_CONFIG[article.sourceValidity] || null;
+
+  return (
+    <article className="card rounded-2xl overflow-hidden flex flex-col sm:flex-row hover:border-white/20 transition-colors gap-0">
+      {article.image_url && (
+        <div className="sm:w-32 sm:shrink-0 h-36 sm:h-auto overflow-hidden bg-slate-800">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={article.image_url}
+            alt=""
+            className="h-full w-full object-cover opacity-90"
+            loading="lazy"
+          />
+        </div>
+      )}
+
+      <div className="flex flex-col flex-1 p-4">
+        {/* Source meta row */}
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
+          <span className="text-xs font-semibold text-slate-200">{article.source}</span>
+          <BiasPill bias={article.sourceBias} />
+          {validityCfg && (
+            <span className="text-xs text-slate-500" title={validityCfg.label}>
+              {validityCfg.icon}
+            </span>
+          )}
+          {article.hasPaywall && (
+            <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/25 shrink-0">
+              🔒 {article.hasPaywall === 'full' ? 'Subscription' : 'Paywall'}
+            </span>
+          )}
+          <span className="text-xs text-slate-500 ml-auto shrink-0">{timeAgo(article.published_date)}</span>
+        </div>
+
+        <h2 className="text-sm font-semibold text-white mb-1.5 leading-snug">
+          {article.title}
+        </h2>
+
+        {article.summary && (
+          <p className="text-xs text-slate-400 leading-relaxed flex-1 line-clamp-4">
+            {article.summary}
+          </p>
+        )}
+
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2.5 text-xs font-medium text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1"
+        >
+          Read full article →
+        </a>
+      </div>
+    </article>
+  );
+}
+
+// ── Source guide (kept as a collapsible reference) ─────────────────────────
 
 function BiasBar({ bias }) {
   if (bias === 'focused-agenda') {
@@ -63,45 +151,8 @@ function BiasBar({ bias }) {
       />
       <div
         className="absolute w-3 h-3 rounded-full border-2"
-        style={{
-          left: `calc(${cfg.pct}% - 6px)`,
-          backgroundColor: 'white',
-          borderColor: cfg.color,
-        }}
+        style={{ left: `calc(${cfg.pct}% - 6px)`, backgroundColor: 'white', borderColor: cfg.color }}
       />
-    </div>
-  );
-}
-
-function FilterGroup({ groupLabel, options, value, onChange }) {
-  return (
-    <div className="flex items-start gap-3 min-w-0">
-      <span className="text-xs text-slate-500 shrink-0 pt-1 w-16">{groupLabel}</span>
-      <div className="flex gap-1.5 flex-wrap">
-        <button
-          onClick={() => onChange(null)}
-          className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
-            value === null
-              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-              : 'bg-white/5 text-slate-400 border-white/10 hover:border-white/20 hover:text-slate-300'
-          }`}
-        >
-          All
-        </button>
-        {options.map((opt) => (
-          <button
-            key={opt}
-            onClick={() => onChange(value === opt ? null : opt)}
-            className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
-              value === opt
-                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                : 'bg-white/5 text-slate-400 border-white/10 hover:border-white/20 hover:text-slate-300'
-            }`}
-          >
-            {displayLabel(opt)}
-          </button>
-        ))}
-      </div>
     </div>
   );
 }
@@ -110,7 +161,6 @@ function SourceCard({ source }) {
   const typeColor = TYPE_COLORS[source.type] || TYPE_COLORS.news;
   const validity = VALIDITY_CONFIG[source.validity_rating] || VALIDITY_CONFIG.unrated;
 
-  // Split out AI note from human note
   let humanNote = null;
   let aiNote = null;
   if (source.validity_notes) {
@@ -126,7 +176,6 @@ function SourceCard({ source }) {
 
   return (
     <div className="card rounded-2xl p-4 flex flex-col gap-2.5">
-      {/* Name + type */}
       <div className="flex items-start justify-between gap-2">
         <a
           href={source.url}
@@ -141,30 +190,23 @@ function SourceCard({ source }) {
         </span>
       </div>
 
-      {/* Platform badges */}
       <div className="flex gap-1.5 flex-wrap">
         {source.platforms.map((p) => {
           const cfg = PLATFORM_ICONS[p];
           return (
-            <span
-              key={p}
-              className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-400"
-            >
+            <span key={p} className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-400">
               {cfg?.icon || p} {cfg?.label || p}
             </span>
           );
         })}
       </div>
 
-      {/* Bias spectrum */}
       <BiasBar bias={source.bias} />
 
-      {/* Validity */}
       <div className="text-xs text-slate-300">
         {validity.icon} {validity.label}
       </div>
 
-      {/* Notes */}
       {(humanNote || aiNote) && (
         <div className="text-xs text-slate-400 space-y-1">
           {humanNote && <p>{humanNote}</p>}
@@ -178,7 +220,6 @@ function SourceCard({ source }) {
         </div>
       )}
 
-      {/* Funded by */}
       {source.funded_by && (
         <div className="mt-auto pt-1 border-t border-white/5 text-xs text-slate-500">
           💰 {source.funded_by}
@@ -188,108 +229,141 @@ function SourceCard({ source }) {
   );
 }
 
-const TYPE_OPTIONS     = ['news', 'podcast', 'blog', 'research', 'advocacy'];
+// ── Filter bar ─────────────────────────────────────────────────────────────
+
 const BIAS_OPTIONS     = ['left', 'centre-left', 'centre', 'centre-right', 'right', 'focused-agenda'];
+const TYPE_OPTIONS     = ['news', 'podcast', 'blog', 'research', 'advocacy'];
 const VALIDITY_OPTIONS = ['high', 'medium', 'low'];
-const PLATFORM_OPTIONS = ['web', 'youtube', 'podcast', 'facebook', 'x'];
 
-export default function NewsSourcesSection({ sources = [] }) {
-  const [expanded, setExpanded] = useState(false);
-  const [filters, setFilters] = useState({ type: null, bias: null, validity: null, platform: null });
+function FilterChip({ active, onClick, children }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+        active
+          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+          : 'bg-white/5 text-slate-400 border-white/10 hover:border-white/20 hover:text-slate-300'
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
 
-  // Open by default on desktop
-  useEffect(() => {
-    if (window.innerWidth >= 768) setExpanded(true);
-  }, []);
+function FilterGroup({ groupLabel, options, value, onChange }) {
+  return (
+    <div className="flex items-start gap-3 min-w-0">
+      <span className="text-xs text-slate-500 shrink-0 pt-1 w-14">{groupLabel}</span>
+      <div className="flex gap-1.5 flex-wrap">
+        <FilterChip active={value === null} onClick={() => onChange(null)}>All</FilterChip>
+        {options.map((opt) => (
+          <FilterChip key={opt} active={value === opt} onClick={() => onChange(value === opt ? null : opt)}>
+            {opt === 'focused-agenda' ? '🎯 Focused' : displayLabel(opt)}
+          </FilterChip>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Main export ────────────────────────────────────────────────────────────
+
+export default function NewsSourcesSection({ articles = [], sources = [] }) {
+  const [filters, setFilters] = useState({ type: null, bias: null, validity: null });
+  const [showFilters, setShowFilters] = useState(false);
 
   function setFilter(key, value) {
     setFilters((prev) => ({ ...prev, [key]: value }));
   }
 
-  const filtered = sources.filter((s) => {
-    if (filters.type     && s.type             !== filters.type)            return false;
-    if (filters.bias     && s.bias             !== filters.bias)            return false;
-    if (filters.validity && s.validity_rating  !== filters.validity)        return false;
-    if (filters.platform && !s.platforms.includes(filters.platform))        return false;
+  const activeFilterCount = Object.values(filters).filter(Boolean).length;
+
+  const filtered = articles.filter((a) => {
+    if (filters.type     && a.sourceType    !== filters.type)     return false;
+    if (filters.bias     && a.sourceBias    !== filters.bias)     return false;
+    if (filters.validity && a.sourceValidity !== filters.validity) return false;
     return true;
   });
 
   return (
-    <section className="mb-8">
-      <div className="flex items-center justify-between mb-3">
-        <h2 className="text-lg font-bold text-white">📡 News Sources</h2>
+    <section>
+      {/* Toolbar */}
+      <div className="flex items-center gap-3 mb-4 flex-wrap">
+        <h2 className="text-lg font-bold text-white mr-auto">📰 Latest Articles</h2>
+
+        {activeFilterCount > 0 && (
+          <span className="text-xs text-emerald-400 font-medium">
+            {filtered.length} of {articles.length}
+          </span>
+        )}
+
         <button
-          onClick={() => setExpanded((e) => !e)}
-          className="text-xs text-slate-400 hover:text-white transition-colors px-3 py-1 rounded-lg border border-white/10 hover:border-white/20"
+          onClick={() => setShowFilters((f) => !f)}
+          className={`text-xs px-3 py-1 rounded-lg border transition-colors ${
+            showFilters || activeFilterCount > 0
+              ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+              : 'bg-white/5 text-slate-400 border-white/10 hover:border-white/20 hover:text-white'
+          }`}
         >
-          {expanded ? 'Hide sources' : 'Show sources'}
+          🎛 Filter{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
         </button>
       </div>
 
-      {expanded && (
-        <>
-          {/* Intro */}
-          <div className="mb-4 space-y-1.5">
-            <p className="text-sm text-slate-400 leading-relaxed">
-              We&apos;ve mapped the NZ political media landscape — mainstream outlets, independent voices,
-              podcasts, and opinion — with transparent tags for bias, type, and claim validity.
-              Read broadly. Think critically. Always check multiple sources.
-            </p>
-            <p className="text-xs text-slate-500">
-              Where you see 🤖 <em>AI note:</em> — this is an AI-researched assessment of referencing quality.
-              All other notes are human editorial judgements.
-            </p>
-          </div>
-
-          {sources.length === 0 ? (
-            <div className="card rounded-2xl p-6 text-center text-sm text-slate-400">
-              <p className="text-xl mb-2">🗂️</p>
-              <p className="font-medium text-white">Sources not loaded</p>
-              <p className="mt-1 text-xs">Run the <code className="text-emerald-400">news_sources</code> migration in your Supabase SQL editor to populate this section.</p>
-            </div>
-          ) : (
-            <>
-              {/* Filter bar */}
-              <div className="card rounded-2xl p-4 mb-5 space-y-3">
-                <FilterGroup
-                  groupLabel="Type"
-                  options={TYPE_OPTIONS}
-                  value={filters.type}
-                  onChange={(v) => setFilter('type', v)}
-                />
-                <FilterGroup
-                  groupLabel="Bias"
-                  options={BIAS_OPTIONS}
-                  value={filters.bias}
-                  onChange={(v) => setFilter('bias', v)}
-                />
-                <FilterGroup
-                  groupLabel="Validity"
-                  options={VALIDITY_OPTIONS}
-                  value={filters.validity}
-                  onChange={(v) => setFilter('validity', v)}
-                />
-                <FilterGroup
-                  groupLabel="Platform"
-                  options={PLATFORM_OPTIONS}
-                  value={filters.platform}
-                  onChange={(v) => setFilter('platform', v)}
-                />
-              </div>
-
-              {/* Cards */}
-              {filtered.length === 0 ? (
-                <p className="text-sm text-slate-400 py-8 text-center">No sources match the selected filters.</p>
-              ) : (
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {filtered.map((s) => (
-                    <SourceCard key={s.id} source={s} />
-                  ))}
-                </div>
-              )}
-            </>
+      {/* Filter panel */}
+      {showFilters && (
+        <div className="card rounded-2xl p-4 mb-5 space-y-3">
+          <FilterGroup groupLabel="Bias"     options={BIAS_OPTIONS}     value={filters.bias}     onChange={(v) => setFilter('bias', v)} />
+          <FilterGroup groupLabel="Type"     options={TYPE_OPTIONS}     value={filters.type}     onChange={(v) => setFilter('type', v)} />
+          <FilterGroup groupLabel="Validity" options={VALIDITY_OPTIONS} value={filters.validity} onChange={(v) => setFilter('validity', v)} />
+          {activeFilterCount > 0 && (
+            <button
+              onClick={() => setFilters({ type: null, bias: null, validity: null })}
+              className="text-xs text-slate-400 hover:text-white transition-colors"
+            >
+              ✕ Clear all filters
+            </button>
           )}
-        </>
+        </div>
+      )}
+
+      {/* Article feed */}
+      {articles.length === 0 ? (
+        <div className="card rounded-2xl p-8 text-center">
+          <p className="text-2xl mb-2">📡</p>
+          <p className="font-semibold text-white">No articles cached yet</p>
+          <p className="mt-1 text-sm text-slate-400">
+            The RSS feed will populate automatically on next page load.
+          </p>
+        </div>
+      ) : filtered.length === 0 ? (
+        <p className="text-sm text-slate-400 py-8 text-center">No articles match the selected filters.</p>
+      ) : (
+        <div className="space-y-3">
+          {filtered.map((a) => (
+            <ArticleCard key={a.url} article={a} />
+          ))}
+        </div>
+      )}
+
+      {/* Source guide — collapsible reference */}
+      {sources.length > 0 && (
+        <details className="mt-10 group">
+          <summary className="cursor-pointer list-none flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors w-fit">
+            <span className="text-slate-600 group-open:rotate-90 transition-transform inline-block">▶</span>
+            📚 Source guide — bias &amp; validity reference
+          </summary>
+          <div className="mt-4 space-y-3">
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Bias positions and validity ratings for each tracked source. Where you see 🤖{' '}
+              <em>AI note:</em> — that is an AI-researched assessment. All other notes are human editorial judgements.
+            </p>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {sources.map((s) => (
+                <SourceCard key={s.id} source={s} />
+              ))}
+            </div>
+          </div>
+        </details>
       )}
     </section>
   );
