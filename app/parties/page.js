@@ -24,6 +24,8 @@ const STATIC_PARTIES = [
       'The New Zealand National Party is a centre-right party founded in 1936. It emphasises free-market economics, lower taxes, individual responsibility, and strong law enforcement. National typically supports business-friendly policy, fiscal restraint, and a pragmatic approach to social policy.',
     core_values: ['Fiscal responsibility', 'Low taxes', 'Economic growth', 'Law & order', 'Individual freedom'],
     website: 'https://www.national.org.nz',
+    electorate_focus: 'General + Māori',
+    maori_electorate_note: 'Contests all 7 Māori electorates at each election but rarely holds Māori seats. Most National-leaning Māori voters are enrolled on the General roll.',
     isStatic: true,
   },
   {
@@ -41,6 +43,8 @@ const STATIC_PARTIES = [
       "New Zealand Labour is a centre-left party founded in 1916 from the trade union movement. It prioritises social welfare, workers' rights, public services, and reducing inequality. Labour led the 2017–2023 government under Jacinda Ardern and then Chris Hipkins.",
     core_values: ["Social equality", "Workers' rights", 'Public services', 'Healthcare', 'Climate action'],
     website: 'https://www.labour.org.nz',
+    electorate_focus: 'General + Māori',
+    maori_electorate_note: 'Historically dominated Māori electorates for decades — held most or all 7 seats from the 1990s until 2020. Lost all Māori electorate seats to Te Pāti Māori in the 2020 and 2023 elections. Still contests all 7 Māori electorates.',
     isStatic: true,
   },
   {
@@ -58,11 +62,13 @@ const STATIC_PARTIES = [
       'ACT New Zealand is a right-libertarian party founded in 1994. It advocates for minimal government, personal freedom, free-market economics, and substantial reduction in government spending and regulation. ACT has held the Associate Justice Minister role since 2023.',
     core_values: ['Personal freedom', 'Small government', 'Free markets', 'Deregulation', 'Individual rights'],
     website: 'https://www.act.org.nz',
+    electorate_focus: 'General + Māori',
+    maori_electorate_note: 'Contests both General and Māori electorates. Policy position: abolish the Māori electorates and move all Māori voters onto the General roll.',
     isStatic: true,
   },
   {
     id: 'green',
-    slug: 'green',
+    slug: 'greens',
     name: 'Green Party',
     shortName: 'GRN',
     color: '#098137',
@@ -75,6 +81,8 @@ const STATIC_PARTIES = [
       'The Green Party of Aotearoa New Zealand was founded in 1990 from the Values Party tradition. It combines environmental policy with progressive social policy — climate action, income support, housing, and Te Tiriti commitments. The Greens had a confidence-and-supply agreement with Labour 2020–2023.',
     core_values: ['Climate action', 'Social justice', 'Te Tiriti', 'Environmental protection', 'Poverty reduction'],
     website: 'https://www.greens.org.nz',
+    electorate_focus: 'General + Māori',
+    maori_electorate_note: 'Contests both electorates. Strong Te Tiriti o Waitangi commitments. Has had Māori co-leaders (Marama Davidson) and runs strong Māori electorate candidates.',
     isStatic: true,
   },
   {
@@ -92,23 +100,46 @@ const STATIC_PARTIES = [
       'New Zealand First was founded by Winston Peters in 1993 after he left National. It takes populist, nationalist positions across the spectrum — supporting NZ manufacturing, restricting immigration, opposing the "co-governance" model, and advocating for Māori electoral reform. A kingmaker party that has gone into coalition with both Labour and National.',
     core_values: ['NZ sovereignty', 'Controlled immigration', 'Superannuation', 'Law & order', 'NZ-owned assets'],
     website: 'https://www.nzfirst.org.nz',
+    electorate_focus: 'General + Māori',
+    maori_electorate_note: 'Contests Māori electorates but advocates abolishing them via referendum. Party position: all voters including Māori should vote on a single General roll.',
     isStatic: true,
   },
   {
     id: 'tpm',
-    slug: 'te-pati-maori',
+    slug: 'maori',
     name: 'Te Pāti Māori',
     shortName: 'TPM',
     color: '#b5281e',
     logo_url: 'https://elections.nz/assets/Party-logos/Maori-part-logo-Final_Maaeori-full-colour-002__ScaleWidthWzMwMF0.jpg',
-    current_seats: 6,
+    current_seats: 11,
     spectrum: 'Māori nationalist / Left',
     current_leader: 'Debbie Ngarewa-Packer & Rawiri Waititi',
     government_status: 'Opposition',
     ideology_description:
-      'Te Pāti Māori (the Māori Party) was re-established in 2004 and re-entered Parliament in 2020. It advocates for Māori self-determination (tino rangatiratanga), Treaty-based governance, Māori language and culture, and redistributive economic policy. The party holds all seven Māori electorates.',
+      'Te Pāti Māori (the Māori Party) was founded in 2004 by MPs who left Labour, and re-entered Parliament in 2020 after a term outside. It advocates for Māori self-determination (tino rangatiratanga), Treaty-based governance, Māori language and culture, and redistributive economic policy. The party holds all 7 Māori electorates as of 2023, plus party list seats. Note: Te Pāti Māori is the dedicated Māori party, but it is not the only party that contests Māori electorates — Labour, the Greens, National, ACT, and others also run candidates in all 7 seats.',
     core_values: ['Tino rangatiratanga', 'Te Tiriti', 'Te reo Māori', 'Māori electorates', 'Economic justice'],
     website: 'https://www.maoriparty.org.nz',
+    electorate_focus: 'Māori electorates',
+    maori_electorate_note: 'Focuses on the 7 Māori electorates. Holds all 7 as of the 2023 election, plus additional party list seats. Also campaigns nationally for the party vote among all voters.',
+    isStatic: true,
+  },
+  {
+    id: 'mana',
+    slug: 'mana',
+    name: 'Mana Movement',
+    shortName: 'MANA',
+    color: '#7c3aed',
+    logo_url: null,
+    current_seats: 0,
+    spectrum: 'Māori nationalist / Far-left',
+    current_leader: 'Hone Harawira',
+    government_status: 'Outside Parliament',
+    ideology_description:
+      'Te Mana (the Mana Movement) was founded in 2011 by Hone Harawira after he split from Te Pāti Māori. It holds more radical positions than TPM — prioritising Māori sovereignty, anti-poverty policy, and opposition to corporate power. Harawira held the Te Tai Tokerau Māori electorate from 2011–2014. The party contests Māori electorates at each election but has not returned to Parliament since 2014.',
+    core_values: ['Tino rangatiratanga', 'Anti-poverty', 'Māori sovereignty', 'Anti-corporate', 'Economic justice'],
+    website: null,
+    electorate_focus: 'Māori electorates',
+    maori_electorate_note: 'Contests Māori electorates only. Hone Harawira held Te Tai Tokerau from 2011–2014 and has re-contested it in subsequent elections without success.',
     isStatic: true,
   },
   {
@@ -126,6 +157,8 @@ const STATIC_PARTIES = [
       'The Opportunity Party is a new political force targeting the 2026 election with a platform of Unity, Innovation, and Nature. Led by impact-business founder and climate leader Qiulae Wong, the party champions evidence-based policy, ocean health, clean energy, tax reform, and direct citizens\' voice in government. It aims to break through the 5% MMP threshold with 150,000 votes.',
     core_values: ['Healthy Oceans', 'Abundant Energy', 'Tax Reset', 'Citizens\' Voice', 'Productivity'],
     website: 'https://www.opportunity.org.nz',
+    electorate_focus: 'General + Māori',
+    maori_electorate_note: null,
     isStatic: true,
   },
 ];
@@ -143,6 +176,68 @@ async function getParties() {
   } catch {
     return [];
   }
+}
+
+const ELECTORATE_FOCUS_STYLE = {
+  'Māori electorates': { bg: 'rgba(181,40,30,0.15)', color: '#fca5a5', border: 'rgba(181,40,30,0.3)' },
+  'General + Māori':   { bg: 'rgba(59,130,246,0.12)', color: '#93c5fd', border: 'rgba(59,130,246,0.25)' },
+  'General':           { bg: 'rgba(100,116,139,0.15)', color: '#94a3b8', border: 'rgba(100,116,139,0.3)' },
+};
+
+function ElectorateExplainer() {
+  return (
+    <details className="mb-8 rounded-2xl overflow-hidden" style={{ background: 'rgba(8,15,30,0.7)', border: '1px solid rgba(255,255,255,0.08)' }}>
+      <summary
+        className="flex items-center justify-between gap-3 px-5 py-4 cursor-pointer select-none list-none"
+        style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+      >
+        <span className="font-semibold text-white text-sm">🗳️ How NZ electorates work — General vs Māori seats</span>
+        <span className="text-xs text-slate-400 shrink-0">tap to expand</span>
+      </summary>
+
+      <div className="px-5 py-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 text-sm text-slate-300 leading-relaxed">
+        <div>
+          <p className="font-semibold text-white mb-1.5">📋 Two types of electorate</p>
+          <p>
+            NZ uses MMP. Every voter gets two votes: an <strong className="text-white">electorate vote</strong> (for a local
+            candidate) and a <strong className="text-white">party vote</strong> (which sets each party&apos;s share of Parliament).
+            There are two sets of electorates:
+          </p>
+          <ul className="mt-2 space-y-1.5 text-slate-400">
+            <li><span className="text-blue-300 font-medium">General electorates</span> — 72 seats, open to all enrolled voters</li>
+            <li><span className="text-red-300 font-medium">Māori electorates</span> — 7 seats, available only to voters on the Māori roll</li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="font-semibold text-white mb-1.5">🖊️ The Māori Electoral Option</p>
+          <p>
+            Eligible Māori voters can choose which roll to enrol on — General or Māori. This choice is made during the{' '}
+            <strong className="text-white">Māori Electoral Option</strong>, held after each census. The number of Māori electorates
+            is set by how many voters choose the Māori roll. Currently 7 seats.
+          </p>
+          <p className="mt-2 text-slate-500 text-xs">
+            Choosing the Māori roll does not affect your party vote — it only determines which electorate candidates you can vote for.
+          </p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-white mb-1.5">🏛️ Who contests Māori electorates?</p>
+          <p>
+            Any registered party can run candidates in Māori electorates. In practice, <strong className="text-white">Labour,
+            Te Pāti Māori, the Greens, National, ACT, NZ First, and the Mana Movement</strong> all contest some or all Māori seats.
+          </p>
+          <p className="mt-2">
+            Te Pāti Māori currently holds all 7, but Labour held most Māori seats from the 1990s until 2020. The Mana Movement
+            held Te Tai Tokerau from 2011–2014.
+          </p>
+          <p className="mt-2 text-slate-500 text-xs">
+            ACT and NZ First contest Māori electorates but both have policy positions to abolish them.
+          </p>
+        </div>
+      </div>
+    </details>
+  );
 }
 
 function leaderInitials(name) {
@@ -219,20 +314,34 @@ function PartyCard({ party }) {
                 {party.spectrum}
               </p>
             )}
-            {party.government_status && (
-              <span
-                className="mt-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
-                style={
-                  isGovt
-                    ? { background: 'rgba(16,185,129,0.15)', color: '#6ee7b7' }
-                    : isOutside
-                    ? { background: `${party.color}18`, color: `${party.color}cc` }
-                    : { background: 'rgba(255,255,255,0.07)', color: '#94a3b8' }
-                }
-              >
-                {party.government_status}
-              </span>
-            )}
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {party.government_status && (
+                <span
+                  className="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
+                  style={
+                    isGovt
+                      ? { background: 'rgba(16,185,129,0.15)', color: '#6ee7b7' }
+                      : isOutside
+                      ? { background: `${party.color}18`, color: `${party.color}cc` }
+                      : { background: 'rgba(255,255,255,0.07)', color: '#94a3b8' }
+                  }
+                >
+                  {party.government_status}
+                </span>
+              )}
+              {party.electorate_focus && (() => {
+                const style = ELECTORATE_FOCUS_STYLE[party.electorate_focus] || ELECTORATE_FOCUS_STYLE['General'];
+                return (
+                  <span
+                    className="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
+                    style={{ background: style.bg, color: style.color, border: `1px solid ${style.border}` }}
+                    title="Which electorates this party contests"
+                  >
+                    🗳️ {party.electorate_focus}
+                  </span>
+                );
+              })()}
+            </div>
           </div>
 
           {/* Seat count */}
@@ -277,6 +386,17 @@ function PartyCard({ party }) {
           </p>
         ) : (
           <p className="text-sm text-slate-500 flex-1">No summary available yet.</p>
+        )}
+
+        {/* Māori electorate note */}
+        {party.maori_electorate_note && (
+          <div
+            className="mt-3 rounded-xl px-3 py-2.5 text-xs text-slate-400 leading-relaxed"
+            style={{ background: 'rgba(181,40,30,0.07)', border: '1px solid rgba(181,40,30,0.15)' }}
+          >
+            <span className="font-semibold text-red-300 mr-1">🗳️ Māori electorates:</span>
+            {party.maori_electorate_note}
+          </div>
         )}
 
         {/* Value chips */}
@@ -330,16 +450,41 @@ function PartyCard({ party }) {
   );
 }
 
+// Static context keyed by slug — used to enrich live DB results
+const STATIC_CONTEXT_BY_SLUG = Object.fromEntries(
+  STATIC_PARTIES.map(p => [p.slug, {
+    color: p.color,
+    shortName: p.shortName,
+    logo_url: p.logo_url,
+    electorate_focus: p.electorate_focus,
+    maori_electorate_note: p.maori_electorate_note,
+  }])
+);
+
 export default async function PartiesPage() {
   const dbParties = await getParties();
-  const parties = dbParties.length > 0 ? dbParties : STATIC_PARTIES;
   const isStatic = dbParties.length === 0;
+
+  let allParties;
+  if (dbParties.length > 0) {
+    // Enrich DB rows with static electorate context
+    const enriched = dbParties.map(p => ({ ...STATIC_CONTEXT_BY_SLUG[p.slug], ...p }));
+    // Append any static-only parties not yet in the DB (e.g. Mana)
+    const dbSlugs = new Set(dbParties.map(p => p.slug));
+    const staticOnly = STATIC_PARTIES.filter(p => !dbSlugs.has(p.slug));
+    allParties = [...enriched, ...staticOnly];
+  } else {
+    allParties = STATIC_PARTIES;
+  }
+
+  const parliamentary = allParties.filter(p => !p.government_status?.toLowerCase().includes('outside'));
+  const nonParliamentary = allParties.filter(p => p.government_status?.toLowerCase().includes('outside'));
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
       <header className="mb-8">
         <p className="text-xs uppercase tracking-widest text-emerald-400">Fair Say NZ</p>
-        <h1 className="mt-2 text-3xl font-bold text-white sm:text-4xl">Parliamentary Parties</h1>
+        <h1 className="mt-2 text-3xl font-bold text-white sm:text-4xl">NZ Political Parties</h1>
         <p className="mt-3 max-w-3xl text-sm text-slate-300 leading-relaxed">
           Neutral, factual summaries only. Fair Say NZ does not endorse any party, MP, or ideology.
           Compare values and policy framing across multiple sources.
@@ -355,13 +500,30 @@ export default async function PartiesPage() {
         </div>
       )}
 
-      <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {parties.map((party) => (
+      <ElectorateExplainer />
+
+      <h2 className="text-lg font-bold text-white mb-4">🏛️ Parliamentary Parties</h2>
+      <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-10">
+        {parliamentary.map((party) => (
           <PartyCard key={party.id} party={party} />
         ))}
       </section>
 
-      <section className="mt-8 rounded-2xl border border-blue-500/20 bg-blue-500/5 px-6 py-5">
+      {nonParliamentary.length > 0 && (
+        <>
+          <h2 className="text-lg font-bold text-white mb-2">🔵 Outside Parliament</h2>
+          <p className="text-sm text-slate-400 mb-4">
+            Registered parties that contest elections but currently hold no seats. Included here for Māori electoral context.
+          </p>
+          <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-10">
+            {nonParliamentary.map((party) => (
+              <PartyCard key={party.id} party={party} />
+            ))}
+          </section>
+        </>
+      )}
+
+      <section className="rounded-2xl border border-blue-500/20 bg-blue-500/5 px-6 py-5">
         <p className="text-xs text-blue-200 leading-relaxed">
           <strong>Neutral disclaimer:</strong> Party descriptions are based on publicly stated positions and official party documents.
           Fair Say NZ does not endorse, rank, or recommend any party. Always read across multiple sources before forming your view.
