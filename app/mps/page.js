@@ -55,6 +55,13 @@ export default async function MPsPage({ searchParams }) {
 
   let { mps, parties, dbError } = await getData({ q, party, electorate });
 
+  // Supplement DB results with static MPs for any party not yet seeded
+  if (!dbError && mps.length > 0 && !party && !q && !electorate) {
+    const dbPartySlugs = new Set(mps.map((m) => m.party?.slug).filter(Boolean));
+    const missing = STATIC_MPS.filter((m) => !dbPartySlugs.has(m.party?.slug));
+    if (missing.length > 0) mps = [...mps, ...missing];
+  }
+
   // Fall back to static data when DB is unavailable or empty
   const isStatic = dbError || mps.length === 0;
   if (isStatic) {
