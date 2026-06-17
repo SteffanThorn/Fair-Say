@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
 import { createClient } from '@/lib/supabase/server';
 import SignOutButton from '@/components/SignOutButton';
+import MemberMark from '@/components/MemberMark';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -15,10 +17,11 @@ const CIVIC_LINKS = [
 ];
 
 export default async function DashboardPage() {
+  const session = await auth();
+  if (!session?.user) redirect('/auth/signin');
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) redirect('/auth');
 
   const { data: account } = await supabase
     .from('accounts')
@@ -37,11 +40,14 @@ export default async function DashboardPage() {
       </div>
 
       <section className="card mb-6 rounded-2xl p-6">
-        <h2 className="mb-4 font-semibold text-white">Account</h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="font-semibold text-white">Account</h2>
+          <MemberMark authMethod={session.user.authMethod} />
+        </div>
         <div className="grid gap-3 text-sm sm:grid-cols-2">
           <div>
             <span className="text-slate-400">Account ID</span>
-            <p className="mt-0.5 font-mono text-xs text-slate-300 break-all">{user.id}</p>
+            <p className="mt-0.5 font-mono text-xs text-slate-300 break-all">{user?.id ?? session.user.id}</p>
           </div>
           <div>
             <span className="text-slate-400">Verification</span>

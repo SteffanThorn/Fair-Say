@@ -41,6 +41,50 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: user.email,
           name: user.name,
           role: user.role,
+          authMethod: user.authMethod || 'email',
+          preferredElectorate: user.preferredElectorate || '',
+          newsletterSubscribed: user.newsletterSubscribed || false,
+        };
+      },
+    }),
+    CredentialsProvider({
+      id: 'wallet',
+      name: 'Wallet',
+      credentials: {
+        walletAddress: { label: 'Wallet Address', type: 'text' },
+        signature: { label: 'Signature', type: 'text' },
+        message: { label: 'Message', type: 'text' },
+      },
+      async authorize(credentials) {
+        const { walletAddress, signature, message } = credentials || {};
+        if (!walletAddress || !signature || !message) {
+          throw new Error('Missing wallet credentials');
+        }
+
+        const { ethers } = await import('ethers');
+        const recovered = ethers.verifyMessage(message, signature);
+        if (recovered.toLowerCase() !== walletAddress.toLowerCase()) {
+          throw new Error('Invalid signature');
+        }
+
+        const match = message.match(/Timestamp: (\d+)/);
+        if (!match || Date.now() - parseInt(match[1]) > 5 * 60 * 1000) {
+          throw new Error('Signed message has expired — please try again');
+        }
+
+        await dbConnect();
+        const user = await User.findOne({ walletAddress: walletAddress.toLowerCase() });
+        if (!user) {
+          throw new Error('No account found for this wallet');
+        }
+
+        return {
+          id: user._id.toString(),
+          email: user.email || '',
+          name: user.name,
+          role: user.role,
+          authMethod: 'gitcoin',
+          walletAddress: user.walletAddress,
           preferredElectorate: user.preferredElectorate || '',
           newsletterSubscribed: user.newsletterSubscribed || false,
         };
@@ -59,6 +103,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.authMethod = user.authMethod || 'email';
+        token.walletAddress = user.walletAddress || '';
         token.preferredElectorate = user.preferredElectorate || '';
         token.newsletterSubscribed = user.newsletterSubscribed || false;
       }
@@ -68,6 +114,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.authMethod = token.authMethod || 'email';
+        session.user.walletAddress = token.walletAddress || '';
         session.user.preferredElectorate = token.preferredElectorate || '';
         session.user.newsletterSubscribed = token.newsletterSubscribed || false;
       }

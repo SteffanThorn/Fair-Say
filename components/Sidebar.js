@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import MemberMark from './MemberMark';
 
 const NAV_LINKS = [
   { href: '/',           label: 'Home',       icon: '🏠' },
@@ -55,7 +56,10 @@ export default function Sidebar({ session }) {
               className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
             >
               <span className="text-base leading-none">⚙️</span>
-              My Account
+              <span className="flex-1">My Account</span>
+              {session.user.authMethod && (
+                <MemberMark authMethod={session.user.authMethod} />
+              )}
             </Link>
             {session.user.role === 'admin' && (
               <Link
