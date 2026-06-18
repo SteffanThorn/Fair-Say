@@ -53,18 +53,39 @@ export default function SignUpPage() {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       const address = accounts[0];
 
+      // Signature 1: Fair Say auth (proves wallet ownership to us)
       const timestamp = Date.now();
-      const message = `Fair Say NZ: Verify identity\nAddress: ${address}\nTimestamp: ${timestamp}`;
-
-      const signature = await window.ethereum.request({
+      const authMessage = `Fair Say NZ: Verify identity\nAddress: ${address}\nTimestamp: ${timestamp}`;
+      const authSignature = await window.ethereum.request({
         method: 'personal_sign',
-        params: [message, address],
+        params: [authMessage, address],
       });
+
+      // Fetch Gitcoin's own signing message
+      const msgRes = await fetch('/api/auth/gitcoin-passport');
+      const msgData = await msgRes.json();
+
+      // Signature 2: Gitcoin Passport (submits passport to scorer)
+      let gitcoinSignature = null;
+      let nonce = msgData.nonce;
+      if (msgData.message && msgData.message !== 'dev-bypass') {
+        gitcoinSignature = await window.ethereum.request({
+          method: 'personal_sign',
+          params: [msgData.message, address],
+        });
+      }
 
       const response = await fetch('/api/auth/gitcoin-passport', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address, signature, message, name: passportName || undefined }),
+        body: JSON.stringify({
+          address,
+          authSignature,
+          authMessage,
+          gitcoinSignature,
+          nonce,
+          name: passportName || undefined,
+        }),
       });
 
       const data = await response.json();
