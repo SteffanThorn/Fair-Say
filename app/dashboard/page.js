@@ -42,7 +42,12 @@ export default async function DashboardPage() {
       <section className="card mb-6 rounded-2xl p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-semibold text-white">Account</h2>
-          <MemberMark authMethod={session.user.authMethod} />
+          <div className="flex items-center gap-2">
+            <MemberMark authMethod={session.user.authMethod} />
+            <Link href="/account/verify" className="rounded-full bg-white/5 px-2.5 py-0.5 text-[10px] font-medium text-slate-300 hover:bg-white/10">
+              Verified Human →
+            </Link>
+          </div>
         </div>
         <div className="grid gap-3 text-sm sm:grid-cols-2">
           <div>
