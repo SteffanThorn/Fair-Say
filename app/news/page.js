@@ -97,6 +97,8 @@ export default function NewsPage() {
             <strong>ℹ️ About these articles:</strong> Fair Say NZ aggregates headlines from
             independent NZ news sources. We do not write, edit, or endorse any article.
             Bias indicators reflect the source&apos;s general editorial tendency.
+            If you would like to provide feedback on our indicators, please{' '}
+            <a href="/feedback" className="underline hover:text-amber-100">fill this out</a>.
           </p>
         </div>
       </header>
