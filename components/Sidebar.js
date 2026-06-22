@@ -2,21 +2,22 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MemberMark from './MemberMark';
 
 const NAV_LINKS = [
-  { href: '/',           label: 'Home',       icon: '🏠' },
+  { href: '/',           label: 'Home',         icon: '🏠' },
   { href: '/news',       label: 'Grounded News', icon: '📰' },
-  { href: '/parties',   label: 'Parties',     icon: '🗳️'  },
-  { href: '/mps',        label: 'MPs',         icon: '🏛️' },
-  { href: '/civics',     label: 'Civics',      icon: '📚' },
-  { href: '/polls',      label: 'Polls',       icon: '📊' },
-  { href: '/events',     label: 'Events',      icon: '📅' },
-  { href: '/newsletter', label: 'Newsletter',  icon: '✉️'  },
+  { href: '/parties',   label: 'Parties',       icon: '🗳️'  },
+  { href: '/mps',        label: 'MPs',           icon: '🏛️' },
+  { href: '/civics',     label: 'Civics',        icon: '📚' },
+  { href: '/learn',      label: 'Learn',         icon: '🎓', showDot: true },
+  { href: '/polls',      label: 'Polls',         icon: '📊' },
+  { href: '/events',     label: 'Events',        icon: '📅' },
+  { href: '/newsletter', label: 'Newsletter',    icon: '✉️'  },
 ];
 
-function NavLink({ href, label, icon, onClick }) {
+function NavLink({ href, label, icon, onClick, showIndicator }) {
   const pathname = usePathname();
   const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
 
@@ -31,20 +32,44 @@ function NavLink({ href, label, icon, onClick }) {
       }`}
     >
       <span className="text-base leading-none">{icon}</span>
-      {label}
+      <span className="flex-1">{label}</span>
+      {showIndicator && (
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" aria-label="New" />
+      )}
     </Link>
   );
 }
 
 export default function Sidebar({ session }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [learnDot, setLearnDot] = useState(false);
+  const pathname = usePathname();
+
+  // Fetch account state to determine whether to show the Learn indicator dot.
+  // Re-fetches on pathname change so navigating away from /learn clears the dot.
+  useEffect(() => {
+    if (!session?.user) return;
+    fetch('/api/account/state')
+      .then((r) => r.json())
+      .then((data) => {
+        const isVerified = data.credentialTier === 'verified_nz_citizen';
+        const unseen = !data.learnSneakPeekViewedAt;
+        setLearnDot(isVerified && unseen);
+      })
+      .catch(() => {});
+  }, [session?.user?.id, pathname]);
 
   const closeMobile = () => setMobileOpen(false);
 
   const navContent = (
     <nav className="flex flex-col gap-1 px-3 py-4">
       {NAV_LINKS.map((link) => (
-        <NavLink key={link.href} {...link} onClick={closeMobile} />
+        <NavLink
+          key={link.href}
+          {...link}
+          onClick={closeMobile}
+          showIndicator={link.showDot && learnDot}
+        />
       ))}
 
       <div className="mt-4 border-t border-white/10 pt-4">

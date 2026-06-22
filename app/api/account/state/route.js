@@ -15,7 +15,7 @@ export async function GET() {
 
   const { data: account } = await admin
     .from('accounts')
-    .select('verification_tag, is_verified, hide_didit_nudge')
+    .select('verification_tag, is_verified, hide_didit_nudge, learn_notify, learn_sneak_peek_viewed_at')
     .eq('account_id', user.id)
     .maybeSingle();
 
@@ -27,5 +27,7 @@ export async function GET() {
   return NextResponse.json({
     credentialTier,
     hideDiditNudge: account?.hide_didit_nudge ?? false,
+    learnNotify: account?.learn_notify ?? false,
+    learnSneakPeekViewedAt: account?.learn_sneak_peek_viewed_at ?? null,
   });
 }
