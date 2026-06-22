@@ -43,15 +43,32 @@ export default function PrivacyPage() {
         <p className="text-xs text-slate-500 mb-4">We collect as little as possible. Here is exactly what we hold and why.</p>
 
         <div className="rounded-xl border border-white/8 bg-white/3 p-4 sm:p-5 mb-6">
-          <h3 className="text-sm font-semibold text-white mb-3">Email signup</h3>
+          <h3 className="text-sm font-semibold text-white mb-3">Email accounts</h3>
           <div className="divide-y divide-white/5">
             <Row label="What's collected">Your email address at sign-up.</Row>
             <Row label="What's stored">
-              A one-way hash of your email (HMAC-SHA256 with a server-side secret). The email address itself is not stored after hashing. The hash cannot be reversed to recover your address.
+              Your raw email address (in <code className="text-xs bg-white/5 rounded px-1 py-0.5">accounts.email</code>) and a one-way HMAC-SHA256 hash of it (in <code className="text-xs bg-white/5 rounded px-1 py-0.5">verified_identifiers</code>). The hash is used solely to prevent duplicate accounts. The raw address is retained for login and, if you opt in, for sending app and civic topic updates.
             </Row>
-            <Row label="Purpose">To prevent duplicate accounts. The hash lets us detect if the same email is used again — nothing more.</Row>
-            <Row label="Third parties">None. Your email address is not shared with or transmitted to any third party.</Row>
-            <Row label="Retention">The hash is retained for the life of your account. Deleting your account deletes this hash.</Row>
+            <Row label="Purpose">
+              To send a magic-link login code, prevent duplicate accounts, and (if you opt in) send app and topic update emails.
+            </Row>
+            <Row label="Newsletter opt-in">
+              Unchecked by default at signup. You can change this at any time in your account settings or via the unsubscribe link in any email we send.
+            </Row>
+            <Row label="Third parties">None. Your email address is not shared with or sold to any third party. It is transmitted to Resend (our email delivery provider) solely for the purpose of sending you emails you have requested or opted into.</Row>
+            <Row label="Retention">The email address is retained for the life of your account. Deleting your account removes it.</Row>
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-white/8 bg-white/3 p-4 sm:p-5 mb-6">
+          <h3 className="text-sm font-semibold text-white mb-3">Passport-verified accounts</h3>
+          <div className="divide-y divide-white/5">
+            <Row label="What's stored">
+              A one-way hash of your Didit session ID combined with a server-side secret. No email address is stored. Fair Say cannot contact you, identify you, or link your activity to any personal information.
+            </Row>
+            <Row label="Purpose">To confirm NZ citizenship for inclusion in the Verified NZ Citizens filter on poll results.</Row>
+            <Row label="Can Fair Say contact you?">No. Passport-verified accounts have no email stored. It is architecturally impossible for Fair Say to send you anything.</Row>
+            <Row label="Retention">The hashed session ID is retained for the life of your account to prevent re-verification attempts. Deleting your account deletes this hash.</Row>
           </div>
         </div>
 
@@ -111,10 +128,11 @@ export default function PrivacyPage() {
         <ul className="space-y-2">
           {[
             'We never sell personal information.',
-            'We never share data with political parties, advertisers, or government agencies.',
+            'We never share email addresses or any personal data with political parties, advertisers, or government agencies.',
             'We never use biometric information for any purpose other than confirming NZ citizenship.',
             'We never store passport images, biometric templates, or passport numbers.',
             'We never link verification records to votes or browsing activity.',
+            'We never email passport-verified users — no email is stored for those accounts.',
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-2">
               <span className="text-emerald-400 mt-0.5 shrink-0">✕</span>
@@ -156,6 +174,11 @@ export default function PrivacyPage() {
               name: 'Vercel',
               role: 'Application hosting and edge functions.',
               link: 'https://vercel.com/legal/privacy-policy',
+            },
+            {
+              name: 'Resend',
+              role: 'Email delivery. Used solely to send login codes and (for opted-in email-tier users) newsletter and update emails. Resend does not receive data about passport-verified accounts.',
+              link: 'https://resend.com/legal/privacy-policy',
             },
           ].map((p) => (
             <div key={p.name} className="rounded-lg border border-white/8 bg-white/2 px-4 py-3">

@@ -27,7 +27,7 @@ export default function AuthPage() {
             <div>
               <p className="text-sm font-medium text-white">Email verification</p>
               <p className="text-xs text-slate-400">
-                Privacy: Low–Medium · Tag:{' '}
+                Tag:{' '}
                 <code className="text-emerald-400 text-xs">email</code>
               </p>
             </div>
@@ -38,9 +38,10 @@ export default function AuthPage() {
 
         <div className="mt-5 rounded-xl border border-white/8 bg-white/3 px-4 py-3">
           <p className="text-xs text-slate-400 leading-relaxed">
-            <strong className="text-slate-200">How anonymity works:</strong> Your email is used
-            to verify you're a real person. A one-way fingerprint is stored — not the address
-            itself. Your votes cannot be linked back to you.
+            Your email is kept so Fair Say NZ can send you app and relevant topic updates.
+            You can unsubscribe at any time. For maximum privacy and a stronger say, consider the{' '}
+            <a href="/account/verify" className="text-cyan-400 hover:text-cyan-300 underline">NZ Passport option</a>
+            {' '}— your identity is hashed, remains anonymous, and we cannot see it.
           </p>
         </div>
 

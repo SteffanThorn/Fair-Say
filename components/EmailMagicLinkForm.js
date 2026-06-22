@@ -21,6 +21,7 @@ function getFingerprint() {
 export default function EmailMagicLinkForm({ onSuccess }) {
   const [step, setStep] = useState(STEPS.EMAIL);
   const [email, setEmail] = useState('');
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -93,7 +94,7 @@ export default function EmailMagicLinkForm({ onSuccess }) {
     const res = await fetch('/api/account/finalize', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fingerprint }),
+      body: JSON.stringify({ fingerprint, newsletter_opt_in: newsletterOptIn }),
     });
 
     const result = await res.json();
@@ -174,6 +175,19 @@ export default function EmailMagicLinkForm({ onSuccess }) {
             {' '}— it takes 2 minutes and means your email provider can't see you signed up here.
             Gmail, Outlook, and Yahoo are not recommended.
           </div>
+
+          <label className="flex items-start gap-2.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={newsletterOptIn}
+              onChange={(e) => setNewsletterOptIn(e.target.checked)}
+              className="mt-0.5 shrink-0 accent-emerald-500"
+            />
+            <span className="text-xs text-slate-400 leading-relaxed">
+              Send me civic updates — new polls, policy changes, and platform news.
+              You can unsubscribe at any time.
+            </span>
+          </label>
 
           {error ? <p className="text-sm text-red-400">{error}</p> : null}
 

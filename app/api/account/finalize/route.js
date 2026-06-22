@@ -21,9 +21,9 @@ export async function POST(request) {
   let body = {};
   try {
     body = await request.json();
-  } catch { /* fingerprint is optional */ }
+  } catch { /* body is optional */ }
 
-  const { fingerprint } = body;
+  const { fingerprint, newsletter_opt_in } = body;
 
   // Read email from Supabase auth before we do anything else
   const { data: authUser, error: userError } = await admin.auth.admin.getUserById(user.id);
@@ -114,12 +114,14 @@ export async function POST(request) {
     );
   }
 
-  // Create the anonymous account record
+  // Create the account record — email is stored for newsletter / transactional use
   await admin.from('accounts').insert({
     account_id: user.id,
     verification_tag: 'email',
     is_verified: true,
     device_hash: deviceHash,
+    email: rawEmail,
+    newsletter_opt_in: newsletter_opt_in === true,
   });
 
   return NextResponse.json({ verificationTag: 'email' });

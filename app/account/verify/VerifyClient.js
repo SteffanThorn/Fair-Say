@@ -70,7 +70,8 @@ function DiditCard({ alreadyVerified }) {
         </div>
 
         <p className="text-sm text-slate-300 leading-relaxed">
-          Scan your NZ passport and complete a short liveness check. This confirms NZ citizenship — a NZ passport is the only document that directly proves citizenship rather than residency.
+          Verify your NZ passport and your identity becomes mathematically invisible, even to us.
+          Scan your passport and complete a short liveness check — this confirms NZ citizenship without linking your identity to your votes or account.
         </p>
 
         <div className="mt-4 rounded-lg bg-white/3 p-4 text-xs text-slate-400 leading-relaxed space-y-2">

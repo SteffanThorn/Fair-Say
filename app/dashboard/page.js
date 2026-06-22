@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { createClient } from '@/lib/supabase/server';
 import SignOutButton from '@/components/SignOutButton';
 import MemberMark from '@/components/MemberMark';
+import NewsletterToggle from '@/components/NewsletterToggle';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -25,7 +26,7 @@ export default async function DashboardPage() {
 
   const { data: account } = await supabase
     .from('accounts')
-    .select('verification_tag, is_verified, created_at')
+    .select('verification_tag, is_verified, created_at, email, newsletter_opt_in')
     .eq('account_id', user.id)
     .maybeSingle();
 
@@ -74,6 +75,16 @@ export default async function DashboardPage() {
           </div>
         </div>
       </section>
+
+      {account?.verification_tag === 'email' && account?.email && (
+        <section className="card mb-6 rounded-2xl p-6">
+          <h2 className="mb-1 font-semibold text-white">Email updates</h2>
+          <p className="mb-4 text-xs text-slate-400">
+            Subscribed as <span className="text-slate-200">{account.email}</span>
+          </p>
+          <NewsletterToggle initialOptIn={account.newsletter_opt_in ?? false} />
+        </section>
+      )}
 
       <section>
         <h2 className="mb-4 font-semibold text-white">Explore Fair Say NZ</h2>
