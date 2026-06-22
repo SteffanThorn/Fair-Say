@@ -74,6 +74,7 @@ async function EnrichedFeed() {
       sourceValidity: dbSource?.validity_rating || rssSource?.defaultValidity || null,
       sourcePlatforms: dbSource?.platforms || rssSource?.defaultPlatforms || ['web'],
       hasPaywall: rssSource?.hasPaywall || false,
+      fundedBy: dbSource?.funded_by || null,
     };
   });
 

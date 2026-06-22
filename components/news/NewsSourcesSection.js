@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ArticleTags from './ArticleTags';
 
 const BIAS_POS = {
   'left':           { pct: 8,  color: '#3b82f6' },
@@ -54,26 +55,7 @@ function timeAgo(dateStr) {
   return `${Math.floor(diff / 86400)}d ago`;
 }
 
-function BiasPill({ bias }) {
-  if (!bias) return null;
-  const cfg = BIAS_POS[bias];
-  if (!cfg) return null;
-  return (
-    <span
-      className="text-xs px-2 py-0.5 rounded-full border shrink-0"
-      style={{
-        background: `${cfg.color}20`,
-        color: cfg.color,
-        borderColor: `${cfg.color}40`,
-      }}
-    >
-      {bias === 'focused-agenda' ? '🎯 Focused' : displayLabel(bias)}
-    </span>
-  );
-}
-
 function ArticleCard({ article }) {
-  const validityCfg = VALIDITY_CONFIG[article.sourceValidity] || null;
   const biasCfg = BIAS_POS[article.sourceBias];
 
   return (
@@ -99,29 +81,26 @@ function ArticleCard({ article }) {
       </div>
 
       <div className="flex flex-col flex-1 p-4">
-        {/* Source meta row */}
-        <div className="flex items-center gap-2 mb-2 flex-wrap">
+        {/* Source name + timestamp */}
+        <div className="flex items-center gap-2 mb-2">
           <span className="text-xs font-semibold text-slate-200">{article.source}</span>
-          <BiasPill bias={article.sourceBias} />
-          {validityCfg && (
-            <span className="text-xs text-slate-500" title={validityCfg.label}>
-              {validityCfg.icon}
-            </span>
-          )}
-          {article.hasPaywall && (
-            <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/25 shrink-0">
-              🔒 {article.hasPaywall === 'full' ? 'Subscription' : 'Paywall'}
-            </span>
-          )}
           <span className="text-xs text-slate-500 ml-auto shrink-0">{timeAgo(article.published_date)}</span>
         </div>
 
-        <h2 className="text-sm font-semibold text-white mb-1.5 leading-snug">
+        <h2 className="text-sm font-semibold text-white mb-2 leading-snug">
           {article.title}
         </h2>
 
+        <ArticleTags
+          sourceBias={article.sourceBias}
+          sourceValidity={article.sourceValidity}
+          sourceType={article.sourceType}
+          hasPaywall={article.hasPaywall}
+          fundedBy={article.fundedBy}
+        />
+
         {article.summary && (
-          <p className="text-xs text-slate-400 leading-relaxed flex-1 line-clamp-3">
+          <p className="text-xs text-slate-400 leading-relaxed flex-1 line-clamp-3 mt-2">
             {article.summary}
           </p>
         )}

@@ -15,4 +15,13 @@
  * @property {string|null} funded_by
  * @property {boolean} active
  * @property {string} created_at
+ *
+ * @typedef {Object} NewsSourceMeta
+ * @property {string} name
+ * @property {BiasTendency} bias
+ * @property {ValidityRating} validity_rating
+ * @property {SourceType} type
+ * @property {string|null} funded_by
+ *
+ * @typedef {Record<string, NewsSourceMeta>} SourceMap
  */
