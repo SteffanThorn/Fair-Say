@@ -257,7 +257,7 @@ function FilterGroup({ groupLabel, options, value, onChange }) {
 // ── Main export ────────────────────────────────────────────────────────────
 
 export default function NewsSourcesSection({ articles = [], sources = [] }) {
-  const [filters, setFilters] = useState({ type: null, bias: null, validity: null });
+  const [filters, setFilters] = useState({ type: null, bias: null, validity: null, funding: null });
   const [showFilters, setShowFilters] = useState(false);
 
   function setFilter(key, value) {
@@ -266,10 +266,13 @@ export default function NewsSourcesSection({ articles = [], sources = [] }) {
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
+  const fundingOptions = [...new Set(articles.map((a) => a.fundedBy).filter(Boolean))].sort();
+
   const filtered = articles.filter((a) => {
     if (filters.type     && a.sourceType    !== filters.type)     return false;
     if (filters.bias     && a.sourceBias    !== filters.bias)     return false;
     if (filters.validity && a.sourceValidity !== filters.validity) return false;
+    if (filters.funding  && a.fundedBy      !== filters.funding)  return false;
     return true;
   });
 
@@ -303,9 +306,12 @@ export default function NewsSourcesSection({ articles = [], sources = [] }) {
           <FilterGroup groupLabel="Bias"     options={BIAS_OPTIONS}     value={filters.bias}     onChange={(v) => setFilter('bias', v)} />
           <FilterGroup groupLabel="Type"     options={TYPE_OPTIONS}     value={filters.type}     onChange={(v) => setFilter('type', v)} />
           <FilterGroup groupLabel="Validity" options={VALIDITY_OPTIONS} value={filters.validity} onChange={(v) => setFilter('validity', v)} />
+          {fundingOptions.length > 0 && (
+            <FilterGroup groupLabel="Funding" options={fundingOptions} value={filters.funding} onChange={(v) => setFilter('funding', v)} />
+          )}
           {activeFilterCount > 0 && (
             <button
-              onClick={() => setFilters({ type: null, bias: null, validity: null })}
+              onClick={() => setFilters({ type: null, bias: null, validity: null, funding: null })}
               className="text-xs text-slate-400 hover:text-white transition-colors"
             >
               ✕ Clear all filters
