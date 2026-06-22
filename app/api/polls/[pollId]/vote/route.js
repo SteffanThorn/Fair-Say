@@ -1,4 +1,4 @@
-import { createHash, createHmac } from 'crypto';
+import { createHash } from 'crypto';
 import { NextResponse } from 'next/server';
 import { createClient, createAdminClient } from '@/lib/supabase/server';
 import { getPollById } from '@/lib/polls';
@@ -36,19 +36,19 @@ export async function POST(request, { params }) {
 
   const admin = await createAdminClient();
 
-  // Verify the account exists and is verified
+  // Fetch account to determine credential tier. Account may not exist yet for
+  // very new sign-ups — treat as email tier in that case.
   const { data: account } = await admin
     .from('accounts')
     .select('verification_tag, is_verified')
     .eq('account_id', user.id)
     .maybeSingle();
 
-  if (!account?.is_verified) {
-    return NextResponse.json(
-      { error: 'Verify your identity before voting.' },
-      { status: 403 }
-    );
-  }
+  // credential_tier reflects the account's citizenship verification state at vote time.
+  const credentialTier =
+    account?.is_verified && account?.verification_tag === 'didit'
+      ? 'verified_nz_citizen'
+      : 'email';
 
   const serverPepper = process.env.VOTE_PEPPER;
   if (!serverPepper) {
@@ -66,11 +66,11 @@ export async function POST(request, { params }) {
     vote_hash: voteHash,
     poll_id: pollId,
     vote_choice: choice,
-    verification_tag: account.verification_tag,
+    verification_tag: account?.verification_tag || 'email',
+    credential_tier: credentialTier,
   });
 
   if (insertError) {
-    // Primary key violation = already voted
     if (insertError.code === '23505') {
       return NextResponse.json({ error: 'You have already voted on this poll' }, { status: 409 });
     }
@@ -78,17 +78,23 @@ export async function POST(request, { params }) {
     return NextResponse.json({ error: 'Could not record vote' }, { status: 500 });
   }
 
-  // Return fresh counts
+  // Return fresh counts for all tiers so the client can update the results display.
   const { data: votes } = await admin
     .from('poll_votes')
-    .select('vote_choice')
+    .select('vote_choice, credential_tier')
     .eq('poll_id', pollId);
 
   const counts = {};
+  const countsByTier = { email: {}, verified_nz_citizen: {} };
+
   for (const v of votes ?? []) {
     counts[v.vote_choice] = (counts[v.vote_choice] ?? 0) + 1;
+    const tierBucket = countsByTier[v.credential_tier] ?? {};
+    tierBucket[v.vote_choice] = (tierBucket[v.vote_choice] ?? 0) + 1;
+    countsByTier[v.credential_tier] = tierBucket;
   }
+
   const total = votes?.length ?? 0;
 
-  return NextResponse.json({ voted: choice, counts, total });
+  return NextResponse.json({ voted: choice, counts, total, countsByTier });
 }

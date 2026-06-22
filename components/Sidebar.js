@@ -110,6 +110,9 @@ export default function Sidebar({ session }) {
           <p className="text-[10px] text-slate-500 leading-relaxed">
             Everyone gets a fair say. · NZ-focused
           </p>
+          <Link href="/privacy" className="text-[10px] text-slate-600 hover:text-slate-400 transition-colors">
+            Privacy Policy
+          </Link>
         </div>
       </aside>
 
