@@ -41,9 +41,22 @@ function getHtml(emailType, data) {
   }
 
   if (emailType === 'newsletter') {
+    const articleBlocks = (data.articles || []).map((a) => `
+      <div style="margin-bottom:28px;border-bottom:1px solid #e2e8f0;padding-bottom:24px">
+        ${a.image_url ? `<img src="${a.image_url}" alt="" style="width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-bottom:12px;display:block" />` : ''}
+        <p style="margin:0 0 4px;font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.04em">${a.source || ''}</p>
+        <h2 style="margin:0 0 8px;font-size:17px;font-weight:700;color:#0f172a;line-height:1.3">
+          <a href="${a.url}" style="color:#0f172a;text-decoration:none">${a.title}</a>
+        </h2>
+        ${a.summary ? `<p style="margin:0 0 10px;font-size:14px;color:#475569;line-height:1.55">${a.summary}</p>` : ''}
+        <a href="${a.url}" style="font-size:13px;color:#059669;font-weight:600;text-decoration:none">Read full article →</a>
+      </div>
+    `).join('');
+
     return `<div style="${BASE_STYLE}">
       <h1 style="color:#065f46">🌿 Fair Say NZ — Objective Truth Edition</h1>
       <p>${data.intro || 'This week in NZ civic life:'}</p>
+      ${articleBlocks}
       ${data.body || ''}
       <p style="margin-top:24px"><a href="${data.unsubscribeUrl || '#'}" style="color:#64748b;font-size:12px">Unsubscribe</a></p>
       ${FOOTER}
