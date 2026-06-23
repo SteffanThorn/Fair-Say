@@ -218,6 +218,45 @@ export default function PollsPage() {
         </p>
       </div>
 
+      {/* ── Tier choice – always visible ── */}
+      <div className="mb-8 grid gap-4 sm:grid-cols-2">
+        {/* Email – weak say */}
+        <div className="card rounded-2xl p-6 flex flex-col">
+          <div className="mb-4 text-3xl">📧</div>
+          <h2 className="text-lg font-bold text-white">Email</h2>
+          <p className="mt-0.5 text-sm text-slate-400">for a weak say</p>
+          <p className="mt-3 flex-1 text-xs leading-relaxed text-slate-500">
+            Quick to set up with just an email address. Your vote is counted in community results. Anyone can participate.
+          </p>
+          <div className="mt-5 flex flex-col gap-2">
+            <Link href="/auth/signup" className="rounded-lg bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-emerald-500">
+              Create free account →
+            </Link>
+            <Link href="/auth/signin" className="rounded-lg border border-white/12 px-4 py-2 text-center text-sm text-slate-400 hover:bg-white/5">
+              Sign in
+            </Link>
+          </div>
+        </div>
+
+        {/* ID Proof – strong say */}
+        <div className="card rounded-2xl border-emerald-500/20 p-6 flex flex-col" style={{background:'rgba(16,185,129,0.04)'}}>
+          <div className="mb-4 text-3xl">🪪</div>
+          <h2 className="text-lg font-bold text-white">ID Proof</h2>
+          <p className="mt-0.5 text-sm text-emerald-300">for a strong say</p>
+          <p className="mt-3 flex-1 text-xs leading-relaxed text-slate-500">
+            Verify your NZ identity to give your vote stronger weight. Results can be filtered to show verified citizens only — so your voice counts as distinctly Kiwi.
+          </p>
+          <div className="mt-5">
+            <Link href="/account/verify" className="block rounded-lg border border-emerald-500/40 bg-emerald-500/12 px-4 py-2.5 text-center text-sm font-medium text-emerald-100 hover:bg-emerald-500/20">
+              Verify your identity →
+            </Link>
+          </div>
+          <p className="mt-3 text-xs text-slate-600 italic">
+            * First 500 ID proofs a month are free to set up. Beyond that, users pay a small processing fee.
+          </p>
+        </div>
+      </div>
+
       {isLoadingSession ? (
         <div className="grid gap-5 lg:grid-cols-2">
           {POLLS.map((poll) => (
@@ -230,23 +269,7 @@ export default function PollsPage() {
             </div>
           ))}
         </div>
-      ) : !isAuthenticated ? (
-        <div className="rounded-2xl border border-white/10 bg-white/3 px-6 py-10 text-center">
-          <p className="text-2xl mb-3">🔒</p>
-          <h2 className="text-lg font-semibold text-white mb-2">Sign in to vote</h2>
-          <p className="text-sm text-slate-400 mb-6 max-w-sm mx-auto">
-            Create a free account to participate in Fair Say NZ polls. Verification is optional.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/auth/signin" className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-500">
-              Sign in
-            </Link>
-            <Link href="/auth/signup" className="rounded-lg border border-white/15 px-5 py-2.5 text-sm text-slate-300 hover:bg-white/5">
-              Create account
-            </Link>
-          </div>
-        </div>
-      ) : (
+      ) : !isAuthenticated ? null : (
         <>
           <div className="mb-5 flex flex-wrap items-center gap-3 justify-between">
             <div className="flex items-center gap-2">
