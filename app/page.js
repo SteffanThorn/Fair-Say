@@ -12,25 +12,24 @@ const HISTORY_MOMENTS = [
 ];
 
 function KoruSvg() {
-  // Koru: 1.5-turn Archimedean spiral, centre (56,56), outer r=44, inner r=24.
-  // Bezier quarter-circle control offset k = r × 0.5523.
-  // Path goes CCW (screen): stem → outer loop (bottom→right→top→left) →
-  // transition inward → inner loop (bottom→right→tip at inner-top).
-  const d = [
-    'M56,114 L56,100',                    // stem
-    'C80,100 100,80 100,56',              // outer bottom → outer right
-    'C100,32 80,12 56,12',               // outer right  → outer top
-    'C32,12 12,32 12,56',                // outer top    → outer left
-    'C12,76 34,90 56,80',                // outer left   → inner bottom (inward curl)
-    'C70,80 80,70 80,56',                // inner bottom → inner right
-    'C80,43 70,32 56,32',                // inner right  → tip (inner top)
-  ].join(' ');
+  // Koru — NZ silver fern frond (ponga), 1.5-turn CCW Archimedean spiral.
+  // Centre (55,55), outer r=42 (k=23), inner r=18 (k=10).
+  // frond width = gap = 12 px → bold 50/50 ratio, loops clearly distinct.
+  // CCW from screen perspective: bottom→right→top→left→inward→inner-right→tip.
+  const d =
+    'M55,112 L55,97 ' +
+    'C78,97 97,78 97,55 ' +   // outer bottom  → outer right
+    'C97,32 78,13 55,13 ' +   // outer right   → outer top
+    'C32,13 13,32 13,55 ' +   // outer top     → outer left
+    'C13,72 35,82 55,73 ' +   // outer left    → inner bottom  (the inward curl)
+    'C65,73 73,65 73,55 ' +   // inner bottom  → inner right
+    'C73,45 65,37 55,37';     // inner right   → tip (inner top)
   return (
-    <svg viewBox="0 0 112 122" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      {/* Soft glow */}
-      <path d={d} stroke="#10b981" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.12"/>
-      {/* Koru body */}
-      <path d={d} stroke="#10b981" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9"/>
+    <svg viewBox="0 0 110 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      {/* glow */}
+      <path d={d} stroke="#10b981" strokeWidth="26" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.13"/>
+      {/* frond */}
+      <path d={d} stroke="#10b981" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.92"/>
     </svg>
   );
 }
