@@ -12,20 +12,25 @@ const HISTORY_MOMENTS = [
 ];
 
 function KoruSvg() {
+  // Koru: 1.5-turn Archimedean spiral, centre (56,56), outer r=44, inner r=24.
+  // Bezier quarter-circle control offset k = r × 0.5523.
+  // Path goes CCW (screen): stem → outer loop (bottom→right→top→left) →
+  // transition inward → inner loop (bottom→right→tip at inner-top).
+  const d = [
+    'M56,114 L56,100',                    // stem
+    'C80,100 100,80 100,56',              // outer bottom → outer right
+    'C100,32 80,12 56,12',               // outer right  → outer top
+    'C32,12 12,32 12,56',                // outer top    → outer left
+    'C12,76 34,90 56,80',                // outer left   → inner bottom (inward curl)
+    'C70,80 80,70 80,56',                // inner bottom → inner right
+    'C80,43 70,32 56,32',                // inner right  → tip (inner top)
+  ].join(' ');
   return (
-    <svg viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      {/* Stem */}
-      <path d="M55,105 C55,105 52,85 55,70" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round"/>
-      {/* Spiral body */}
-      <path
-        d="M55,70 C55,70 42,65 38,52 C34,39 42,28 54,30 C66,32 70,44 62,52 C54,60 44,55 44,47 C44,39 52,37 56,42 C60,47 57,53 53,53"
-        stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" fill="none"
-      />
-      {/* Tip circle */}
-      <circle cx="53" cy="54" r="3" fill="#10b981" opacity="0.7"/>
-      {/* Decorative fronds */}
-      <path d="M55,80 Q65,76 68,70" stroke="#6ee7b7" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
-      <path d="M55,88 Q45,84 42,78" stroke="#6ee7b7" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+    <svg viewBox="0 0 112 122" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      {/* Soft glow */}
+      <path d={d} stroke="#10b981" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.12"/>
+      {/* Koru body */}
+      <path d={d} stroke="#10b981" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9"/>
     </svg>
   );
 }
