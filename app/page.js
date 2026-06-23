@@ -4,12 +4,6 @@ export const metadata = {
   title: 'Fair Say NZ — Everyone gets a fair say.',
 };
 
-const HISTORY_MOMENTS = [
-  { year: '1840', title: 'Treaty of Waitangi', note: 'Founding document of NZ' },
-  { year: '1893', title: "Women's Suffrage", note: 'First country in the world' },
-  { year: '1975', title: 'Land March', note: 'Māori land rights movement' },
-  { year: '1987', title: 'Nuclear Free NZ', note: 'NZ bans nuclear ships' },
-];
 
 function KoruSvg() {
   // Koru — NZ silver fern frond (ponga), 1.5-turn CCW Archimedean spiral.
@@ -125,24 +119,6 @@ export default function HomePage() {
 
         {/* ── LEFT: Empower Your Say ── */}
         <section className="card flex flex-col rounded-2xl overflow-hidden">
-          {/* Historical image collage */}
-          <div className="bg-gradient-to-br from-amber-950/50 via-slate-900/60 to-stone-900/40 p-5">
-            <p className="mb-3 text-xs uppercase tracking-widest text-amber-400/70">Significant NZ History</p>
-            <div className="grid grid-cols-2 gap-2">
-              {HISTORY_MOMENTS.map((m) => (
-                <div
-                  key={m.year}
-                  className="group relative overflow-hidden rounded-xl border border-amber-500/20 bg-amber-900/15 p-3.5 transition hover:border-amber-400/40 hover:bg-amber-900/25"
-                >
-                  <p className="text-base font-bold text-amber-400">{m.year}</p>
-                  <p className="mt-0.5 text-xs font-semibold leading-snug text-slate-200">{m.title}</p>
-                  <p className="mt-0.5 text-xs leading-snug text-slate-500">{m.note}</p>
-                  <div className="absolute right-2 top-2 h-12 w-12 rounded-full bg-amber-500/5 blur-xl"/>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* Content */}
           <div className="flex flex-1 flex-col p-6 pt-5">
             <h2 className="text-xl font-bold text-white">Empower Your Say</h2>
