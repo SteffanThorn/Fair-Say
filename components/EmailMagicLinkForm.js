@@ -50,8 +50,8 @@ export default function EmailMagicLinkForm({ onSuccess }) {
     const { error: otpError } = await supabase.auth.signInWithOtp({
       email: trimmed,
       options: {
-        // Send OTP code rather than a click-link, so user stays in the same tab
         shouldCreateUser: true,
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
@@ -117,7 +117,10 @@ export default function EmailMagicLinkForm({ onSuccess }) {
     setLoading(true);
     await supabase.auth.signInWithOtp({
       email: email.trim().toLowerCase(),
-      options: { shouldCreateUser: false },
+      options: {
+        shouldCreateUser: false,
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
     });
     setLoading(false);
     startResendCooldown();
