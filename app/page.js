@@ -222,13 +222,14 @@ export default function HomePage() {
         </section>
       </div>
 
-      {/* Newsletter strip */}
+      {/* Newsletter strip — hidden for now, re-enable when ready to launch newsletter
       <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-white/8 bg-white/3 px-6 py-4 sm:flex-row">
         <p className="text-sm text-slate-300">Stay informed — get our weekly NZ political briefing.</p>
         <Link href="/newsletter" className="whitespace-nowrap rounded-lg border border-emerald-500/30 px-5 py-2 text-sm font-medium text-emerald-200 hover:bg-emerald-500/10">
           Subscribe to newsletter →
         </Link>
       </div>
+      */}
 
       {/* Pledge */}
       <section className="mt-4 rounded-2xl border border-blue-500/20 bg-blue-500/5 px-6 py-5">
