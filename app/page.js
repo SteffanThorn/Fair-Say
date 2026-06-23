@@ -63,27 +63,43 @@ function KiwiBirdSvg() {
 }
 
 function NZMapSvg() {
+  // Coordinate mapping: lon 165–179°E → x 0–93, lat 34.4–47°S → y 0–190
+  // Scale: ~6.67px/° lon, ~15px/° lat  (portrait aspect, NI upper-right, SI lower-left)
   return (
-    <svg viewBox="0 0 90 185" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      {/* North Island */}
+    <svg viewBox="0 0 93 192" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      {/* North Island — Te Ika-a-Māui
+          Clockwise from Cape Reinga (NW) → east coast → Wellington → west coast */}
       <path
-        d="M46,4 L56,10 L62,22 L58,36 L65,52 L62,67 L54,77 L43,82 L32,77 L26,64 L20,50 L18,38 L26,24 L34,13 Z"
-        fill="#10b981" opacity="0.55" stroke="#6ee7b7" strokeWidth="1.5" strokeLinejoin="round"
+        d="M52,2 L56,1 L62,13 L63,21
+           L66,38 L71,34 L67,42
+           L76,51 L90,51
+           L87,65 L80,77
+           L77,93
+           L69,108 L65,104
+           L65,98 L67,83
+           L58,74
+           L61,71 L64,64
+           L64,41 L63,28 L55,12 Z"
+        fill="#10b981" opacity="0.55" stroke="#6ee7b7" strokeWidth="1.2" strokeLinejoin="round"
       />
-      {/* Cook Strait (gap) */}
-      {/* South Island */}
+      {/* South Island — Te Waka o Māui
+          Clockwise from Farewell Spit (NW) → west coast → south → east coast → Nelson */}
       <path
-        d="M54,97 L64,94 L72,102 L74,118 L70,136 L62,152 L50,162 L36,165 L24,157 L17,141 L16,124 L22,108 L34,97 L46,94 Z"
-        fill="#10b981" opacity="0.48" stroke="#6ee7b7" strokeWidth="1.5" strokeLinejoin="round"
+        d="M52,92 L47,97 L44,111 L41,122 L34,137 L23,143
+           L19,153 L14,174
+           L19,182 L23,185
+           L33,183 L37,173 L39,161 L42,150 L52,141
+           L59,120 L61,101
+           L55,105 Z"
+        fill="#10b981" opacity="0.48" stroke="#6ee7b7" strokeWidth="1.2" strokeLinejoin="round"
       />
-      {/* Stewart Island */}
-      <ellipse cx="38" cy="175" rx="7" ry="5" fill="#10b981" opacity="0.4" stroke="#6ee7b7" strokeWidth="1"/>
-      {/* Southern Cross stars */}
-      <circle cx="14" cy="18" r="1.5" fill="#6ee7b7" opacity="0.7"/>
-      <circle cx="8" cy="28" r="1.2" fill="#6ee7b7" opacity="0.6"/>
-      <circle cx="80" cy="12" r="1.5" fill="#6ee7b7" opacity="0.7"/>
-      <circle cx="84" cy="22" r="1.2" fill="#6ee7b7" opacity="0.6"/>
-      <circle cx="76" cy="24" r="1" fill="#6ee7b7" opacity="0.5"/>
+      {/* Stewart Island / Rakiura */}
+      <ellipse cx="20" cy="189" rx="5" ry="4" fill="#10b981" opacity="0.38" stroke="#6ee7b7" strokeWidth="1"/>
+      {/* Southern Cross — decorative stars upper right */}
+      <circle cx="83" cy="7"  r="1.3" fill="#6ee7b7" opacity="0.7"/>
+      <circle cx="87" cy="14" r="1"   fill="#6ee7b7" opacity="0.6"/>
+      <circle cx="81" cy="17" r="0.8" fill="#6ee7b7" opacity="0.5"/>
+      <circle cx="89" cy="7"  r="1"   fill="#6ee7b7" opacity="0.55"/>
     </svg>
   );
 }
