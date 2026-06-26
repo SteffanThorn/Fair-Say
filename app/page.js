@@ -1,221 +1,371 @@
 import Link from 'next/link';
+import { Fraunces } from 'next/font/google';
+import { auth } from '@/auth';
+import styles from './page.module.css';
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  weight: ['500', '700'],
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
+  display: 'swap',
+  variable: '--font-fraunces',
+});
 
 export const metadata = {
   title: 'Fair Say NZ — Everyone gets a fair say.',
+  description:
+    'Fair Say NZ: 100% neutral, NZ-focused civic platform. Understand the issues, cut through the spin, and have your say — anonymously.',
 };
 
+const NAV_LINKS = [
+  ['Grounded News', '/news'],
+  ['Parties', '/parties'],
+  ['MPs', '/mps'],
+  ['Civics', '/civics'],
+  ['History', '/history'],
+  ['Polls', '/polls'],
+  ['Learn', '/learn'],
+  ['Events', '/events'],
+];
 
-function KoruSvg() {
-  // Koru — NZ silver fern frond (ponga), 1.5-turn CCW Archimedean spiral.
-  // Centre (55,55), outer r=42 (k=23), inner r=18 (k=10).
-  // frond width = gap = 12 px → bold 50/50 ratio, loops clearly distinct.
-  // CCW from screen perspective: bottom→right→top→left→inward→inner-right→tip.
-  const d =
-    'M55,112 L55,97 ' +
-    'C78,97 97,78 97,55 ' +   // outer bottom  → outer right
-    'C97,32 78,13 55,13 ' +   // outer right   → outer top
-    'C32,13 13,32 13,55 ' +   // outer top     → outer left
-    'C13,72 35,82 55,73 ' +   // outer left    → inner bottom  (the inward curl)
-    'C65,73 73,65 73,55 ' +   // inner bottom  → inner right
-    'C73,45 65,37 55,37';     // inner right   → tip (inner top)
+const PROBLEMS = [
+  {
+    problem: "It's hard to know what to trust.",
+    context:
+      "Every outlet has a slant. Ownership matters. Funding matters. Most NZers have no easy way to compare sources or see who's behind what they're reading.",
+    response:
+      'Grounded News maps NZ political sources by bias, funding model, and claim validity — so you can read informed, not just informed-feeling.',
+    cta: ['Explore sources →', '/news'],
+  },
+  {
+    problem: 'Party policies are written for insiders, not voters.',
+    context:
+      "Manifestos are dense PDFs. Party websites bury the details. Comparing what different parties actually believe on the same issue takes hours — if you can find it at all.",
+    response:
+      "Our Policies section translates every major party's position on key topics into plain English, side-by-side, with source links — no spin, no summary written by the party itself.",
+    cta: ['View parties →', '/parties'],
+  },
+  {
+    problem: "Online polls don't reflect what NZ actually thinks.",
+    context:
+      "Anyone can vote, from anywhere, multiple times. Results get skewed by organised groups, offshore accounts, or just whoever sees it first. It's noise, not signal.",
+    response:
+      'Fair Say polls are fully anonymous and structurally private — but results can be filtered to show only verified NZ citizens, so you can see what New Zealanders actually think, separately from everyone else.',
+    cta: ['See current polls →', '/polls'],
+  },
+  {
+    problem: "Too many people don't know enough to engage.",
+    context:
+      "How does MMP actually work? What did the Treaty actually say — in both versions? Why does the Reserve Bank set interest rates? Civic participation needs a foundation.",
+    response:
+      "Civics, History, and our Learn courses give you the context behind today's debates — written for ordinary New Zealanders, not political science students.",
+    cta: ['Start learning →', '/civics'],
+  },
+];
+
+const STEPS = [
+  {
+    num: '01',
+    title: 'Read clearly',
+    body: 'Use Grounded News to find NZ political reporting with source transparency shown — bias, ownership, funding model.',
+  },
+  {
+    num: '02',
+    title: 'Understand the context',
+    body: "Civics and History give you the background behind what you're reading — the policy, the people, the history.",
+  },
+  {
+    num: '03',
+    title: 'Have your say',
+    body: 'Vote anonymously in polls. No account required. Optionally verify as an NZ citizen to make your voice count in the citizen-only filter.',
+  },
+  {
+    num: '04',
+    title: 'See what NZ thinks',
+    body: 'Poll results are public and broken down by verification level — so you can compare all responses against NZ citizens specifically.',
+  },
+];
+
+const PLEDGES = [
+  'We never endorse a party, candidate, or ideology.',
+  'Every claim is sourced. Multiple sources always shown.',
+  'Poll results are anonymous — no individual tracking, ever.',
+  "We tell you what we store, what we don't, and what third-party providers see.",
+  'Verification is optional and an upgrade — never a gate.',
+  'If we get something wrong, we correct it publicly.',
+];
+
+export default async function HomePage() {
+  const session = await auth();
+
   return (
-    <svg viewBox="0 0 110 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      {/* glow */}
-      <path d={d} stroke="#10b981" strokeWidth="26" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.13"/>
-      {/* frond */}
-      <path d={d} stroke="#10b981" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.92"/>
-    </svg>
-  );
-}
+    <div className={fraunces.variable}>
 
-function KiwiBirdSvg() {
-  return (
-    <svg viewBox="0 0 210 185" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      {/* Body */}
-      <ellipse cx="88" cy="108" rx="60" ry="52" fill="#059669" opacity="0.85"/>
-      {/* Feather texture */}
-      <path d="M38,102 Q68,88 108,102" stroke="#6ee7b7" strokeWidth="1.5" opacity="0.35" fill="none"/>
-      <path d="M32,114 Q64,100 112,114" stroke="#6ee7b7" strokeWidth="1.5" opacity="0.35" fill="none"/>
-      <path d="M36,126 Q68,112 112,126" stroke="#6ee7b7" strokeWidth="1.5" opacity="0.3" fill="none"/>
-      {/* Head */}
-      <circle cx="136" cy="82" r="31" fill="#059669" opacity="0.85"/>
-      {/* Eye */}
-      <circle cx="147" cy="74" r="5.5" fill="#022c22"/>
-      <circle cx="148.5" cy="72.5" r="2" fill="white" opacity="0.75"/>
-      {/* Long bill */}
-      <path d="M164,78 Q182,73 205,67" stroke="#34d399" strokeWidth="5" strokeLinecap="round"/>
-      <path d="M164,81 Q182,76 205,70" stroke="#059669" strokeWidth="2" strokeLinecap="round" opacity="0.5"/>
-      {/* Legs */}
-      <line x1="73" y1="157" x2="62" y2="178" stroke="#059669" strokeWidth="6" strokeLinecap="round"/>
-      <line x1="98" y1="157" x2="109" y2="178" stroke="#059669" strokeWidth="6" strokeLinecap="round"/>
-      {/* Toes left */}
-      <line x1="62" y1="178" x2="45" y2="173" stroke="#059669" strokeWidth="3.5" strokeLinecap="round"/>
-      <line x1="62" y1="178" x2="50" y2="184" stroke="#059669" strokeWidth="3.5" strokeLinecap="round"/>
-      <line x1="62" y1="178" x2="68" y2="185" stroke="#059669" strokeWidth="3.5" strokeLinecap="round"/>
-      {/* Toes right */}
-      <line x1="109" y1="178" x2="126" y2="173" stroke="#059669" strokeWidth="3.5" strokeLinecap="round"/>
-      <line x1="109" y1="178" x2="121" y2="184" stroke="#059669" strokeWidth="3.5" strokeLinecap="round"/>
-      <line x1="109" y1="178" x2="103" y2="185" stroke="#059669" strokeWidth="3.5" strokeLinecap="round"/>
-    </svg>
-  );
-}
-
-function NZMapSvg() {
-  // Coordinate mapping: lon 165–179°E → x 0–93, lat 34.4–47°S → y 0–190
-  // Scale: ~6.67px/° lon, ~15px/° lat  (portrait aspect, NI upper-right, SI lower-left)
-  return (
-    <svg viewBox="0 0 93 192" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      {/* North Island — Te Ika-a-Māui
-          Clockwise from Cape Reinga (NW) → east coast → Wellington → west coast */}
-      <path
-        d="M52,2 L56,1 L62,13 L63,21
-           L66,38 L71,34 L67,42
-           L76,51 L90,51
-           L87,65 L80,77
-           L77,93
-           L69,108 L65,104
-           L65,98 L67,83
-           L58,74
-           L61,71 L64,64
-           L64,41 L63,28 L55,12 Z"
-        fill="#10b981" opacity="0.55" stroke="#6ee7b7" strokeWidth="1.2" strokeLinejoin="round"
-      />
-      {/* South Island — Te Waka o Māui
-          Clockwise from Farewell Spit (NW) → west coast → south → east coast → Nelson */}
-      <path
-        d="M52,92 L47,97 L44,111 L41,122 L34,137 L23,143
-           L19,153 L14,174
-           L19,182 L23,185
-           L33,183 L37,173 L39,161 L42,150 L52,141
-           L59,120 L61,101
-           L55,105 Z"
-        fill="#10b981" opacity="0.48" stroke="#6ee7b7" strokeWidth="1.2" strokeLinejoin="round"
-      />
-      {/* Stewart Island / Rakiura */}
-      <ellipse cx="20" cy="189" rx="5" ry="4" fill="#10b981" opacity="0.38" stroke="#6ee7b7" strokeWidth="1"/>
-      {/* Southern Cross — decorative stars upper right */}
-      <circle cx="83" cy="7"  r="1.3" fill="#6ee7b7" opacity="0.7"/>
-      <circle cx="87" cy="14" r="1"   fill="#6ee7b7" opacity="0.6"/>
-      <circle cx="81" cy="17" r="0.8" fill="#6ee7b7" opacity="0.5"/>
-      <circle cx="89" cy="7"  r="1"   fill="#6ee7b7" opacity="0.55"/>
-    </svg>
-  );
-}
-
-export default function HomePage() {
-  return (
-    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:py-12">
-      {/* Tagline */}
-      <div className="mb-8 text-center">
-        <p className="text-xs uppercase tracking-widest text-emerald-400">Fair Say NZ</p>
-        <h1 className="mt-2 text-3xl font-bold text-white sm:text-4xl md:text-5xl">
-          Everyone gets a fair say.
-        </h1>
-        <p className="mt-3 text-sm text-slate-400">100% neutral · NZ-focused · No party affiliation · No spin</p>
-      </div>
-
-      {/* Two-panel layout */}
-      <div className="grid gap-6 lg:grid-cols-2">
-
-        {/* ── LEFT: Empower Your Say ── */}
-        <section className="card flex flex-col rounded-2xl overflow-hidden">
-          {/* Content */}
-          <div className="flex flex-1 flex-col p-6 pt-5">
-            <h2 className="text-xl font-bold text-white">Empower Your Say</h2>
-            <p className="mt-1 mb-5 text-sm text-slate-400">
-              Understand NZ civics and the history behind today's issues.
-            </p>
-            <div className="flex flex-col gap-3">
-              <Link href="/civics" className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 transition hover:border-emerald-500/40 hover:bg-emerald-500/8">
-                <span className="text-lg">🏛️</span>
-                <div>
-                  <p className="text-sm font-medium text-white">Civics</p>
-                  <p className="text-xs text-slate-400">How NZ government works</p>
-                </div>
-                <span className="ml-auto text-emerald-400">→</span>
-              </Link>
-              <Link href="/history" className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 transition hover:border-emerald-500/40 hover:bg-emerald-500/8">
-                <span className="text-lg">📜</span>
-                <div>
-                  <p className="text-sm font-medium text-white">History</p>
-                  <p className="text-xs text-slate-400">NZ political history</p>
-                </div>
-                <span className="ml-auto text-emerald-400">→</span>
-              </Link>
-              <Link href="/news" className="flex items-center gap-3 rounded-xl border border-emerald-500/35 bg-emerald-500/10 px-4 py-3.5 transition hover:border-emerald-500/60 hover:bg-emerald-500/18">
-                <span className="text-lg">📰</span>
-                <div>
-                  <p className="text-sm font-medium text-emerald-100">Grounded News</p>
-                  <p className="text-xs text-emerald-300/60">NZ news, neutral sources only</p>
-                </div>
-                <span className="ml-auto text-emerald-400">→</span>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* ── RIGHT: Have Your Say ── */}
-        <section className="card flex flex-col rounded-2xl overflow-hidden">
-          {/* NZ Imagery */}
-          <div className="flex items-end justify-center gap-2 bg-gradient-to-br from-emerald-950/50 via-slate-900/60 to-teal-950/40 px-6 pb-4 pt-6">
-            <p className="sr-only">Koru, New Zealand map, and kiwi bird</p>
-            {/* Koru */}
-            <div className="w-20 h-20 shrink-0" aria-hidden>
-              <KoruSvg />
-            </div>
-            {/* NZ Map */}
-            <div className="w-14 h-28 shrink-0" aria-hidden>
-              <NZMapSvg />
-            </div>
-            {/* Kiwi */}
-            <div className="w-32 h-28 shrink-0" aria-hidden>
-              <KiwiBirdSvg />
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="flex flex-1 flex-col p-6 pt-5">
-            <h2 className="text-xl font-bold text-white">Have Your Say</h2>
-            <p className="mt-1 mb-5 text-sm text-slate-400">
-              Your voice is anonymous. Your impact is real.
-            </p>
-
-            <Link href="/polls" className="flex items-center gap-4 rounded-xl border border-emerald-500/40 bg-emerald-500/12 px-5 py-4 transition hover:border-emerald-400/60 hover:bg-emerald-500/20">
-              <span className="text-2xl">📊</span>
-              <div>
-                <p className="font-semibold text-white">Polls</p>
-                <p className="text-xs text-emerald-300/70">Have your anonymous say on the issues that matter</p>
-              </div>
-              <span className="ml-auto text-xl text-emerald-400">→</span>
-            </Link>
-
-            <div className="mt-4 rounded-xl border border-emerald-900/50 bg-emerald-950/30 p-4">
-              <p className="text-xs leading-relaxed text-slate-400">
-                <span className="text-emerald-400 font-medium">Fully anonymous</span> — poll results are community-wide aggregates only. No individual tracking. No login required.
-              </p>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* Newsletter strip — hidden for now, re-enable when ready to launch newsletter
-      <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-white/8 bg-white/3 px-6 py-4 sm:flex-row">
-        <p className="text-sm text-slate-300">Stay informed — get our weekly NZ political briefing.</p>
-        <Link href="/newsletter" className="whitespace-nowrap rounded-lg border border-emerald-500/30 px-5 py-2 text-sm font-medium text-emerald-200 hover:bg-emerald-500/10">
-          Subscribe to newsletter →
+      {/* ── Sticky nav ── */}
+      <nav className="sticky top-0 z-50 flex h-14 items-center justify-between gap-4 border-b border-slate-400/15 bg-[#080f1e]/90 px-6 backdrop-blur-md">
+        <Link href="/" className="flex shrink-0 items-center gap-1.5 text-sm font-semibold text-slate-100">
+          🌿 <span className="text-green-400">Fair Say</span> NZ
         </Link>
-      </div>
-      */}
 
-      {/* Pledge */}
-      <section className="mt-4 rounded-2xl border border-blue-500/20 bg-blue-500/5 px-6 py-5">
-        <h3 className="mb-2 text-sm font-semibold text-white">Our pledge to you</h3>
-        <ul className="grid gap-3 text-xs leading-relaxed text-slate-300 sm:grid-cols-3">
-          <li className="flex gap-2"><span className="mt-0.5 text-emerald-400">✓</span><span>We never endorse a party, candidate, or ideology.</span></li>
-          <li className="flex gap-2"><span className="mt-0.5 text-emerald-400">✓</span><span>Every claim is sourced. Multiple sources always shown.</span></li>
-          <li className="flex gap-2"><span className="mt-0.5 text-emerald-400">✓</span><span>Poll results are anonymous and community-wide aggregates only.</span></li>
+        <ul className="flex items-center gap-0.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {NAV_LINKS.map(([label, href]) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className="whitespace-nowrap rounded-md px-2.5 py-1.5 text-xs text-slate-400 transition hover:bg-slate-400/15 hover:text-slate-100"
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
         </ul>
+
+        <div className="flex shrink-0 gap-2">
+          {session?.user ? (
+            <Link
+              href="/dashboard"
+              className="rounded-md bg-green-400 px-3.5 py-1.5 text-xs font-semibold text-[#080f1e] transition hover:bg-green-300"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/auth/signin"
+                className="rounded-md border border-slate-400/15 px-3 py-1.5 text-xs text-slate-400 transition hover:border-slate-400/40 hover:text-slate-100"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/auth/signup"
+                className="rounded-md bg-green-400 px-3.5 py-1.5 text-xs font-semibold text-[#080f1e] transition hover:bg-green-300"
+              >
+                Join free
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
+
+      {/* ── Hero ── */}
+      <section className="mx-auto max-w-2xl px-6 pb-16 pt-20 text-center">
+        <div
+          className={`mb-6 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.08em] text-green-400 ${styles.eyebrow}`}
+        >
+          New Zealand · 100% neutral · No spin
+        </div>
+
+        <h1
+          className={`mb-6 text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.15] tracking-[-0.01em] text-slate-100 ${styles.serif}`}
+        >
+          NZ politics is loud.
+          <br />
+          <em className="font-medium italic text-slate-400">
+            Your voice shouldn&apos;t get lost in it.
+          </em>
+        </h1>
+
+        <p className="mx-auto mb-10 max-w-lg text-[1.05rem] leading-[1.7] text-slate-400">
+          Most New Zealanders care about what happens to this country — but feel locked out
+          of the conversation. Fair Say is the civic platform built to change that: clear
+          information, no agenda, and a real way to be heard.
+        </p>
+
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link
+            href="/polls"
+            className="rounded-lg bg-green-400 px-6 py-3 text-[0.95rem] font-semibold text-[#080f1e] transition hover:bg-green-300"
+          >
+            Have your say →
+          </Link>
+          <Link
+            href="/news"
+            className="rounded-lg border border-slate-400/15 px-6 py-3 text-[0.95rem] font-medium text-slate-100 transition hover:border-slate-400/40 hover:bg-slate-400/15"
+          >
+            See what&apos;s happening
+          </Link>
+        </div>
       </section>
-    </main>
+
+      <hr className="mx-auto max-w-2xl border-slate-400/15 px-6" />
+
+      {/* ── Problems + Solutions ── */}
+      <section className="mx-auto max-w-2xl px-6 py-16">
+        <p className="mb-10 text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-slate-400">
+          What we&apos;re solving
+        </p>
+
+        {PROBLEMS.map(({ problem, context, response, cta }, i) => (
+          <div
+            key={i}
+            className={`grid grid-cols-1 gap-6 border-t border-slate-400/15 py-8 sm:grid-cols-2 sm:gap-12 ${
+              i === PROBLEMS.length - 1 ? 'border-b' : ''
+            }`}
+          >
+            <div>
+              <h3 className={`mb-2 text-[1.2rem] font-bold leading-[1.3] text-slate-100 ${styles.serif}`}>
+                {problem}
+              </h3>
+              <p className="text-sm leading-[1.65] text-slate-400">{context}</p>
+            </div>
+            <div className="rounded-[10px] border border-slate-400/15 bg-[#0d1729] p-5">
+              <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-green-400">
+                Our response
+              </p>
+              <p className="text-[0.85rem] leading-[1.6] text-slate-400">{response}</p>
+              <Link
+                href={cta[1]}
+                className="mt-3 inline-block text-[0.8rem] font-medium text-green-400 hover:underline"
+              >
+                {cta[0]}
+              </Link>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* ── How it works ── */}
+      <section className="border-y border-slate-400/15 bg-[#0d1729] px-6 py-16">
+        <div className="mx-auto max-w-2xl">
+          <h2 className={`mb-2 text-[1.75rem] font-bold text-slate-100 ${styles.serif}`}>
+            How it works
+          </h2>
+          <p className="mb-10 text-[0.9rem] text-slate-400">
+            You don&apos;t need to be a political nerd to use Fair Say. Here&apos;s the shape of it.
+          </p>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {STEPS.map(({ num, title, body }) => (
+              <div
+                key={num}
+                className="rounded-[10px] border border-slate-400/15 bg-[#132040] p-5"
+              >
+                <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-green-400">
+                  Step {num}
+                </p>
+                <h4 className="mb-1.5 text-[0.95rem] font-semibold text-slate-100">{title}</h4>
+                <p className="text-[0.8rem] leading-[1.55] text-slate-400">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Trust ── */}
+      <section className="mx-auto max-w-2xl px-6 py-16">
+        <h2 className={`mb-2 text-[1.75rem] font-bold text-slate-100 ${styles.serif}`}>
+          Built for trust, not traffic.
+        </h2>
+        <p className="mb-8 text-[0.9rem] text-slate-400">
+          The decisions behind how Fair Say works — and why we made them.
+        </p>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="rounded-[10px] border border-slate-400/15 bg-[#0d1729] p-5">
+            <div className="mb-2 text-xl">🔒</div>
+            <h4 className="mb-1.5 text-[0.9rem] font-semibold text-slate-100">
+              Anonymous by design
+            </h4>
+            <p className="text-[0.8rem] leading-[1.55] text-slate-400">
+              Poll votes are structurally separated from your identity. Even we can&apos;t link a
+              vote to a person — that&apos;s the architecture, not just a policy.
+            </p>
+          </div>
+
+          <div className="rounded-[10px] border border-slate-400/15 bg-[#0d1729] p-5">
+            <div className="mb-2 text-xl">🇳🇿</div>
+            <h4 className="mb-1.5 text-[0.9rem] font-semibold text-slate-100">
+              NZ citizen verification
+            </h4>
+            <p className="text-[0.8rem] leading-[1.55] text-slate-400">
+              Optional. Verify with your NZ passport to tag your votes as citizen-verified.
+              Results show both all-respondent and citizen-only views.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-amber-400/25 bg-amber-400/15 px-2.5 py-0.5 text-[0.7rem] font-semibold text-amber-400">
+                Email account
+              </span>
+              <span className="rounded-full border border-green-400/20 bg-green-400/10 px-2.5 py-0.5 text-[0.7rem] font-semibold text-green-400">
+                NZ Passport verified
+              </span>
+            </div>
+          </div>
+
+          <div className="col-span-1 rounded-[10px] border border-slate-400/15 bg-[#0d1729] p-5 sm:col-span-2">
+            <div className="mb-2 text-xl">⚖️</div>
+            <h4 className="mb-1.5 text-[0.9rem] font-semibold text-slate-100">
+              No party. No funder. No agenda.
+            </h4>
+            <p className="text-[0.8rem] leading-[1.55] text-slate-400">
+              Fair Say is not affiliated with any political party, lobby group, or government
+              body. We have no advertising. Every editorial decision is made independently.
+              The founder is not yet an NZ citizen — and we think that&apos;s worth saying
+              publicly, because this platform was built for New Zealanders, not for us.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Pledge ── */}
+      <section className="border-y border-slate-400/15 bg-[#0d1729] px-6 py-12">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-8 sm:grid-cols-2">
+          <div>
+            <h2 className={`mb-2 text-[1.5rem] font-bold text-slate-100 ${styles.serif}`}>
+              Our pledge to you
+            </h2>
+            <p className="text-[0.85rem] leading-[1.6] text-slate-400">
+              Not fine print. The actual commitments that shape every decision on this platform.
+            </p>
+          </div>
+          <ul className="flex flex-col gap-3">
+            {PLEDGES.map((p) => (
+              <li key={p} className="flex items-start gap-2.5 text-[0.875rem] leading-[1.5] text-slate-400">
+                <span className="mt-0.5 shrink-0 font-bold text-green-400">✓</span>
+                {p}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── CTA footer ── */}
+      <section className="mx-auto max-w-2xl px-6 py-16 text-center">
+        <h2
+          className={`mb-3 text-[clamp(1.5rem,4vw,2.25rem)] font-bold leading-[1.2] text-slate-100 ${styles.serif}`}
+        >
+          Ready to have your say?
+        </h2>
+        <p className="mx-auto mb-8 max-w-sm text-[0.95rem] text-slate-400">
+          No account needed to vote or read. Join free if you want to verify as an NZ citizen
+          and track your activity.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link
+            href="/polls"
+            className="rounded-lg bg-green-400 px-6 py-3 text-[0.95rem] font-semibold text-[#080f1e] transition hover:bg-green-300"
+          >
+            See current polls →
+          </Link>
+          <Link
+            href="/auth/signup"
+            className="rounded-lg border border-slate-400/15 px-6 py-3 text-[0.95rem] font-medium text-slate-100 transition hover:border-slate-400/40 hover:bg-slate-400/15"
+          >
+            Join free
+          </Link>
+        </div>
+      </section>
+
+      {/* ── Site footer ── */}
+      <footer className="border-t border-slate-400/15 px-6 py-6 text-center">
+        <p className="text-xs text-slate-400">
+          🌿 Fair Say NZ ·{' '}
+          <Link href="/privacy" className="transition hover:text-slate-100">
+            Privacy Policy
+          </Link>{' '}
+          · No party affiliation · No spin · Built for New Zealanders
+        </p>
+      </footer>
+
+    </div>
   );
 }

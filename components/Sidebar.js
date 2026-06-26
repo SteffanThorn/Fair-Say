@@ -61,6 +61,9 @@ export default function Sidebar({ session }) {
 
   const closeMobile = () => setMobileOpen(false);
 
+  // Landing page has its own nav — hide sidebar there
+  if (pathname === '/') return null;
+
   const navContent = (
     <nav className="flex flex-col gap-1 px-3 py-4">
       {NAV_LINKS.map((link) => (

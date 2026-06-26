@@ -1,6 +1,7 @@
 import './globals.css';
 import { auth } from '@/auth';
 import Sidebar from '@/components/Sidebar';
+import ContentShell from '@/components/ContentShell';
 
 export const metadata = {
   title: {
@@ -32,9 +33,7 @@ export default async function RootLayout({ children }) {
     <html lang="en-NZ">
       <body>
         <Sidebar session={session} />
-        <div className="page-content min-h-screen">
-          {children}
-        </div>
+        <ContentShell>{children}</ContentShell>
       </body>
     </html>
   );

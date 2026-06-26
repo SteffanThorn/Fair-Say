@@ -1,0 +1,14 @@
+.serif {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+
+/* Decorative horizontal rules flanking the eyebrow text */
+.eyebrow::before,
+.eyebrow::after {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 2rem;
+  background: #16a34a;
+  flex-shrink: 0;
+}
