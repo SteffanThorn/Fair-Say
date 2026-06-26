@@ -5,7 +5,7 @@ import styles from './page.module.css';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: ['500', '700'],
+  weight: 'variable',
   style: ['normal', 'italic'],
   axes: ['opsz'],
   display: 'swap',
