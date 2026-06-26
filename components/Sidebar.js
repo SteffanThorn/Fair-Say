@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: '/',           label: 'Home',         icon: '🏠' },
   { href: '/news',       label: 'Grounded News', icon: '📰' },
   { href: '/parties',   label: 'Parties',       icon: '🗳️'  },
+  { href: '/policies',  label: 'Policies',      icon: '📋' },
   { href: '/mps',        label: 'MPs',           icon: '🏛️' },
   { href: '/civics',     label: 'Civics',        icon: '📚' },
   { href: '/learn',      label: 'Learn',         icon: '🎓', showDot: true },

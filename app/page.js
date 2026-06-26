@@ -21,6 +21,7 @@ export const metadata = {
 const NAV_LINKS = [
   ['Grounded News', '/news'],
   ['Parties', '/parties'],
+  ['Policies', '/policies'],
   ['MPs', '/mps'],
   ['Civics', '/civics'],
   ['History', '/history'],
@@ -192,7 +193,7 @@ export default async function HomePage() {
 
       {/* ── Problems + Solutions ── */}
       <section className="mx-auto max-w-2xl px-6 py-16">
-        <p className="mb-10 text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-slate-400">
+        <p className="mb-10 text-[0.7rem] font-semibold uppercase tracking-widest text-slate-400">
           What we&apos;re solving
         </p>
 
@@ -210,7 +211,7 @@ export default async function HomePage() {
               <p className="text-sm leading-[1.65] text-slate-400">{context}</p>
             </div>
             <div className="rounded-[10px] border border-slate-400/15 bg-[#0d1729] p-5">
-              <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-green-400">
+              <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-widest text-green-400">
                 Our response
               </p>
               <p className="text-[0.85rem] leading-[1.6] text-slate-400">{response}</p>
@@ -240,7 +241,7 @@ export default async function HomePage() {
                 key={num}
                 className="rounded-[10px] border border-slate-400/15 bg-[#132040] p-5"
               >
-                <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-green-400">
+                <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-widest text-green-400">
                   Step {num}
                 </p>
                 <h4 className="mb-1.5 text-[0.95rem] font-semibold text-slate-100">{title}</h4>
@@ -319,7 +320,7 @@ export default async function HomePage() {
           </div>
           <ul className="flex flex-col gap-3">
             {PLEDGES.map((p) => (
-              <li key={p} className="flex items-start gap-2.5 text-[0.875rem] leading-[1.5] text-slate-400">
+              <li key={p} className="flex items-start gap-2.5 text-[0.875rem] leading-normal text-slate-400">
                 <span className="mt-0.5 shrink-0 font-bold text-green-400">✓</span>
                 {p}
               </li>
