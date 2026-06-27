@@ -15,7 +15,6 @@ const NAV_LINKS = [
   { href: '/learn',      label: 'Learn',         icon: '🎓', showDot: true },
   { href: '/polls',      label: 'Polls',         icon: '📊' },
   { href: '/events',     label: 'Events',        icon: '📅' },
-  { href: '/newsletter', label: 'Newsletter',    icon: '✉️'  },
 ];
 
 function NavLink({ href, label, icon, onClick, showIndicator }) {
