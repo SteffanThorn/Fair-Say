@@ -252,7 +252,7 @@ export default function PollsPage() {
             </Link>
           </div>
           <p className="mt-3 text-xs text-slate-600 italic">
-            * First 500 ID proofs a month are free to set up. Beyond that, users pay a small processing fee.
+            * First 500 ID verifications per month are free. When the monthly quota is reached, verification reopens the following month.
           </p>
         </div>
       </div>

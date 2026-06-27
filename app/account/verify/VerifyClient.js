@@ -18,10 +18,11 @@ function VerificationBadge({ verifiedAt }) {
   );
 }
 
-function DiditCard({ alreadyVerified }) {
+function DiditCard({ alreadyVerified, quotaFull, nextOpenDate }) {
   const [showConsent, setShowConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [quotaHitDate, setQuotaHitDate] = useState(quotaFull ? nextOpenDate : null);
 
   async function startDidit() {
     setError('');
@@ -30,8 +31,8 @@ function DiditCard({ alreadyVerified }) {
       const res = await fetch('/api/verify/didit/start', { method: 'POST' });
       const data = await res.json();
       if (!res.ok) {
-        if (res.status === 402) {
-          setError(data.message || 'A verification fee applies. Please try again later.');
+        if (res.status === 402 && data.error === 'quota_full') {
+          setQuotaHitDate(data.nextOpenDate);
         } else {
           setError(data.error || 'Could not start verification');
         }
@@ -93,20 +94,31 @@ function DiditCard({ alreadyVerified }) {
 
         {error && <p className="mt-3 text-sm text-red-300">{error}</p>}
 
-        <button
-          type="button"
-          onClick={() => !alreadyVerified && setShowConsent(true)}
-          disabled={loading || alreadyVerified}
-          className="mt-5 rounded-lg bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {alreadyVerified ? 'Already verified' : loading ? 'Starting…' : 'Verify my NZ passport →'}
-        </button>
+        {quotaHitDate ? (
+          <div className="mt-5 rounded-lg border border-amber-500/25 bg-amber-500/8 px-4 py-4 text-center">
+            <p className="text-sm font-semibold text-amber-300">🗓️ Monthly quota reached</p>
+            <p className="mt-1 text-xs text-slate-400 leading-relaxed">
+              The 500 free verifications for this month are taken.
+              <br />
+              Apply after <span className="text-white font-medium">{quotaHitDate}</span>.
+            </p>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => !alreadyVerified && setShowConsent(true)}
+            disabled={loading || alreadyVerified}
+            className="mt-5 rounded-lg bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {alreadyVerified ? 'Already verified' : loading ? 'Starting…' : 'Verify my NZ passport →'}
+          </button>
+        )}
       </div>
     </>
   );
 }
 
-export default function VerifyClient({ verifications, completedParam }) {
+export default function VerifyClient({ verifications, completedParam, quotaFull, nextOpenDate }) {
   const diditVerification = verifications.find((v) => v.method === 'didit');
 
   return (
@@ -135,7 +147,7 @@ export default function VerifyClient({ verifications, completedParam }) {
 
       {!diditVerification && (
         <section>
-          <DiditCard alreadyVerified={false} />
+          <DiditCard alreadyVerified={false} quotaFull={quotaFull} nextOpenDate={nextOpenDate} />
         </section>
       )}
 

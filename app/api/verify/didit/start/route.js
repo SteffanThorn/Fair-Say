@@ -36,11 +36,11 @@ export async function POST() {
       .gte('created_at', startOfMonth);
 
     if ((count || 0) >= 500) {
-      // TODO: integrate Stripe $2 NZD charge here before proceeding.
-      // Charge fires ONLY after webhook confirms success — do not pre-charge.
+      const nextOpen = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+        .toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Pacific/Auckland' });
       return NextResponse.json({
-        error: 'billing_required',
-        message: 'The free verification quota for this month is full. A $2 NZD fee applies — this will only be charged if your verification succeeds.',
+        error: 'quota_full',
+        nextOpenDate: nextOpen,
       }, { status: 402 });
     }
 
@@ -60,7 +60,7 @@ export async function POST() {
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL
       || process.env.NEXTAUTH_URL
-      || 'https://fair-say.vercel.app';
+      || 'https://www.fairsay.co.nz';
 
     const { url } = await createDiditSession({
       verificationRequestToken,
