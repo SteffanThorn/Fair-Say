@@ -6,10 +6,20 @@ import EraMarker from '@/components/history/EraMarker';
 import TimelineEvent from '@/components/history/TimelineEvent';
 import FilterBar from '@/components/history/FilterBar';
 import HistoryPanel from '@/components/history/HistoryPanel';
+import StatsSection from '@/components/history/StatsSection';
 
 export default function HistoryPage() {
   const [activeFilter, setActiveFilter]   = useState('all');
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [openStatIds, setOpenStatIds]     = useState(new Set());
+
+  const toggleStat = useCallback((id) => {
+    setOpenStatIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }, []);
 
   const filteredEvents = activeFilter === 'all'
     ? HISTORY_EVENTS
@@ -44,6 +54,9 @@ export default function HistoryPage() {
         </p>
       </header>
 
+      {/* NZ statistics */}
+      <StatsSection openIds={openStatIds} onToggle={toggleStat} />
+
       {/* Filter bar */}
       <FilterBar active={activeFilter} onChange={setActiveFilter} />
 
@@ -51,7 +64,7 @@ export default function HistoryPage() {
       <div className="mt-8 relative">
         {/* Vertical spine */}
         <div
-          className="absolute left-[5px] top-0 bottom-0 w-0.5 pointer-events-none"
+          className="absolute left-1.5 top-0 bottom-0 w-0.5 pointer-events-none"
           style={{ background: 'rgba(255,255,255,0.1)' }}
         />
 
