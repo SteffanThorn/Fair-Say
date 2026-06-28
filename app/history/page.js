@@ -51,6 +51,7 @@ export default function HistoryPage() {
           A timeline of the forces that shaped New Zealand — told from both sides.
           Every event names the real conflict, presents each side's strongest argument,
           and notes what history shows about where each position led.
+          This is a work in progress, and open to user suggestions at the bottom right of the page.
         </p>
       </header>
 
