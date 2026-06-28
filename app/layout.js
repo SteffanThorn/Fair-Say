@@ -2,6 +2,7 @@ import './globals.css';
 import { auth } from '@/auth';
 import Sidebar from '@/components/Sidebar';
 import ContentShell from '@/components/ContentShell';
+import SuggestButton from '@/components/SuggestButton';
 
 export const metadata = {
   title: {
@@ -34,6 +35,7 @@ export default async function RootLayout({ children }) {
       <body>
         <Sidebar session={session} />
         <ContentShell>{children}</ContentShell>
+        <SuggestButton />
       </body>
     </html>
   );
