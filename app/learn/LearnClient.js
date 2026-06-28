@@ -122,7 +122,7 @@ function ComingSoonCopy({ isAuthenticated }) {
           {
             icon: '📜',
             title: 'Te Tiriti o Waitangi',
-            desc: 'Both sides of the argument. Fact vs fiction. Current struggles. Built with input from Māori voices.',
+            desc: 'Both sides of the argument. Fact vs fiction. Current struggles.',
           },
         ].map((m) => (
           <div key={m.title} className="flex gap-3">
