@@ -15,7 +15,10 @@ export async function GET(request, { params }) {
 
   const admin = await createAdminClient();
 
-  let query = admin.from('poll_votes').select('vote_choice, credential_tier').eq('poll_id', pollId);
+  let query = admin
+    .from('poll_votes')
+    .select('anon_id, vote_choice, credential_tier, learn_badges')
+    .eq('poll_id', pollId);
 
   if (tier === 'email' || tier === 'verified_nz_citizen') {
     query = query.eq('credential_tier', tier);
@@ -27,22 +30,34 @@ export async function GET(request, { params }) {
     return NextResponse.json({ error: 'Could not fetch results' }, { status: 500 });
   }
 
-  const counts = {};
-  for (const v of votes ?? []) {
-    counts[v.vote_choice] = (counts[v.vote_choice] ?? 0) + 1;
-  }
-
   const total = votes?.length ?? 0;
 
   // Suppress results if the filtered group is too small (de-anonymisation protection).
   if (total > 0 && total < MIN_GROUP_SIZE) {
     return NextResponse.json({
       counts: null,
+      votes: null,
       total,
       suppressed: true,
       reason: 'Not enough responses in this group to display results.',
     });
   }
 
-  return NextResponse.json({ counts, total, suppressed: false });
+  const counts = {};
+  for (const v of votes ?? []) {
+    counts[v.vote_choice] = (counts[v.vote_choice] ?? 0) + 1;
+  }
+
+  // Expose individual rows with truncated anon_id (12 hex chars).
+  // Rows with a legacy null anon_id (pre-migration votes) are skipped.
+  const voteRows = (votes ?? [])
+    .filter((v) => v.anon_id)
+    .map((v) => ({
+      id: v.anon_id.slice(0, 12),
+      choice: v.vote_choice,
+      tier: v.credential_tier,
+      badges: v.learn_badges ?? [],
+    }));
+
+  return NextResponse.json({ counts, votes: voteRows, total, suppressed: false });
 }

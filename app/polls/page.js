@@ -7,9 +7,48 @@ import { POLLS } from '@/lib/polls';
 import PollResultsFilter from '@/components/PollResultsFilter';
 import DiditUpgradeNudge from '@/components/DiditUpgradeNudge';
 
+const BADGE_LABELS = {
+  nz_civics: '🏛️ Civics',
+  debate_fundamentals: '🗣️ Debate Ready',
+  te_tiriti: '📜 Treaty Aware',
+};
+
+function VoteRow({ row, yourId }) {
+  const isYou = row.id === yourId;
+  return (
+    <div
+      className={`flex flex-wrap items-center gap-2 px-3 py-2 rounded-lg text-xs ${
+        isYou
+          ? 'bg-emerald-500/10 border border-emerald-500/20'
+          : 'bg-white/3 border border-white/6'
+      }`}
+    >
+      <span className="font-mono text-slate-500 shrink-0">{row.id}</span>
+      <span className={`flex-1 min-w-0 truncate ${isYou ? 'text-white font-medium' : 'text-slate-300'}`}>
+        {isYou && <span className="mr-1 text-emerald-400">✓</span>}
+        {row.choice}
+      </span>
+      <span className="flex flex-wrap gap-1 shrink-0">
+        {row.tier === 'verified_nz_citizen' && (
+          <span className="rounded-full bg-emerald-500/15 px-1.5 py-0.5 text-emerald-300">🇳🇿 NZ Citizen</span>
+        )}
+        {(row.badges ?? []).map((b) =>
+          BADGE_LABELS[b] ? (
+            <span key={b} className="rounded-full bg-blue-500/15 px-1.5 py-0.5 text-blue-300">
+              {BADGE_LABELS[b]}
+            </span>
+          ) : null
+        )}
+      </span>
+    </div>
+  );
+}
+
 function PollCard({ poll, credentialTier: filterTier }) {
   const [voted, setVoted] = useState(null);
+  const [yourId, setYourId] = useState(null);
   const [counts, setCounts] = useState(() => Object.fromEntries(poll.options.map((o) => [o.label, 0])));
+  const [voteRows, setVoteRows] = useState([]);
   const [total, setTotal] = useState(0);
   const [suppressed, setSuppressed] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -25,10 +64,12 @@ function PollCard({ poll, credentialTier: filterTier }) {
       if (data.suppressed) {
         setSuppressed(true);
         setCounts({});
+        setVoteRows([]);
         setTotal(data.total ?? 0);
       } else {
         setSuppressed(false);
         setCounts(data.counts ?? {});
+        setVoteRows(data.votes ?? []);
         setTotal(data.total ?? 0);
       }
     } catch {
@@ -40,8 +81,10 @@ function PollCard({ poll, credentialTier: filterTier }) {
 
   useEffect(() => {
     fetchResults();
-    const stored = sessionStorage.getItem(`fairsaynz_voted_${poll.id}`);
+    const stored = localStorage.getItem(`fairsaynz_voted_${poll.id}`);
+    const storedId = localStorage.getItem(`fairsaynz_yourid_${poll.id}`);
     if (stored) setVoted(stored);
+    if (storedId) setYourId(storedId);
   }, [fetchResults, poll.id]);
 
   // Re-fetch when filter changes, but only if we've already voted (results are visible)
@@ -57,14 +100,10 @@ function PollCard({ poll, credentialTier: filterTier }) {
     setVoting(true);
     setError('');
     try {
-      const deviceSalt = Array.from(crypto.getRandomValues(new Uint8Array(16)))
-        .map((b) => b.toString(16).padStart(2, '0'))
-        .join('');
-
       const res = await fetch(`/api/polls/${poll.id}/vote`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ choice: label, deviceSalt }),
+        body: JSON.stringify({ choice: label }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -72,11 +111,13 @@ function PollCard({ poll, credentialTier: filterTier }) {
         return;
       }
       setVoted(label);
-      // Show 'all' counts immediately after voting, regardless of current filter
+      setYourId(data.your_id ?? null);
       setCounts(data.counts ?? {});
+      setVoteRows(data.votes ?? []);
       setTotal(data.total ?? 0);
       setSuppressed(false);
-      sessionStorage.setItem(`fairsaynz_voted_${poll.id}`, label);
+      localStorage.setItem(`fairsaynz_voted_${poll.id}`, label);
+      if (data.your_id) localStorage.setItem(`fairsaynz_yourid_${poll.id}`, data.your_id);
     } catch {
       setError('Network error — please try again');
     } finally {
@@ -161,10 +202,25 @@ function PollCard({ poll, credentialTier: filterTier }) {
             Not enough responses in this group to display results.
           </p>
         ) : (
-          <p className="mt-4 text-xs text-slate-400">
-            {total} response{total !== 1 ? 's' : ''}
-            {tierLabel ? ` (${tierLabel})` : ''}
-          </p>
+          <>
+            <p className="mt-4 text-xs text-slate-400">
+              {total} response{total !== 1 ? 's' : ''}
+              {tierLabel ? ` · ${tierLabel}` : ''}
+            </p>
+
+            {voteRows.length > 0 && (
+              <div className="mt-4">
+                <p className="mb-2 text-[11px] font-medium uppercase tracking-widest text-slate-500">
+                  Individual responses
+                </p>
+                <div className="space-y-1.5 max-h-64 overflow-y-auto pr-0.5">
+                  {voteRows.map((row) => (
+                    <VoteRow key={row.id} row={row} yourId={yourId} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
         )
       ) : (
         <p className="mt-4 text-xs text-slate-500">
@@ -204,7 +260,7 @@ export default function PollsPage() {
         <p className="text-xs uppercase tracking-widest text-emerald-400">Fair Say NZ</p>
         <h1 className="mt-2 text-3xl font-bold text-white sm:text-4xl">Community Polls</h1>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-300">
-          Anonymous civic polls. One vote per account. Results are always published as aggregates — individual responses are never shown.
+          Anonymous civic polls. One vote per account. After voting, you can see individual responses — each identified only by a per-poll anonymous hash, never a name.
         </p>
       </header>
 
