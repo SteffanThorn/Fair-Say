@@ -6,15 +6,15 @@ import { useState, useEffect } from 'react';
 import MemberMark from './MemberMark';
 
 const NAV_LINKS = [
-  { href: '/',           label: 'Home',         icon: '🏠' },
-  { href: '/news',       label: 'Grounded News', icon: '📰' },
-  { href: '/parties',   label: 'Parties',       icon: '🗳️'  },
-  { href: '/policies',  label: 'Policies',      icon: '📋' },
-  { href: '/mps',        label: 'MPs',           icon: '🏛️' },
-  { href: '/civics',     label: 'Civics',        icon: '📚' },
-  { href: '/learn',      label: 'Learn',         icon: '🎓', showDot: true },
-  { href: '/polls',      label: 'Polls',         icon: '📊' },
-  { href: '/events',     label: 'Events',        icon: '📅' },
+  { href: '/',           label: 'Home',          icon: '🏠' },
+  { href: '/news',       label: 'Grounded News', icon: '📰',  tutorial: 'news' },
+  { href: '/parties',   label: 'Parties',        icon: '🗳️' },
+  { href: '/policies',  label: 'Policies',       icon: '📋',  tutorial: 'policies' },
+  { href: '/mps',        label: 'MPs',            icon: '🏛️', tutorial: 'mps' },
+  { href: '/civics',     label: 'Civics',         icon: '📚',  tutorial: 'civics' },
+  { href: '/learn',      label: 'Learn',          icon: '🎓',  showDot: true },
+  { href: '/polls',      label: 'Polls',          icon: '📊',  tutorial: 'polls' },
+  { href: '/events',     label: 'Events',         icon: '📅' },
 ];
 
 function NavButton({ icon, label, onClick }) {
@@ -30,7 +30,7 @@ function NavButton({ icon, label, onClick }) {
   );
 }
 
-function NavLink({ href, label, icon, onClick, showIndicator }) {
+function NavLink({ href, label, icon, onClick, showIndicator, tutorial }) {
   const pathname = usePathname();
   const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
 
@@ -38,6 +38,7 @@ function NavLink({ href, label, icon, onClick, showIndicator }) {
     <Link
       href={href}
       onClick={onClick}
+      data-tutorial={tutorial}
       className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
         isActive
           ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25'

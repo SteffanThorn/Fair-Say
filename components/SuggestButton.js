@@ -61,6 +61,7 @@ export default function SuggestButton() {
         type="button"
         onClick={openModal}
         aria-label="Suggest an update"
+        data-tutorial="suggest"
         className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white shadow-lg transition-all hover:bg-emerald-500 hover:shadow-emerald-500/20 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-slate-900"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
