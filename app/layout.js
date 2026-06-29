@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import Sidebar from '@/components/Sidebar';
 import ContentShell from '@/components/ContentShell';
 import SuggestButton from '@/components/SuggestButton';
+import TutorialModal from '@/components/TutorialModal';
 
 export const metadata = {
   title: {
@@ -44,6 +45,7 @@ export default async function RootLayout({ children }) {
         <Sidebar session={session} />
         <ContentShell>{children}</ContentShell>
         <SuggestButton />
+        <TutorialModal isMember={!!session?.user} />
       </body>
     </html>
   );

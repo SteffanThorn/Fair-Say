@@ -17,6 +17,19 @@ const NAV_LINKS = [
   { href: '/events',     label: 'Events',        icon: '📅' },
 ];
 
+function NavButton({ icon, label, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors text-slate-300 hover:bg-white/5 hover:text-white w-full"
+    >
+      <span className="text-base leading-none">{icon}</span>
+      <span className="flex-1 text-left">{label}</span>
+    </button>
+  );
+}
+
 function NavLink({ href, label, icon, onClick, showIndicator }) {
   const pathname = usePathname();
   const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
@@ -74,6 +87,14 @@ export default function Sidebar({ session }) {
           showIndicator={link.showDot && learnDot}
         />
       ))}
+      <NavButton
+        icon="🧭"
+        label="Tutorial"
+        onClick={() => {
+          window.dispatchEvent(new Event('fairsay:open-tutorial'));
+          closeMobile();
+        }}
+      />
 
       <div className="mt-4 border-t border-white/10 pt-4">
         {session?.user ? (
