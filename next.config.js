@@ -3,6 +3,7 @@ import withPWA from '@ducanh2912/next-pwa';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverExternalPackages: ['mongoose', 'mongodb', 'cheerio', 'bcryptjs'],
+  turbopack: {},
 };
 
 export default withPWA({
