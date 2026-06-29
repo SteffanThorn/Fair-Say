@@ -175,8 +175,8 @@ export default function EmailMagicLinkForm({ onSuccess }) {
             >
               Proton Mail address
             </a>
-            {' '}— it takes 2 minutes and means your email provider can't see you signed up here.
-            Gmail, Outlook, and Yahoo are not recommended.
+            {' '}— it takes 2 minutes and means your email provider can&apos;t see you signed up here.
+            Gmail, Outlook, and Yahoo are not end-to-end encrypted, so those providers can read your emails.
           </div>
 
           <label className="flex items-start gap-2.5 cursor-pointer">
