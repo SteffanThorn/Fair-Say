@@ -54,6 +54,7 @@ function PollCard({ poll, credentialTier: filterTier }) {
   const [loading, setLoading] = useState(true);
   const [voting, setVoting] = useState(false);
   const [error, setError] = useState('');
+  const [resultsView, setResultsView] = useState('collective'); // 'collective' | 'individual'
 
   const fetchResults = useCallback(async () => {
     try {
@@ -154,44 +155,84 @@ function PollCard({ poll, credentialTier: filterTier }) {
             <div key={o.label} className="h-10 rounded-lg bg-white/5 animate-pulse" />
           ))}
         </div>
-      ) : (
+      ) : !voted ? (
         <div className="space-y-2">
-          {poll.options.map((option) => {
-            const count = counts[option.label] || 0;
-            const pct = total > 0 && !suppressed ? Math.round((count / total) * 100) : 0;
-            const isChosen = voted === option.label;
+          {poll.options.map((option) => (
+            <button
+              key={option.label}
+              onClick={() => handleVote(option.label)}
+              disabled={voting}
+              className="w-full rounded-lg border border-white/10 px-4 py-2.5 text-left text-sm text-slate-200 transition-colors hover:border-white/25 hover:bg-white/5 hover:text-white disabled:opacity-50"
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      ) : suppressed ? null : (
+        <>
+          {/* Toggle */}
+          <div className="mt-4 flex items-center gap-1 rounded-lg bg-white/5 p-1 w-fit">
+            <button
+              type="button"
+              onClick={() => setResultsView('collective')}
+              className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                resultsView === 'collective'
+                  ? 'bg-white/10 text-white'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              📊 Overview
+            </button>
+            <button
+              type="button"
+              onClick={() => setResultsView('individual')}
+              className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                resultsView === 'individual'
+                  ? 'bg-white/10 text-white'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              👤 Responses
+            </button>
+          </div>
 
-            return (
-              <div key={option.label}>
-                {!voted ? (
-                  <button
-                    onClick={() => handleVote(option.label)}
-                    disabled={voting}
-                    className="w-full rounded-lg border border-white/10 px-4 py-2.5 text-left text-sm text-slate-200 transition-colors hover:border-white/25 hover:bg-white/5 hover:text-white disabled:opacity-50"
-                  >
-                    {option.label}
-                  </button>
-                ) : (
-                  <div className="relative rounded-lg overflow-hidden border border-white/8">
+          {/* Collective view */}
+          {resultsView === 'collective' && (
+            <div className="mt-3 space-y-2">
+              {poll.options.map((option) => {
+                const count = counts[option.label] || 0;
+                const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                const isChosen = voted === option.label;
+                return (
+                  <div key={option.label} className="relative rounded-lg overflow-hidden border border-white/8">
                     <div
                       className="absolute inset-y-0 left-0 transition-all duration-500"
-                      style={{ width: suppressed ? 0 : `${pct}%`, backgroundColor: option.color, opacity: 0.18 }}
+                      style={{ width: `${pct}%`, backgroundColor: option.color, opacity: 0.18 }}
                     />
                     <div className="relative flex items-center justify-between px-4 py-2.5">
                       <span className={`text-sm ${isChosen ? 'font-semibold text-white' : 'text-slate-300'}`}>
                         {isChosen && <span className="mr-1.5">✓</span>}
                         {option.label}
                       </span>
-                      {!suppressed && (
-                        <span className="text-xs font-medium text-slate-400 tabular-nums">{pct}%</span>
-                      )}
+                      <span className="text-xs font-medium text-slate-400 tabular-nums">{pct}%</span>
                     </div>
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Individual view */}
+          {resultsView === 'individual' && (
+            <div className="mt-3 space-y-1.5 max-h-72 overflow-y-auto pr-0.5">
+              {voteRows.length > 0 ? voteRows.map((row) => (
+                <VoteRow key={row.id} row={row} yourId={yourId} />
+              )) : (
+                <p className="text-xs text-slate-500 italic">No responses yet.</p>
+              )}
+            </div>
+          )}
+        </>
       )}
 
       {error ? <p className="mt-3 text-xs text-red-400">{error}</p> : null}
@@ -202,25 +243,10 @@ function PollCard({ poll, credentialTier: filterTier }) {
             Not enough responses in this group to display results.
           </p>
         ) : (
-          <>
-            <p className="mt-4 text-xs text-slate-400">
-              {total} response{total !== 1 ? 's' : ''}
-              {tierLabel ? ` · ${tierLabel}` : ''}
-            </p>
-
-            {voteRows.length > 0 && (
-              <div className="mt-4">
-                <p className="mb-2 text-[11px] font-medium uppercase tracking-widest text-slate-500">
-                  Individual responses
-                </p>
-                <div className="space-y-1.5 max-h-64 overflow-y-auto pr-0.5">
-                  {voteRows.map((row) => (
-                    <VoteRow key={row.id} row={row} yourId={yourId} />
-                  ))}
-                </div>
-              </div>
-            )}
-          </>
+          <p className="mt-3 text-xs text-slate-400">
+            {total} response{total !== 1 ? 's' : ''}
+            {tierLabel ? ` · ${tierLabel}` : ''}
+          </p>
         )
       ) : (
         <p className="mt-4 text-xs text-slate-500">
