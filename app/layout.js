@@ -13,6 +13,14 @@ export const metadata = {
     'Fair Say NZ: 100% neutral, NZ-focused civic platform. News, party info, MP contacts, polls and real ways to have your say.',
   keywords: ['New Zealand', 'civics', 'parliament', 'election 2026', 'NZ politics', 'civic education'],
   manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    title: 'Fair Say',
+    statusBarStyle: 'black-translucent',
+  },
+  icons: {
+    apple: '/icons/icon-192x192.png',
+  },
   openGraph: {
     title: 'Fair Say NZ',
     description: 'Fair Say NZ: 100% neutral, NZ-focused civic platform. News, party info, MP contacts, polls and real ways to have your say.',
@@ -24,7 +32,7 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#080f1e',
+  themeColor: '#059669',
 };
 
 export default async function RootLayout({ children }) {

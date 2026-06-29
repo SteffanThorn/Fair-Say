@@ -3,3 +3,9 @@ node_modules
 .env.local
 .env
 .DS_Store
+
+# PWA generated files (built by next-pwa at build time)
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
