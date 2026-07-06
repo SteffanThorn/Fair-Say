@@ -1,11 +1,18 @@
 import { NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/serviceSupabase';
 import { verifyAuthenticationResponse } from '@simplewebauthn/server';
+import { checkRateLimit, getRequestIp } from '@/lib/rateLimit';
 
 const RP_ID = process.env.PASSKEY_RP_ID || 'localhost';
 const ORIGIN = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
 export async function POST(request) {
+  const ip = getRequestIp(request);
+  const { allowed } = await checkRateLimit({ key: `passkey-auth-verify:${ip}`, limit: 20, windowSeconds: 3600 });
+  if (!allowed) {
+    return NextResponse.json({ error: 'Too many attempts — please try again later' }, { status: 429 });
+  }
+
   let body;
   try {
     body = await request.json();

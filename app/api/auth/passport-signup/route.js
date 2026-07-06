@@ -1,8 +1,15 @@
 import { NextResponse } from 'next/server';
 import { randomBytes } from 'crypto';
 import { createServiceClient } from '@/lib/serviceSupabase';
+import { checkRateLimit, getRequestIp } from '@/lib/rateLimit';
 
-export async function POST() {
+export async function POST(request) {
+  const ip = getRequestIp(request);
+  const { allowed } = await checkRateLimit({ key: `passport-signup:${ip}`, limit: 5, windowSeconds: 3600 });
+  if (!allowed) {
+    return NextResponse.json({ error: 'Too many attempts — please try again later' }, { status: 429 });
+  }
+
   const admin = createServiceClient();
 
   // Generate a synthetic email the user never sees.

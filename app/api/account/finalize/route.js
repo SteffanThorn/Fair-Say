@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/serviceSupabase';
 import { isThrowawayDomain } from '@/lib/throwaway-domains';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 export async function POST(request) {
   const supabase = await createClient();
@@ -11,6 +12,11 @@ export async function POST(request) {
   const { data: { user }, error: sessionError } = await supabase.auth.getUser();
   if (sessionError || !user) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  }
+
+  const { allowed } = await checkRateLimit({ key: `account-finalize:${user.id}`, limit: 10, windowSeconds: 3600 });
+  if (!allowed) {
+    return NextResponse.json({ error: 'Too many attempts — please try again later' }, { status: 429 });
   }
 
   const secret = process.env.IDENTITY_SECRET;

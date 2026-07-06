@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/email/send';
+import { checkRateLimit, getRequestIp } from '@/lib/rateLimit';
 
 const OWNER_EMAIL = 'innerlightyuki@gmail.com';
 
 export async function POST(request) {
+  const ip = getRequestIp(request);
+  const { allowed } = await checkRateLimit({ key: `suggestions:${ip}`, limit: 10, windowSeconds: 3600 });
+  if (!allowed) {
+    return NextResponse.json({ error: 'Too many submissions — please try again later' }, { status: 429 });
+  }
+
   let body;
   try {
     body = await request.json();

@@ -3,12 +3,18 @@ import { randomBytes } from 'crypto';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/serviceSupabase';
 import { createDiditSession } from '@/lib/didit';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 export async function POST(request) {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    const { allowed } = await checkRateLimit({ key: `didit-start:${user.id}`, limit: 3, windowSeconds: 3600 });
+    if (!allowed) {
+      return NextResponse.json({ error: 'Too many attempts — please try again later' }, { status: 429 });
+    }
 
     let body = {};
     try { body = await request.json(); } catch { /* no body is fine */ }
@@ -61,9 +67,7 @@ export async function POST(request) {
 
     if (insertError) throw insertError;
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL
-      || process.env.NEXTAUTH_URL
-      || 'https://www.fairsay.co.nz';
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.fairsay.co.nz';
 
     const callbackPath = body.redirectTo || '/account/verify?status=done';
     const { url } = await createDiditSession({
