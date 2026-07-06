@@ -12,6 +12,19 @@ const STEPS = {
   DONE: 'done',
 };
 
+// Collect device fingerprint once, lazily — mirrors components/EmailMagicLinkForm.js
+let fingerprintPromise = null;
+function getFingerprint() {
+  if (!fingerprintPromise) {
+    fingerprintPromise = import('@fingerprintjs/fingerprintjs')
+      .then((FingerprintJS) => FingerprintJS.default.load())
+      .then((fp) => fp.get())
+      .then((result) => result.visitorId)
+      .catch(() => 'unknown');
+  }
+  return fingerprintPromise;
+}
+
 export default function PassportSignupPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -22,6 +35,12 @@ export default function PassportSignupPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const pollRef = useRef(null);
+  const fingerprintRef = useRef(null);
+
+  // Pre-load fingerprint as soon as the page mounts
+  useEffect(() => {
+    getFingerprint().then((id) => { fingerprintRef.current = id; });
+  }, []);
 
   // After DiDit redirect: wait for webhook to process, then move to passkey step.
   useEffect(() => {
@@ -76,11 +95,16 @@ export default function PassportSignupPage() {
       if (otpError) throw new Error(otpError.message);
 
       // 3. Initialise the accounts row (same API email users call).
-      await fetch('/api/account/finalize', {
+      const fingerprint = fingerprintRef.current ?? (await getFingerprint());
+      const finalizeRes = await fetch('/api/account/finalize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fingerprint: 'passport_account', newsletter_opt_in: false }),
+        body: JSON.stringify({ fingerprint, newsletter_opt_in: false }),
       });
+      if (!finalizeRes.ok) {
+        const finalizeData = await finalizeRes.json().catch(() => ({}));
+        throw new Error(finalizeData.error || 'Could not finalise account');
+      }
 
       // 4. Start DiDit — redirect back to this page at ?step=passkey.
       const diditRes = await fetch('/api/verify/didit/start', {

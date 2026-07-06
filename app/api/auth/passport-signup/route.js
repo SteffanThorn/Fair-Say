@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { randomBytes } from 'crypto';
-import { createAdminClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/serviceSupabase';
 
 export async function POST() {
-  const admin = await createAdminClient();
+  const admin = createServiceClient();
 
   // Generate a synthetic email the user never sees.
   const hex = randomBytes(16).toString('hex');

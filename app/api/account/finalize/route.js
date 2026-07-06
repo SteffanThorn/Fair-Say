@@ -1,11 +1,12 @@
 import { createHmac } from 'crypto';
 import { NextResponse } from 'next/server';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/serviceSupabase';
 import { isThrowawayDomain } from '@/lib/throwaway-domains';
 
 export async function POST(request) {
   const supabase = await createClient();
-  const admin = await createAdminClient();
+  const admin = createServiceClient();
 
   const { data: { user }, error: sessionError } = await supabase.auth.getUser();
   if (sessionError || !user) {
@@ -115,7 +116,7 @@ export async function POST(request) {
   }
 
   // Create the account record — email is stored for newsletter / transactional use
-  await admin.from('accounts').insert({
+  const { error: insertError } = await admin.from('accounts').insert({
     account_id: user.id,
     verification_tag: 'email',
     is_verified: true,
@@ -123,6 +124,11 @@ export async function POST(request) {
     email: rawEmail,
     newsletter_opt_in: newsletter_opt_in === true,
   });
+
+  if (insertError) {
+    console.error('[account/finalize] accounts insert failed:', insertError);
+    return NextResponse.json({ error: 'Could not finalise account' }, { status: 500 });
+  }
 
   return NextResponse.json({ verificationTag: 'email' });
 }

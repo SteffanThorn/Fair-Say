@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/serviceSupabase';
 import { verifyAuthenticationResponse } from '@simplewebauthn/server';
 
 const RP_ID = process.env.PASSKEY_RP_ID || 'localhost';
@@ -13,7 +13,7 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
   }
 
-  const admin = await createAdminClient();
+  const admin = createServiceClient();
 
   // Look up the credential by its base64url ID to identify the user.
   const credentialId = body.id;
