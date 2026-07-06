@@ -1,5 +1,5 @@
 import './globals.css';
-import { auth } from '@/auth';
+import { createClient } from '@/lib/supabase/server';
 import Sidebar from '@/components/Sidebar';
 import ContentShell from '@/components/ContentShell';
 import SuggestButton from '@/components/SuggestButton';
@@ -37,15 +37,16 @@ export const viewport = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   return (
     <html lang="en-NZ">
       <body>
-        <Sidebar session={session} />
+        <Sidebar user={user} />
         <ContentShell>{children}</ContentShell>
         <SuggestButton />
-        <TutorialModal isMember={!!session?.user} />
+        <TutorialModal isMember={!!user} />
       </body>
     </html>
   );

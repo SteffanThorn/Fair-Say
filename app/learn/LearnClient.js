@@ -152,7 +152,7 @@ function ComingSoonCopy({ isAuthenticated }) {
           </Link>
         ) : (
           <Link
-            href="/auth/signup"
+            href="/auth"
             className="inline-flex items-center rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-500"
           >
             Join free to get notified when Learn launches →

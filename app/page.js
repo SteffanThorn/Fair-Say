@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Fraunces } from 'next/font/google';
-import { auth } from '@/auth';
+import { createClient } from '@/lib/supabase/server';
 import styles from './page.module.css';
 
 const fraunces = Fraunces({
@@ -98,7 +98,8 @@ const PLEDGES = [
 ];
 
 export default async function HomePage() {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   return (
     <div className={fraunces.variable}>
@@ -123,7 +124,7 @@ export default async function HomePage() {
         </ul>
 
         <div className="flex shrink-0 gap-2">
-          {session?.user ? (
+          {user ? (
             <Link
               href="/dashboard"
               className="rounded-md bg-green-400 px-3.5 py-1.5 text-xs font-semibold text-[#080f1e] transition hover:bg-green-300"
@@ -133,13 +134,13 @@ export default async function HomePage() {
           ) : (
             <>
               <Link
-                href="/auth/signin"
+                href="/auth"
                 className="rounded-md border border-slate-400/15 px-3 py-1.5 text-xs text-slate-400 transition hover:border-slate-400/40 hover:text-slate-100"
               >
                 Sign in
               </Link>
               <Link
-                href="/auth/signup"
+                href="/auth"
                 className="rounded-md bg-green-400 px-3.5 py-1.5 text-xs font-semibold text-[#080f1e] transition hover:bg-green-300"
               >
                 Join free
@@ -348,7 +349,7 @@ export default async function HomePage() {
             See current polls →
           </Link>
           <Link
-            href="/auth/signup"
+            href="/auth"
             className="rounded-lg border border-slate-400/15 px-6 py-3 text-[0.95rem] font-medium text-slate-100 transition hover:border-slate-400/40 hover:bg-slate-400/15"
           >
             Join free

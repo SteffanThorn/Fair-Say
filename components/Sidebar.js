@@ -54,7 +54,7 @@ function NavLink({ href, label, icon, onClick, showIndicator, tutorial }) {
   );
 }
 
-export default function Sidebar({ session }) {
+export default function Sidebar({ user }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [learnDot, setLearnDot] = useState(false);
   const pathname = usePathname();
@@ -62,7 +62,7 @@ export default function Sidebar({ session }) {
   // Fetch account state to determine whether to show the Learn indicator dot.
   // Re-fetches on pathname change so navigating away from /learn clears the dot.
   useEffect(() => {
-    if (!session?.user) return;
+    if (!user) return;
     fetch('/api/account/state')
       .then((r) => r.json())
       .then((data) => {
@@ -71,7 +71,7 @@ export default function Sidebar({ session }) {
         setLearnDot(isVerified && unseen);
       })
       .catch(() => {});
-  }, [session?.user?.id, pathname]);
+  }, [user?.id, pathname]);
 
   const closeMobile = () => setMobileOpen(false);
 
@@ -98,7 +98,7 @@ export default function Sidebar({ session }) {
       />
 
       <div className="mt-4 border-t border-white/10 pt-4">
-        {session?.user ? (
+        {user ? (
           <div className="space-y-2">
             <Link
               href="/dashboard"
@@ -107,32 +107,20 @@ export default function Sidebar({ session }) {
             >
               <span className="text-base leading-none">⚙️</span>
               <span className="flex-1">My Account</span>
-              {session.user.authMethod && (
-                <MemberMark authMethod={session.user.authMethod} />
-              )}
+              <MemberMark />
             </Link>
-            {session.user.role === 'admin' && (
-              <Link
-                href="/admin"
-                onClick={closeMobile}
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-amber-300 hover:bg-amber-500/10 transition-colors"
-              >
-                <span className="text-base leading-none">🛡️</span>
-                Admin
-              </Link>
-            )}
           </div>
         ) : (
           <div className="space-y-2 px-3">
             <Link
-              href="/auth/signin"
+              href="/auth"
               onClick={closeMobile}
               className="block rounded-lg border border-white/15 px-4 py-2 text-center text-sm text-white hover:bg-white/5"
             >
               Sign in
             </Link>
             <Link
-              href="/auth/signup"
+              href="/auth"
               onClick={closeMobile}
               className="block rounded-lg bg-emerald-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-emerald-500"
             >
