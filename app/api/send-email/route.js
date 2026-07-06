@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { Resend } from 'resend';
 
 function formatCurrency(amount) {
@@ -69,10 +68,9 @@ function getHtml(emailType, data) {
 export async function POST(request) {
   try {
     const internalApiKey = request.headers.get('x-internal-api-key');
-    const session = await auth();
     const isInternalRequest = internalApiKey && internalApiKey === process.env.INTERNAL_API_KEY;
 
-    if (!session?.user && !isInternalRequest) {
+    if (!isInternalRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/serverAuth';
 import { refreshNZNews } from '@/lib/newsCache';
 
-export async function POST() {
-  const authResult = await requireAdmin();
-  if (authResult.error) {
-    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+export async function POST(request) {
+  const internalApiKey = request.headers.get('x-internal-api-key');
+  if (!internalApiKey || internalApiKey !== process.env.INTERNAL_API_KEY) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {

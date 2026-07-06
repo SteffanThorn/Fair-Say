@@ -29,18 +29,15 @@
     "@simplewebauthn/server": "^9.0.3",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.107.0",
-    "bcryptjs": "^3.0.3",
     "ethers": "^6.16.0",
     "express": "^4.18.0",
     "express-basic-auth": "^1.2.1",
     "mongodb": "^6.21.0",
     "mongoose": "^9.2.1",
     "next": "^16.1.6",
-    "next-auth": "^5.0.0-beta.30",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "resend": "^6.9.2",
-    "stripe": "^20.4.0"
+    "resend": "^6.9.2"
   },
   "devDependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
