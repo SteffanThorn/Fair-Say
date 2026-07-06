@@ -4,11 +4,14 @@ import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/serviceSupabase';
 import { createDiditSession } from '@/lib/didit';
 
-export async function POST() {
+export async function POST(request) {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    let body = {};
+    try { body = await request.json(); } catch { /* no body is fine */ }
 
     const admin = createServiceClient();
 
@@ -62,9 +65,10 @@ export async function POST() {
       || process.env.NEXTAUTH_URL
       || 'https://www.fairsay.co.nz';
 
+    const callbackPath = body.redirectTo || '/account/verify?status=done';
     const { url } = await createDiditSession({
       verificationRequestToken,
-      callbackUrl: `${appUrl}/account/verify?status=done`,
+      callbackUrl: `${appUrl}${callbackPath}`,
     });
 
     return NextResponse.json({ url });
