@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Fraunces } from 'next/font/google';
 import { createClient } from '@/lib/supabase/server';
+import HomeMobileNav from '@/components/HomeMobileNav';
 import styles from './page.module.css';
 
 const fraunces = Fraunces({
@@ -105,17 +106,17 @@ export default async function HomePage() {
     <div className={fraunces.variable}>
 
       {/* ── Sticky nav ── */}
-      <nav className="sticky top-0 z-50 flex h-14 items-center justify-between gap-4 border-b border-slate-400/15 bg-[#080f1e]/90 px-6 backdrop-blur-md">
+      <nav className="sticky top-0 z-50 flex h-14 items-center justify-between gap-2 border-b border-slate-400/15 bg-[#080f1e]/90 px-4 backdrop-blur-md sm:gap-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-1.5 text-sm font-semibold text-slate-100">
           🌿 <span className="text-green-400">Fair Say</span> NZ
         </Link>
 
-        <ul className="flex items-center gap-0.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <ul className="hidden items-center gap-0.5 lg:flex">
           {NAV_LINKS.map(([label, href]) => (
             <li key={href}>
               <Link
                 href={href}
-                className="whitespace-nowrap rounded-md px-2.5 py-1.5 text-xs text-slate-400 transition hover:bg-slate-400/15 hover:text-slate-100"
+                className="whitespace-nowrap rounded-md px-2.5 py-2 text-xs text-slate-400 transition hover:bg-slate-400/15 hover:text-slate-100"
               >
                 {label}
               </Link>
@@ -123,11 +124,11 @@ export default async function HomePage() {
           ))}
         </ul>
 
-        <div className="flex shrink-0 gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           {user ? (
             <Link
               href="/dashboard"
-              className="rounded-md bg-green-400 px-3.5 py-1.5 text-xs font-semibold text-[#080f1e] transition hover:bg-green-300"
+              className="rounded-md bg-green-400 px-3.5 py-2 text-xs font-semibold text-[#080f1e] transition hover:bg-green-300"
             >
               Dashboard
             </Link>
@@ -135,18 +136,20 @@ export default async function HomePage() {
             <>
               <Link
                 href="/auth"
-                className="rounded-md border border-slate-400/15 px-3 py-1.5 text-xs text-slate-400 transition hover:border-slate-400/40 hover:text-slate-100"
+                className="rounded-md border border-slate-400/15 px-3 py-2 text-xs text-slate-400 transition hover:border-slate-400/40 hover:text-slate-100"
               >
                 Sign in
               </Link>
               <Link
                 href="/auth"
-                className="rounded-md bg-green-400 px-3.5 py-1.5 text-xs font-semibold text-[#080f1e] transition hover:bg-green-300"
+                className="rounded-md bg-green-400 px-3.5 py-2 text-xs font-semibold text-[#080f1e] transition hover:bg-green-300"
               >
                 Join free
               </Link>
             </>
           )}
+
+          <HomeMobileNav links={NAV_LINKS} />
         </div>
       </nav>
 
