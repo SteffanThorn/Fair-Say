@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function SuggestButton() {
@@ -11,11 +11,22 @@ export default function SuggestButton() {
   const [status, setStatus] = useState('idle'); // idle | submitting | success | error
   const [errorMsg, setErrorMsg] = useState('');
 
-  const openModal = useCallback(() => {
+  const openModal = useCallback((prefill) => {
     setStatus('idle');
     setErrorMsg('');
+    if (prefill) setSuggestion(prefill);
     setOpen(true);
   }, []);
+
+  // Lets other components open this same form pre-filled, e.g. the Didit
+  // monthly-quota-full message — mirrors the fairsay:open-tutorial pattern.
+  useEffect(() => {
+    function handleOpenRequest(event) {
+      openModal(event.detail?.message ?? '');
+    }
+    window.addEventListener('fairsay:open-suggest', handleOpenRequest);
+    return () => window.removeEventListener('fairsay:open-suggest', handleOpenRequest);
+  }, [openModal]);
 
   const closeModal = useCallback(() => {
     setOpen(false);
@@ -59,7 +70,7 @@ export default function SuggestButton() {
       {/* Floating trigger button */}
       <button
         type="button"
-        onClick={openModal}
+        onClick={() => openModal()}
         aria-label="Suggest an update"
         data-tutorial="suggest"
         className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white shadow-lg transition-all hover:bg-emerald-500 hover:shadow-emerald-500/20 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-slate-900"

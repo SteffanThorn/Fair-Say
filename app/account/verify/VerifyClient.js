@@ -90,6 +90,9 @@ function DiditCard({ alreadyVerified, quotaFull, nextOpenDate }) {
           <p>
             <span className="text-slate-300 font-medium">Cost:</span> $2 NZD, charged only on successful verification. This covers Didit's fee, passed on at cost.
           </p>
+          <p>
+            <span className="text-slate-300 font-medium">Free tier:</span> The first 500 verifications each month are free. Once that&apos;s used up, verification reopens the following month.
+          </p>
         </div>
 
         {error && <p className="mt-3 text-sm text-red-300">{error}</p>}
@@ -97,11 +100,23 @@ function DiditCard({ alreadyVerified, quotaFull, nextOpenDate }) {
         {quotaHitDate ? (
           <div className="mt-5 rounded-lg border border-amber-500/25 bg-amber-500/8 px-4 py-4 text-center">
             <p className="text-sm font-semibold text-amber-300">🗓️ Monthly quota reached</p>
-            <p className="mt-1 text-xs text-slate-400 leading-relaxed">
-              The 500 free verifications for this month are taken.
-              <br />
-              Apply after <span className="text-white font-medium">{quotaHitDate}</span>.
+            <p className="mt-2 text-xs text-slate-400 leading-relaxed text-left">
+              This is a non-profit project, and we&apos;ve chosen a 500 free-verification limit each month to keep costs manageable.
+              If you&apos;d like to get verified before the next reset on <span className="text-white font-medium">{quotaHitDate}</span>, you can contact us and arrange to pay a small fee to cover the cost of your verification.
             </p>
+            <button
+              type="button"
+              onClick={() =>
+                window.dispatchEvent(
+                  new CustomEvent('fairsay:open-suggest', {
+                    detail: { message: "I'd like to get NZ Passport verified before the monthly free quota resets — I'm happy to pay a small fee to cover the cost." },
+                  })
+                )
+              }
+              className="mt-3 rounded-lg border border-amber-500/30 px-4 py-2 text-xs font-medium text-amber-200 hover:bg-amber-500/10"
+            >
+              Contact us to verify sooner →
+            </button>
           </div>
         ) : (
           <button

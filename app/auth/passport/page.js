@@ -34,6 +34,7 @@ export default function PassportSignupPage() {
   const [step, setStep] = useState(urlStep === 'passkey' ? STEPS.DIDIT : STEPS.INFO);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [quotaHitDate, setQuotaHitDate] = useState(null);
   const pollRef = useRef(null);
   const fingerprintRef = useRef(null);
 
@@ -75,6 +76,7 @@ export default function PassportSignupPage() {
 
   async function handleBegin() {
     setError('');
+    setQuotaHitDate(null);
     setLoading(true);
     setStep(STEPS.CREATING);
 
@@ -115,7 +117,10 @@ export default function PassportSignupPage() {
       const diditData = await diditRes.json();
 
       if (diditRes.status === 402) {
-        throw new Error(`Verification slots are full this month — try again after ${diditData.nextOpenDate}.`);
+        setQuotaHitDate(diditData.nextOpenDate);
+        setStep(STEPS.INFO);
+        setLoading(false);
+        return;
       }
       if (!diditRes.ok) throw new Error(diditData.error || 'Could not start passport verification');
 
@@ -205,6 +210,9 @@ export default function PassportSignupPage() {
                   <p className="mt-1 text-slate-400">Your votes carry the <code className="text-emerald-400 text-xs">verified_nz_citizen</code> tier — the highest trust level on Fair Say.</p>
                 </div>
               </div>
+              <p className="text-xs text-slate-500">
+                🎫 The first 500 passport verifications each month are free. Once that&apos;s used up, verification reopens the following month.
+              </p>
             </div>
 
             <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-xs text-amber-200 leading-relaxed">
@@ -213,13 +221,36 @@ export default function PassportSignupPage() {
 
             {error && <p className="text-sm text-red-400">{error}</p>}
 
-            <button
-              onClick={handleBegin}
-              disabled={loading}
-              className="w-full rounded-lg bg-emerald-600 px-4 py-3 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-60"
-            >
-              {loading ? 'Starting…' : 'Begin passport verification →'}
-            </button>
+            {quotaHitDate ? (
+              <div className="rounded-lg border border-amber-500/25 bg-amber-500/8 px-4 py-4 text-center">
+                <p className="text-sm font-semibold text-amber-300">🗓️ Monthly quota reached</p>
+                <p className="mt-2 text-xs text-slate-400 leading-relaxed text-left">
+                  This is a non-profit project, and we&apos;ve chosen a 500 free-verification limit each month to keep costs manageable.
+                  If you&apos;d like to get verified before the next reset on <span className="text-white font-medium">{quotaHitDate}</span>, you can contact us and arrange to pay a small fee to cover the cost of your verification.
+                </p>
+                <button
+                  type="button"
+                  onClick={() =>
+                    window.dispatchEvent(
+                      new CustomEvent('fairsay:open-suggest', {
+                        detail: { message: "I'd like to get NZ Passport verified before the monthly free quota resets — I'm happy to pay a small fee to cover the cost." },
+                      })
+                    )
+                  }
+                  className="mt-3 rounded-lg border border-amber-500/30 px-4 py-2 text-xs font-medium text-amber-200 hover:bg-amber-500/10"
+                >
+                  Contact us to verify sooner →
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={handleBegin}
+                disabled={loading}
+                className="w-full rounded-lg bg-emerald-600 px-4 py-3 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-60"
+              >
+                {loading ? 'Starting…' : 'Begin passport verification →'}
+              </button>
+            )}
 
             <p className="text-center text-xs text-slate-500">
               Prefer email?{' '}
