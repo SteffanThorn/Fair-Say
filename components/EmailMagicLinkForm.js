@@ -71,7 +71,7 @@ export default function EmailMagicLinkForm({ onSuccess }) {
     setError('');
 
     if (otp.length < 6) {
-      setError('Enter the 6-digit code from your email.');
+      setError('Enter the verification code from your email.');
       return;
     }
 
@@ -206,7 +206,7 @@ export default function EmailMagicLinkForm({ onSuccess }) {
         <form onSubmit={handleVerifyOtp} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-white mb-1">
-              6-digit code
+              Verification code
             </label>
             <p className="text-xs text-slate-400 mb-2">
               Sent to <span className="text-slate-200">{email}</span>
@@ -214,8 +214,8 @@ export default function EmailMagicLinkForm({ onSuccess }) {
             <input
               type="text"
               inputMode="numeric"
-              maxLength={6}
-              placeholder="123456"
+              maxLength={10}
+              placeholder="Enter code"
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
               className="w-full rounded-lg border border-white/10 bg-slate-950/60 px-4 py-2.5 text-sm text-white tracking-widest outline-none focus:border-emerald-500/50"

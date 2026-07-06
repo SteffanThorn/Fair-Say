@@ -1,0 +1,50 @@
+<!--
+  Supabase Auth → Authentication → Templates → "Reauthentication"
+  Subject line to set: Your Fair Say NZ verification code
+  Paste everything below into the Body (Source) field.
+
+  Note: reauthentication is code-only by design (no confirmation link) —
+  it's used to re-verify identity for a sensitive in-session action, so
+  there's no page for a link to redirect to.
+-->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f2f4f1; padding:32px 16px; font-family:Arial,Helvetica,sans-serif;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px; width:100%; background-color:#ffffff; border:1px solid #e2e4de; border-radius:12px; overflow:hidden;">
+        <tr>
+          <td style="background-color:#080f1e; padding:18px 32px;">
+            <span style="color:#34d399; font-size:12px; font-weight:bold; letter-spacing:2.5px; text-transform:uppercase; font-family:Arial,Helvetica,sans-serif;">Fair Say NZ</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:36px 32px 28px;">
+            <h1 style="margin:0 0 12px; font-size:20px; line-height:1.35; color:#0b0b0b; font-family:Arial,Helvetica,sans-serif;">Confirm it's you</h1>
+            <p style="margin:0 0 26px; font-size:14px; line-height:1.6; color:#52514e; font-family:Arial,Helvetica,sans-serif;">
+              Enter this code to confirm your identity and continue.
+            </p>
+
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 4px;">
+              <tr>
+                <td align="center" style="background-color:#f2f4f1; border:1px solid #e2e4de; border-radius:8px; padding:18px 12px;">
+                  <span style="font-family:'Courier New',Courier,monospace; font-size:30px; font-weight:bold; letter-spacing:9px; color:#080f1e;">{{ .Token }}</span>
+                </td>
+              </tr>
+            </table>
+
+            <p style="margin:26px 0 0; font-size:12px; line-height:1.6; color:#898781; font-family:Arial,Helvetica,sans-serif;">
+              This code expires shortly. If you didn't request this, you can safely ignore this email.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:16px 32px; border-top:1px solid #e2e4de;">
+            <p style="margin:0; font-size:11px; line-height:1.6; color:#898781; font-family:Arial,Helvetica,sans-serif;">
+              Fair Say NZ — anonymous, verified civic polling for New Zealand.<br />
+              <a href="https://fairsay.co.nz/privacy" style="color:#898781;">Privacy policy</a>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
