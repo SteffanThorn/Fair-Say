@@ -439,7 +439,7 @@ export default function PollsPage() {
         <div className="card rounded-2xl p-6 flex flex-col">
           <div className="mb-4 text-3xl">📧</div>
           <h2 className="text-lg font-bold text-white">Email</h2>
-          <p className="mt-0.5 text-sm text-slate-400">for a weak say</p>
+          <p className="mt-0.5 text-sm text-slate-400">for a fair say</p>
           <p className="mt-3 flex-1 text-xs leading-relaxed text-slate-500">
             Quick to set up with just an email address. Your vote is counted in community results. Anyone can participate.
           </p>
@@ -456,8 +456,8 @@ export default function PollsPage() {
         {/* ID Proof – strong say */}
         <div className="card rounded-2xl border-emerald-500/20 p-6 flex flex-col" style={{background:'rgba(16,185,129,0.04)'}}>
           <div className="mb-4 text-3xl">🪪</div>
-          <h2 className="text-lg font-bold text-white">ID Proof</h2>
-          <p className="mt-0.5 text-sm text-emerald-300">for a strong say</p>
+          <h2 className="text-lg font-bold text-white">NZ Citizen</h2>
+          <p className="mt-0.5 text-sm text-emerald-300">for a citizen say</p>
           <p className="mt-3 flex-1 text-xs leading-relaxed text-slate-500">
             Verify your NZ identity to give your vote stronger weight. Results can be filtered to show verified citizens only — so your voice counts as distinctly Kiwi.
           </p>
