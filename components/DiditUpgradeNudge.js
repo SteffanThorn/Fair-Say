@@ -23,8 +23,8 @@ export default function DiditUpgradeNudge({ onDismiss }) {
           🇳🇿 Want your vote counted in the Kiwis-only view?
         </p>
         <p className="mt-1 text-xs text-slate-400 leading-relaxed">
-          Verify your NZ passport to have your responses included in the Verified NZ Citizens filter — so your voice counts as distinctly Kiwi.
-          Verification is optional, one-time, and $2 NZD at cost. Your anonymity is unchanged either way.
+          Verify your NZ passport to have your responses included in the Verified NZ Citizens filter.
+          Verification is optional, one-time, and free (limited to 500 people/month). Your voice remains private and anonymous.
         </p>
       </div>
       <div className="flex items-center gap-2 shrink-0">
