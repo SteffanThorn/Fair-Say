@@ -17,11 +17,9 @@ const PARLIAMENTARY = [
 ];
 
 const OUTSIDE_PARLIAMENT = [
-  { id: 'mana',     name: 'Mana Movement',           short: 'MANA', color: '#7c3aed', href: '/parties/mana'           },
   { id: 'top',      name: 'The Opportunity Party',   short: 'TOP',  color: '#0891b2', href: '/parties/top'            },
-  { id: 'nc',       name: 'New Conservative',        short: 'NC',   color: '#4f46e5', href: '/parties/new-conservative' },
+  { id: 'nc',       name: 'Conservative Party NZ',   short: 'CPNZ', color: '#4f46e5', href: '/parties/new-conservative' },
   { id: 'alcp',     name: 'ALCP',                    short: 'ALCP', color: '#15803d', href: '/parties/alcp'           },
-  { id: 'dnz',      name: 'Democracy NZ',            short: 'DNZ',  color: '#0369a1', href: '/parties/democracy-nz'   },
 ];
 
 // ─── Topic definitions ────────────────────────────────────────────────────────
@@ -67,20 +65,14 @@ const POLICIES = {
     nzfirst: {
       summary:
         "Supports building more homes in regions, not just major cities. Wants to restrict foreign ownership of residential property and prioritise housing for New Zealand citizens and permanent residents. Has supported the government's fast-track consenting approach.",
-      source: 'https://www.nzfirst.org.nz/housing',
-      sourceLabel: 'NZ First housing policy',
+      source: 'https://www.nzfirst.nz/policy',
+      sourceLabel: 'NZ First policy platform',
     },
     tpm: {
       summary:
         'Focuses on the Māori housing crisis — an estimated 30,000+ Māori households need homes. Supports papakāinga housing (communal Māori land housing), hapū-led housing developments, and Treaty-based housing funding. Opposed Kāinga Ora cuts, which disproportionately affect Māori.',
       source: 'https://www.maoriparty.org.nz/housing',
       sourceLabel: 'Te Pāti Māori housing policy',
-    },
-    mana: {
-      summary:
-        'Supports a large-scale social housing programme to end homelessness. Wants immediate rent freezes, a cap on rents, and investment in papakāinga housing for Māori. Views the housing crisis as a consequence of the commodification of homes and opposes property speculation.',
-      source: 'https://www.mana.net.nz',
-      sourceLabel: 'Mana Movement policy statements',
     },
     top: {
       summary:
@@ -90,21 +82,15 @@ const POLICIES = {
     },
     nc: {
       summary:
-        "New Conservative supports market-led housing supply through deregulation and reducing red tape for builders. Opposes government-owned housing as a long-term solution, preferring private ownership. Wants to remove council planning restrictions that inflate land costs.",
-      source: 'https://www.newconservative.nz',
-      sourceLabel: 'New Conservative policy',
+        "Conservative Party NZ supports market-led housing supply through deregulation and reducing red tape for builders. Opposes government-owned housing as a long-term solution, preferring private ownership. Wants to remove council planning restrictions that inflate land costs.",
+      source: 'https://www.conservatives.nz/',
+      sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
         'Housing is not a primary focus of the ALCP platform. The party notes that legalising and taxing cannabis would generate government revenue that could be directed toward public services including housing.',
       source: 'https://www.alcp.org.nz',
       sourceLabel: 'ALCP platform',
-    },
-    dnz: {
-      summary:
-        'Democracy NZ supports deregulation and market-led housing supply, with binding referendums on major housing policy changes. Opposes large-scale government housing programmes and believes local communities should decide planning rules via referendums rather than central government mandates.',
-      source: 'https://www.democracynz.org.nz',
-      sourceLabel: 'Democracy NZ policy',
     },
   },
 
@@ -136,20 +122,14 @@ const POLICIES = {
     nzfirst: {
       summary:
         'Sceptical of climate change policy that raises costs for farmers and businesses. Secured the repeal of the agricultural emissions pricing scheme as a coalition condition. Supports the offshore oil and gas permit reversal. Takes a cautious approach on international climate commitments.',
-      source: 'https://www.nzfirst.org.nz/environment',
-      sourceLabel: 'NZ First environment policy',
+      source: 'https://www.nzfirst.nz/policy',
+      sourceLabel: 'NZ First policy platform',
     },
     tpm: {
       summary:
         'Frames climate change as a climate justice and indigenous rights issue. Supports an immediate moratorium on new fossil fuel extraction, Te Tiriti-based environmental governance, and reparations for Pacific communities bearing the worst impacts. Advocates 100% renewable energy.',
       source: 'https://www.maoriparty.org.nz/environment',
       sourceLabel: 'Te Pāti Māori environment policy',
-    },
-    mana: {
-      summary:
-        'Supports an immediate moratorium on all new fossil fuel extraction and investment in renewable energy. Frames the climate crisis as disproportionately harming Māori and Pasifika communities, who should lead the response. Opposes corporate polluters and industrial agriculture without accountability.',
-      source: 'https://www.mana.net.nz',
-      sourceLabel: 'Mana Movement policy statements',
     },
     top: {
       summary:
@@ -159,21 +139,15 @@ const POLICIES = {
     },
     nc: {
       summary:
-        "New Conservative is sceptical of climate alarmism and opposes policies that damage the economy or farming sector in the name of climate action. Does not support the Zero Carbon Act's targets as currently legislated. Believes adaptation is more practical than aggressive emissions reduction for a small country.",
-      source: 'https://www.newconservative.nz',
-      sourceLabel: 'New Conservative policy',
+        "Conservative Party NZ is sceptical of climate alarmism and opposes policies that damage the economy or farming sector in the name of climate action. Does not support the Zero Carbon Act's targets as currently legislated. Believes adaptation is more practical than aggressive emissions reduction for a small country.",
+      source: 'https://www.conservatives.nz/',
+      sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
         'Cannabis cultivation and hemp farming are highlighted as sustainable land uses. The ALCP notes that industrial hemp absorbs CO₂ and can replace high-emission materials like plastics and textiles. Climate policy is not a primary focus beyond this.',
       source: 'https://www.alcp.org.nz',
       sourceLabel: 'ALCP platform',
-    },
-    dnz: {
-      summary:
-        'Democracy NZ believes major climate commitments — such as the Zero Carbon Act targets or ETS settings — should be subject to binding referendums before being imposed on the economy. Opposes policies that raise costs for farmers or small businesses without public consent.',
-      source: 'https://www.democracynz.org.nz',
-      sourceLabel: 'Democracy NZ policy',
     },
   },
 
@@ -205,20 +179,14 @@ const POLICIES = {
     nzfirst: {
       summary:
         'Focuses on rural health access — clinics, ambulance services and GP access in provincial areas. Supported free prescriptions and has raised concerns about health service cuts in smaller communities. Pushed for action on nurse and doctor shortages in regional NZ.',
-      source: 'https://www.nzfirst.org.nz/health',
-      sourceLabel: 'NZ First health policy',
+      source: 'https://www.nzfirst.nz/policy',
+      sourceLabel: 'NZ First policy platform',
     },
     tpm: {
       summary:
         'Strongly opposed abolition of the Māori Health Authority, designed to close health outcome gaps between Māori and non-Māori. Supports kaupapa Māori health services and Treaty-based health funding. Advocates for holistic Māori wellbeing (hauora) approaches and te reo Māori access to healthcare.',
       source: 'https://www.maoriparty.org.nz/health',
       sourceLabel: 'Te Pāti Māori health policy',
-    },
-    mana: {
-      summary:
-        'Supports fully free universal healthcare for all New Zealanders, with particular focus on eliminating Māori and Pasifika health disparities. Opposes any privatisation of health services. Wants mental health treated as a core part of the public health system, with adequate resourcing.',
-      source: 'https://www.mana.net.nz',
-      sourceLabel: 'Mana Movement policy statements',
     },
     top: {
       summary:
@@ -228,9 +196,9 @@ const POLICIES = {
     },
     nc: {
       summary:
-        "New Conservative holds socially conservative health positions — opposes euthanasia (End of Life Choice Act), opposes gender-affirming care for minors, and supports parental rights in children's healthcare decisions. Supports a well-funded but lean public health system. Opposes mandatory vaccination.",
-      source: 'https://www.newconservative.nz',
-      sourceLabel: 'New Conservative policy',
+        "Conservative Party NZ holds socially conservative health positions — opposes euthanasia (End of Life Choice Act), opposes gender-affirming care for minors, and supports parental rights in children's healthcare decisions. Supports a well-funded but lean public health system. Opposes mandatory vaccination.",
+      source: 'https://www.conservatives.nz/',
+      sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
@@ -238,80 +206,62 @@ const POLICIES = {
       source: 'https://www.alcp.org.nz',
       sourceLabel: 'ALCP platform',
     },
-    dnz: {
-      summary:
-        'Democracy NZ supports binding referendums on major health policy decisions, including end-of-life legislation and public health mandates. Opposed COVID-19 vaccine mandates. Believes healthcare decisions should reflect the will of the public, not technocratic or political elites.',
-      source: 'https://www.democracynz.org.nz',
-      sourceLabel: 'Democracy NZ policy',
-    },
   },
 
   economy: {
     national: {
       summary:
-        'Delivered income tax cuts in May 2024 (adjusted bracket thresholds) and cut government spending to return to surplus by 2026/27. Reduced public sector headcount. Supports pro-business regulatory reform and fiscal responsibility.',
-      source: 'https://www.national.org.nz/our-policies/economy',
-      sourceLabel: 'National economic policy',
+        'Budget 2026 (28 May) confirmed a return to OBEGALx surplus in 2028/29 — around two years later than earlier forecasts — while cutting core Crown headcount from roughly 63,700 toward a 55,000 FTE target by 2029, alongside further departmental operating cuts. The May 2024 income tax bracket adjustments remain in place, but Budget 2026 introduced no further broad income tax cuts, instead raising a small new levy on banks and insurers. Continues to support pro-business regulatory reform and fiscal responsibility.',
+      source: 'https://www.national.org.nz/policies/fiscal-plan',
+      sourceLabel: 'National fiscal plan (Budget 2026)',
     },
     labour: {
       summary:
-        "Opposes National's spending cuts, arguing they are harming public services. Supports a fairer tax system, a potential capital gains tax, and protecting workers' rights. Wants to raise the minimum wage and restore collective bargaining protections.",
-      source: 'https://www.labour.org.nz/economy',
-      sourceLabel: 'Labour economic policy',
+        'Confirmed a specific capital gains tax policy on 28 October 2025: a flat 28% on gains from residential-investment and commercial property (from 1 July 2027), exempting the family home, farms, KiwiSaver, shares, business assets and inheritances. The roughly $700 million a year raised is earmarked to fund three free GP visits a year for every New Zealander — described by Labour as the only tax policy it will campaign on in 2026. Also proposes a "NZ Future Fund" directing Crown-asset dividends into New Zealand businesses and jobs.',
+      source: 'https://www.labour.org.nz/news/release-targeted-tax-to-grow-the-economy-and-fund-free-doctor-s-visits/',
+      sourceLabel: 'Labour — capital gains tax announcement',
     },
     greens: {
       summary:
-        'Proposes a Wealth Tax of 2.5% annually on net assets above $2 million, estimated to raise $10–14 billion per year. Advocates a top income tax rate of 45% on incomes above $180,000. Wants to invest the revenue in housing, health and climate transition.',
-      source: 'https://www.greens.org.nz/policies/economy',
-      sourceLabel: 'Green Party economy policy (2024 update)',
+        "The Greens' 21 June 2026 tax plan raises the wealth tax threshold from $2 million to $10 million in net assets (rate unchanged at 2.5%), now projected to raise about $3.8–4.1 billion a year — a deliberate scale-back from earlier, larger estimates. Adds a tax-free income threshold up to about $10,000 and a 45% top rate, plus a 33% inheritance tax above $1 million, a 33% corporate tax rate for large companies, a bank-liability levy and a tax on offshore big-tech profits — a roughly $32 billion package in total, branded as taxing 'the cost of greed.'",
+      source: 'https://www.greens.org.nz/greens_commit_to_tax_the_super_rich_and_large_corporates_fairly_cut_income_tax_for_96',
+      sourceLabel: 'Green Party — tax the super-rich policy (Jun 2026)',
     },
     act: {
       summary:
-        'Proposes a flat 17.5% income tax for all earners, with ~$14 billion in spending cuts to fund the reduction. Wants to significantly shrink the public sector, remove minimum wage increases, and eliminate much of the regulatory state. Believes lower taxes drive economic growth.',
+        'Proposes a two-rate income tax system — 17.5% on income under $70,000 and 28% above it — aligning personal, trust and company tax rates, rather than a single flat rate for all earners. As a party of government since late 2023, ACT also points to savings already delivered, including roughly $7.5 billion from "mini-Budget" cuts and further savings from spending reviews and pay-equity changes. Continues to support a smaller public sector, deregulation and lower overall spending.',
       source: 'https://www.act.org.nz/economy',
       sourceLabel: 'ACT economic policy',
     },
     nzfirst: {
       summary:
-        'Supports NZ manufacturing and domestic industry — wants government to "buy NZ made." Opposes asset sales of strategic infrastructure. Wants to protect superannuation and not raise the eligibility age. Supports regional economic development spending.',
-      source: 'https://www.nzfirst.org.nz/economy',
-      sourceLabel: 'NZ First economic policy',
+        'Supports NZ manufacturing and domestic industry — wants government to "buy NZ made." Opposes asset sales of strategic infrastructure, including Kiwibank and Air New Zealand, backed by a proposed "National Interest Test." Wants to protect superannuation and not raise the eligibility age — reaffirmed as a top priority in 2026. Supports regional economic development spending.',
+      source: 'https://www.nzfirst.nz/policy',
+      sourceLabel: 'NZ First policy platform',
     },
     tpm: {
       summary:
-        'Advocates for economic justice and redistribution — a living wage, universal basic income trials, and ending child poverty. Wants Māori economic development backed by Treaty rights and asset returns. Supports a wealth tax and capital gains tax.',
-      source: 'https://www.maoriparty.org.nz/economy',
-      sourceLabel: 'Te Pāti Māori economic policy',
-    },
-    mana: {
-      summary:
-        "Strongly redistributive economic platform — wants a wealth tax, an end to corporate tax avoidance, a living wage for all workers, and a universal basic income. Advocates nationalisng key infrastructure and ending privatisation. Views poverty as a political choice, not an economic inevitability.",
-      source: 'https://www.mana.net.nz',
-      sourceLabel: 'Mana Movement policy statements',
+        'Advocates a tiered wealth tax (2% over $2 million, 4% over $5 million, 8% over $10 million in net assets, projected to raise about $23 billion), new income tax brackets from 0% up to 48% on income over $300,000, restoring the company tax rate to 33%, a capital gains tax on property excluding the family home, and removing GST from food. Committed in November 2025 to an immediate rise in the minimum wage to $25 an hour with automatic annual increases. Wants Māori economic development backed by Treaty rights and asset returns.',
+      source: 'https://www.maoriparty.org.nz/policy',
+      sourceLabel: 'Te Pāti Māori policy platform',
     },
     top: {
       summary:
-        "The Opportunity Party's signature economic policy is a 'Tax Reset' — likely centred on land value taxation as an alternative or supplement to income tax, to improve productivity and reduce inequality. Supports investment in innovation, clean tech and a Citizens' Voice mechanism for economic decisions.",
-      source: 'https://www.opportunity.org.nz',
-      sourceLabel: 'The Opportunity Party platform',
+        "The Opportunity Party's \"Tax Reset\" is a three-part policy: a land value tax (1.75% a year on urban land, 0.5% on rural land), a Citizen's Income of about $370 a week for adults 18+ replacing Jobseeker, Student Allowance and Sole Parent Support, and a compulsory \"KiwiSaver 2.0\" with contributions rising to 6% each from employer and employee. Also proposes simplifying income tax to three brackets and a \"Citizens' Voice\" — citizen assemblies the size of Parliament, overseen by an independent Commissioner, to advise on major economic decisions.",
+      source: 'https://www.opportunity.org.nz/tax-reset',
+      sourceLabel: 'Opportunity — Tax Reset policy',
     },
     nc: {
       summary:
-        'New Conservative supports low flat taxes, free enterprise, and significant reductions in government spending. Opposes wealth taxes and capital gains taxes. Believes economic freedom and personal responsibility — not government intervention — create prosperity.',
-      source: 'https://www.newconservative.nz',
-      sourceLabel: 'New Conservative policy',
+        'Now standing as Conservative Party NZ (renamed from New Conservative, January 2026), it continues to support a flat tax rate for individuals and companies aligned to the top personal rate, alongside a proposed cut to GST down to 12.5%. Wants significant reductions in government spending and opposes wealth taxes and capital gains taxes, arguing economic freedom and personal responsibility — not government intervention — create prosperity.',
+      source: 'https://www.conservatives.nz/',
+      sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
         'Argues cannabis legalisation would create a significant new tax revenue stream, reduce policing and incarceration costs, and generate jobs in a regulated cannabis industry. Broader economic policy is not a focus of the party.',
       source: 'https://www.alcp.org.nz',
       sourceLabel: 'ALCP platform',
-    },
-    dnz: {
-      summary:
-        'Democracy NZ supports reduced government spending, lower taxes, and binding referendums on major fiscal decisions (such as raising debt ceilings or new taxes). Opposes wealth taxes. Believes voters, not politicians, should approve major economic policy changes.',
-      source: 'https://www.democracynz.org.nz',
-      sourceLabel: 'Democracy NZ policy',
     },
   },
 
@@ -343,20 +293,14 @@ const POLICIES = {
     nzfirst: {
       summary:
         'Opposes co-governance and Treaty-based governance of public services. Wants a referendum on abolishing the seven Māori electorates. Secured the repeal of He Puapua as a coalition condition. Supports a "one law for all" approach.',
-      source: 'https://www.nzfirst.org.nz/treaty',
-      sourceLabel: 'NZ First Treaty policy',
+      source: 'https://www.nzfirst.nz/policy',
+      sourceLabel: 'NZ First policy platform',
     },
     tpm: {
       summary:
         'Built on tino rangatiratanga — full Māori self-determination under Te Tiriti. Wants the Treaty to be the constitutional foundation of Aotearoa NZ, with Māori having equal authority with the Crown. Supports expanding Māori electorates. Strongly opposed any moves to diminish Treaty rights.',
       source: 'https://www.maoriparty.org.nz/treaty',
       sourceLabel: 'Te Pāti Māori Treaty policy',
-    },
-    mana: {
-      summary:
-        'Holds the most expansive Treaty position — Māori sovereignty (tino rangatiratanga) as supreme, with the Crown fulfilling its Treaty obligations in full. Supports abolition of the current constitutional arrangement in favour of a Treaty-based constitution. Opposes any reduction of Māori rights.',
-      source: 'https://www.mana.net.nz',
-      sourceLabel: 'Mana Movement policy statements',
     },
     top: {
       summary:
@@ -366,21 +310,15 @@ const POLICIES = {
     },
     nc: {
       summary:
-        "New Conservative supports 'one law for all' — opposing Treaty-based co-governance, Treaty clauses in legislation, and separate Māori electorates. Believes Treaty settlement processes should be concluded and the country move to a single constitutional framework that treats all citizens equally.",
-      source: 'https://www.newconservative.nz',
-      sourceLabel: 'New Conservative policy',
+        "Conservative Party NZ supports 'one law for all' — opposing Treaty-based co-governance, Treaty clauses in legislation, and separate Māori electorates. Believes Treaty settlement processes should be concluded and the country move to a single constitutional framework that treats all citizens equally.",
+      source: 'https://www.conservatives.nz/',
+      sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
         "The ALCP notes that Māori are disproportionately criminalised under current cannabis laws, making drug law reform a Treaty justice issue. The party supports removing that inequity. Broader Treaty policy positions are not a stated focus of the party's platform.",
       source: 'https://www.alcp.org.nz',
       sourceLabel: 'ALCP platform',
-    },
-    dnz: {
-      summary:
-        "Democracy NZ opposes Treaty-based co-governance and wants a binding referendum on the Treaty Principles. Like NZ First, advocates 'one law for all' and the abolition of Māori electorates via referendum. Argues major constitutional changes related to the Treaty should require public approval.",
-      source: 'https://www.democracynz.org.nz',
-      sourceLabel: 'Democracy NZ policy',
     },
   },
 
@@ -412,20 +350,14 @@ const POLICIES = {
     nzfirst: {
       summary:
         'Calls for strict immigration controls and significant reductions in overall numbers. Prioritises NZ citizens and permanent residents for jobs. Opposes fast-track work visas in sectors where NZers could be trained. Wants tighter checks on student visa abuse.',
-      source: 'https://www.nzfirst.org.nz/immigration',
-      sourceLabel: 'NZ First immigration policy',
+      source: 'https://www.nzfirst.nz/policy',
+      sourceLabel: 'NZ First policy platform',
     },
     tpm: {
       summary:
         'Takes a humanitarian approach — supports a robust refugee intake, family reunification, and an end to immigration detention. Wants recognition of Pacific peoples\' special relationship with NZ and simpler pathways for Pacific immigrants. Opposes exploitation of migrant workers.',
       source: 'https://www.maoriparty.org.nz/immigration',
       sourceLabel: 'Te Pāti Māori immigration policy',
-    },
-    mana: {
-      summary:
-        'Supports a humane immigration system with strong humanitarian and refugee intake, particularly for Pacific communities. Opposes immigration detention. Wants immigration policy to reflect NZ\'s Pacific identity and obligations. Focuses on exploitation of migrant workers in primary industries.',
-      source: 'https://www.mana.net.nz',
-      sourceLabel: 'Mana Movement policy statements',
     },
     top: {
       summary:
@@ -435,21 +367,15 @@ const POLICIES = {
     },
     nc: {
       summary:
-        'New Conservative supports strict immigration controls, prioritising people who hold compatible values with NZ society as well as economic skills. Wants reduced overall immigration numbers, stronger enforcement of visa conditions, and faster deportation of those who breach them.',
-      source: 'https://www.newconservative.nz',
-      sourceLabel: 'New Conservative policy',
+        'Conservative Party NZ supports strict immigration controls, prioritising people who hold compatible values with NZ society as well as economic skills. Wants reduced overall immigration numbers, stronger enforcement of visa conditions, and faster deportation of those who breach them.',
+      source: 'https://www.conservatives.nz/',
+      sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
         'Immigration is not a focus of the ALCP platform. The party is primarily single-issue (cannabis legalisation) and does not publish detailed immigration policy positions.',
       source: 'https://www.alcp.org.nz',
       sourceLabel: 'ALCP platform',
-    },
-    dnz: {
-      summary:
-        'Democracy NZ calls for tighter immigration controls and wants major changes to immigration settings to require a binding referendum. Prioritises New Zealanders for jobs and housing. Opposes importing workers to fill roles that NZers could fill with training.',
-      source: 'https://www.democracynz.org.nz',
-      sourceLabel: 'Democracy NZ policy',
     },
   },
 
@@ -481,20 +407,14 @@ const POLICIES = {
     nzfirst: {
       summary:
         'Supports rural and regional school investment. Has backed the structured literacy approach and reduced curriculum overload. Wants tertiary vocational training expanded — particularly trades and technical skills. Generally supportive of the current government\'s education direction.',
-      source: 'https://www.nzfirst.org.nz/education',
-      sourceLabel: 'NZ First education policy',
+      source: 'https://www.nzfirst.nz/policy',
+      sourceLabel: 'NZ First policy platform',
     },
     tpm: {
       summary:
         'Prioritises te reo Māori immersion education — wants full government funding for kura kaupapa Māori and wharekura from early childhood through secondary. Supports free tertiary education and student loan cancellation. Wants the NZ history curriculum retained and strengthened. Opposes charter schools.',
       source: 'https://www.maoriparty.org.nz/education',
       sourceLabel: 'Te Pāti Māori education policy',
-    },
-    mana: {
-      summary:
-        'Supports free education at all levels, from early childhood through tertiary. Strongly advocates for te reo Māori immersion education and kura kaupapa. Wants student loan debt cancelled. Opposes charter schools. Emphasises education as a right, not a commodity.',
-      source: 'https://www.mana.net.nz',
-      sourceLabel: 'Mana Movement policy statements',
     },
     top: {
       summary:
@@ -504,21 +424,15 @@ const POLICIES = {
     },
     nc: {
       summary:
-        'New Conservative strongly supports parental rights in education — including the right to withdraw children from content parents object to on religious or values grounds. Opposes gender ideology being taught in schools. Supports traditional curricula, phonics, and structured numeracy. Backs school choice.',
-      source: 'https://www.newconservative.nz',
-      sourceLabel: 'New Conservative policy',
+        'Conservative Party NZ strongly supports parental rights in education — including the right to withdraw children from content parents object to on religious or values grounds. Opposes gender ideology being taught in schools. Supports traditional curricula, phonics, and structured numeracy. Backs school choice.',
+      source: 'https://www.conservatives.nz/',
+      sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
         'The ALCP supports evidence-based drug and harm-reduction education in schools — replacing "just say no" approaches with factual information about drug risks. Broader education policy is not a focus of the party platform.',
       source: 'https://www.alcp.org.nz',
       sourceLabel: 'ALCP platform',
-    },
-    dnz: {
-      summary:
-        'Democracy NZ supports parental rights in education and wants controversial curriculum changes (such as gender-related content or revised history) to be subject to community consultation or referendums. Supports a return to core literacy and numeracy skills and school choice.',
-      source: 'https://www.democracynz.org.nz',
-      sourceLabel: 'Democracy NZ policy',
     },
   },
 };
@@ -609,7 +523,7 @@ export default function PoliciesPage() {
         <h1 className="mt-2 text-3xl font-bold text-white sm:text-4xl">Party Policies Compared</h1>
         <p className="mt-3 max-w-3xl text-sm text-slate-300 leading-relaxed">
           Plain-English summaries of where each party stands on the issues that matter —
-          side by side, with source links. No spin, no editorial slant. All 11 parties on the site included.
+          side by side, with source links. No spin, no editorial slant. All 9 parties on the site included.
         </p>
       </header>
 
@@ -649,12 +563,16 @@ export default function PoliciesPage() {
       {/* Footer note */}
       <div className="mt-16 rounded-2xl border border-blue-500/20 bg-blue-500/5 px-6 py-5">
         <p className="text-xs text-blue-200 leading-relaxed">
-          <strong>Sources &amp; currency:</strong> Policy summaries reflect each party&apos;s position as of
-          mid-2025 based on official party websites and parliamentary voting records. The Green Party updated
-          several key policies in 2024 under Chlöe Swarbrick&apos;s leadership — including the wealth tax
-          threshold, rent controls, and the 2035 net-zero target. Outside-Parliament parties (Mana, TOP, New
-          Conservative, ALCP, Democracy NZ) publish varying levels of policy detail — where limited, this is noted
-          in the summary. Always cross-check with the party&apos;s own website before forming a view.
+          <strong>Sources &amp; currency:</strong> Economy &amp; Tax summaries were re-checked in July 2026 against
+          each party&apos;s current policy and 2025–2026 reporting, and updated accordingly — including Labour&apos;s
+          capital gains tax, the Green Party&apos;s revised wealth-tax threshold and new tax measures, National&apos;s
+          Budget 2026 fiscal targets, ACT&apos;s actual two-rate tax structure, and Te Pāti Māori&apos;s specific tax
+          and wage figures. The other topics (Housing, Climate, Health, Treaty, Immigration, Education) still reflect
+          each party&apos;s position as of mid-2025 and have not yet been re-verified for the 2026 election cycle.
+          Mana Movement and Democracy NZ have been removed from these comparisons after deregistering with the
+          Electoral Commission in 2021 and 2024 respectively. New Conservative is now Conservative Party NZ, renamed
+          January 2026. Outside-Parliament parties publish varying levels of policy detail — where limited, this is
+          noted in the summary. Always cross-check with the party&apos;s own website before forming a view.
         </p>
       </div>
     </main>
