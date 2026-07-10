@@ -4,6 +4,11 @@ export const metadata = {
   title: 'Party Policies Compared',
   description:
     'NZ party policies on housing, climate, health, economy, Treaty, immigration and education — in plain English, side by side, no spin.',
+  openGraph: {
+    title: 'Party Policies Compared | Fair Say NZ',
+    description:
+      'NZ party policies on housing, climate, health, economy, Treaty, immigration and education — in plain English, side by side, no spin.',
+  },
 };
 
 // ─── All parties on the site ──────────────────────────────────────────────────

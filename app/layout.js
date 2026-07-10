@@ -6,6 +6,7 @@ import SuggestButton from '@/components/SuggestButton';
 import TutorialModal from '@/components/TutorialModal';
 
 export const metadata = {
+  metadataBase: new URL('https://fairsay.co.nz'),
   title: {
     default: 'Fair Say NZ — Everyone gets a fair say.',
     template: '%s | Fair Say NZ',
@@ -27,6 +28,9 @@ export const metadata = {
     description: 'Fair Say NZ: 100% neutral, NZ-focused civic platform. News, party info, MP contacts, polls and real ways to have your say.',
     locale: 'en_NZ',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
   },
 };
 
