@@ -25,18 +25,29 @@ function Tooltip({ text }) {
 
   return (
     <span className="relative inline-flex items-center">
-      <button
-        type="button"
+      <span
+        role="button"
+        tabIndex={0}
         aria-label="More information"
         onMouseEnter={() => setVisible(true)}
         onMouseLeave={() => setVisible(false)}
         onFocus={() => setVisible(true)}
         onBlur={() => setVisible(false)}
-        onClick={() => setVisible((v) => !v)}
-        className="ml-1 text-slate-500 hover:text-slate-300 transition-colors text-xs leading-none"
+        onClick={(e) => {
+          e.stopPropagation();
+          setVisible((v) => !v);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            e.stopPropagation();
+            setVisible((v) => !v);
+          }
+        }}
+        className="ml-1 text-slate-500 hover:text-slate-300 transition-colors text-xs leading-none cursor-pointer"
       >
         ⓘ
-      </button>
+      </span>
       {visible && (
         <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-20 w-60 rounded-lg border border-white/10 bg-[#0d1a2d] px-3 py-2.5 text-xs text-slate-300 leading-relaxed shadow-xl pointer-events-none">
           {text}
