@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { POLLS } from '@/lib/polls';
 import PollResultsFilter from '@/components/PollResultsFilter';
 import DiditUpgradeNudge from '@/components/DiditUpgradeNudge';
+import { getGuestItem, setGuestItem } from '@/lib/guestStorage';
 
 const BADGE_LABELS = {
   nz_civics: '🏛️ Civics',
@@ -50,7 +51,8 @@ function VoteRow({ row, yourId }) {
   );
 }
 
-function PollCard({ poll, credentialTier: filterTier }) {
+function PollCard({ poll, credentialTier: filterTier, isAuthenticated }) {
+  const guestKey = `fairsaynz_guest_vote_${poll.id}`;
   const [voted, setVoted] = useState(null);
   const [yourId, setYourId] = useState(null);
   const [counts, setCounts] = useState(() => Object.fromEntries(poll.options.map((o) => [o.label, 0])));
@@ -87,25 +89,42 @@ function PollCard({ poll, credentialTier: filterTier }) {
   }, [poll.id, filterTier]);
 
   useEffect(() => {
-    fetchResults();
-    const stored = localStorage.getItem(`fairsaynz_voted_${poll.id}`);
-    const storedId = localStorage.getItem(`fairsaynz_yourid_${poll.id}`);
-    if (stored) setVoted(stored);
-    if (storedId) setYourId(storedId);
-  }, [fetchResults, poll.id]);
+    if (isAuthenticated) {
+      fetchResults();
+      const stored = localStorage.getItem(`fairsaynz_voted_${poll.id}`);
+      const storedId = localStorage.getItem(`fairsaynz_yourid_${poll.id}`);
+      if (stored) setVoted(stored);
+      if (storedId) setYourId(storedId);
+    } else {
+      // Guests never see community results, so there's nothing to fetch.
+      const guestVote = getGuestItem(guestKey);
+      if (guestVote) setVoted(guestVote.choice);
+      setLoading(false);
+    }
+  }, [fetchResults, poll.id, isAuthenticated, guestKey]);
 
   // Re-fetch when filter changes, but only if we've already voted (results are visible)
   useEffect(() => {
-    if (voted) {
+    if (voted && isAuthenticated) {
       setLoading(true);
       fetchResults();
     }
-  }, [filterTier, voted, fetchResults]);
+  }, [filterTier, voted, isAuthenticated, fetchResults]);
 
   async function handleVote(label) {
     if (voted || voting) return;
     setVoting(true);
     setError('');
+
+    if (!isAuthenticated) {
+      // Guest preview: never leaves the browser, never counted — just reflect
+      // the choice locally against the community numbers already fetched.
+      setVoted(label);
+      setGuestItem(guestKey, { choice: label });
+      setVoting(false);
+      return;
+    }
+
     try {
       const res = await fetch(`/api/polls/${poll.id}/vote`, {
         method: 'POST',
@@ -169,6 +188,21 @@ function PollCard({ poll, credentialTier: filterTier }) {
               {option.label}
             </button>
           ))}
+        </div>
+      ) : !isAuthenticated ? (
+        <div className="mt-4 space-y-3">
+          <div className="rounded-lg border border-white/8 bg-white/3 px-4 py-2.5 text-sm text-white">
+            <span className="mr-1.5 text-emerald-400">✓</span>
+            Your pick: <strong>{voted}</strong>
+          </div>
+          <p className="text-xs text-slate-500">This preview isn&apos;t saved anywhere and disappears in an hour.</p>
+          <p className="text-sm text-slate-300">
+            Want to publish your votes?{' '}
+            <Link href="/auth" className="font-semibold text-emerald-400 underline hover:text-emerald-300">
+              Sign up
+            </Link>{' '}
+            to have your say and see community results.
+          </p>
         </div>
       ) : suppressed ? null : (
         <>
@@ -240,7 +274,7 @@ function PollCard({ poll, credentialTier: filterTier }) {
       {error ? <p className="mt-3 text-xs text-red-400">{error}</p> : null}
 
       {voted ? (
-        suppressed ? (
+        !isAuthenticated ? null : suppressed ? (
           <p className="mt-4 text-xs text-slate-500 italic">
             Not enough responses in this group to display results.
           </p>
@@ -259,7 +293,8 @@ function PollCard({ poll, credentialTier: filterTier }) {
   );
 }
 
-function RankedPollCard({ poll, credentialTier: filterTier }) {
+function RankedPollCard({ poll, credentialTier: filterTier, isAuthenticated }) {
+  const guestKey = `fairsaynz_guest_rank_${poll.id}`;
   const [ranked, setRanked] = useState(false);
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -279,18 +314,24 @@ function RankedPollCard({ poll, credentialTier: filterTier }) {
   }, [poll.id, filterTier]);
 
   useEffect(() => {
-    const isRanked = localStorage.getItem(`fairsaynz_ranked_${poll.id}`) === 'true';
-    setRanked(isRanked);
-    if (isRanked) fetchResults();
-    else setLoading(false);
-  }, [fetchResults, poll.id]);
+    if (isAuthenticated) {
+      const isRanked = localStorage.getItem(`fairsaynz_ranked_${poll.id}`) === 'true';
+      setRanked(isRanked);
+      if (isRanked) fetchResults();
+      else setLoading(false);
+    } else {
+      // Guests never see community results, so there's nothing to fetch.
+      setRanked(!!getGuestItem(guestKey));
+      setLoading(false);
+    }
+  }, [fetchResults, poll.id, isAuthenticated, guestKey]);
 
   useEffect(() => {
-    if (ranked) {
+    if (ranked && isAuthenticated) {
       setLoading(true);
       fetchResults();
     }
-  }, [filterTier, ranked, fetchResults]);
+  }, [filterTier, ranked, isAuthenticated, fetchResults]);
 
   const badge = TYPE_BADGE.ranked;
   const colorFor = (label) => poll.options.find((o) => o.label === label)?.color ?? '#6b7280';
@@ -319,6 +360,22 @@ function RankedPollCard({ poll, credentialTier: filterTier }) {
             Rank all {poll.options.length} topics →
           </Link>
         </>
+      ) : !isAuthenticated ? (
+        <div className="space-y-3">
+          <p className="text-sm text-slate-300">
+            <span className="mr-1.5 text-emerald-400">✓</span>
+            You ranked this as a guest —{' '}
+            <Link href={`/polls/${poll.id}/rank`} className="underline hover:text-slate-200">review your ranking</Link>.
+          </p>
+          <p className="text-xs text-slate-500">This preview isn&apos;t saved anywhere and disappears in an hour.</p>
+          <p className="text-sm text-slate-300">
+            Want to publish your votes?{' '}
+            <Link href="/auth" className="font-semibold text-emerald-400 underline hover:text-emerald-300">
+              Sign up
+            </Link>{' '}
+            to have your say and see community results.
+          </p>
+        </div>
       ) : results?.suppressed ? (
         <p className="text-xs text-slate-500 italic">Not enough responses in this group to display results.</p>
       ) : results?.leaderboard ? (
@@ -419,7 +476,7 @@ export default function PollsPage() {
         <p className="text-xs uppercase tracking-widest text-emerald-400">Fair Say NZ</p>
         <h1 className="mt-2 text-3xl font-bold text-white sm:text-4xl">Community Polls</h1>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-300">
-          Anonymous civic polls. One vote per account. After voting, you can see individual responses — each identified only by a per-poll anonymous hash, never a name.
+          Anonymous civic polls. Try any poll without an account and see your own results — sign up only when you want your response published and counted. After voting, you can see individual responses — each identified only by a per-poll anonymous hash, never a name.
         </p>
       </header>
 
@@ -484,19 +541,30 @@ export default function PollsPage() {
             </div>
           ))}
         </div>
-      ) : !isAuthenticated ? null : (
+      ) : (
         <>
           <div className="mb-5 flex flex-wrap items-center gap-3 justify-between">
             <div className="flex items-center gap-2">
-              <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-300">
-                Signed in
-              </span>
-              {accountState?.credentialTier === 'verified_nz_citizen' && (
-                <span className="rounded-full bg-blue-500/15 px-2.5 py-0.5 text-xs font-medium text-blue-300">
-                  🪪 Verified NZ Citizen
-                </span>
+              {isAuthenticated ? (
+                <>
+                  <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-300">
+                    Signed in
+                  </span>
+                  {accountState?.credentialTier === 'verified_nz_citizen' && (
+                    <span className="rounded-full bg-blue-500/15 px-2.5 py-0.5 text-xs font-medium text-blue-300">
+                      🪪 Verified NZ Citizen
+                    </span>
+                  )}
+                  <span className="text-xs text-slate-400">Your votes are anonymous and cannot be traced back to you.</span>
+                </>
+              ) : (
+                <>
+                  <span className="rounded-full bg-slate-500/15 px-2.5 py-0.5 text-xs font-medium text-slate-300">
+                    Browsing as guest
+                  </span>
+                  <span className="text-xs text-slate-400">Your answers stay in this browser and aren&apos;t saved.</span>
+                </>
               )}
-              <span className="text-xs text-slate-400">Your votes are anonymous and cannot be traced back to you.</span>
             </div>
             <PollResultsFilter selected={filterTier} onChange={setFilterTier} />
           </div>
@@ -508,9 +576,9 @@ export default function PollsPage() {
           <div className="grid gap-5 lg:grid-cols-2 mt-5">
             {POLLS.map((poll) =>
               poll.type === 'ranked' ? (
-                <RankedPollCard key={poll.id} poll={poll} credentialTier={filterTier} />
+                <RankedPollCard key={poll.id} poll={poll} credentialTier={filterTier} isAuthenticated={isAuthenticated} />
               ) : (
-                <PollCard key={poll.id} poll={poll} credentialTier={filterTier} />
+                <PollCard key={poll.id} poll={poll} credentialTier={filterTier} isAuthenticated={isAuthenticated} />
               )
             )}
           </div>

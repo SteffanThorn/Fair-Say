@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { getPollById } from '@/lib/polls';
 import { createEloState, pickNextPair, recordComparison, getRankingFromState, TOTAL_PAIRS } from '@/lib/ranking';
+import { getGuestItem, setGuestItem } from '@/lib/guestStorage';
 
 function shuffle(arr) {
   const a = [...arr];
@@ -43,13 +44,14 @@ export default function RankPollPage() {
 
   const saveDraft = useCallback(
     (nextMethod, draftState) => {
+      if (status !== 'authenticated') return; // guest progress stays in-memory only
       fetch(`/api/polls/${pollId}/rank/draft`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ method: nextMethod, draftState }),
       }).catch(() => {});
     },
-    [pollId]
+    [pollId, status]
   );
 
   useEffect(() => {
@@ -111,6 +113,19 @@ export default function RankPollPage() {
     return () => {
       cancelled = true;
     };
+  }, [status, poll, pollId]);
+
+  useEffect(() => {
+    if (status !== 'unauthenticated' || !poll) return;
+    const stored = getGuestItem(`fairsaynz_guest_rank_${pollId}`);
+    if (!stored) {
+      setStage('method-choice');
+      return;
+    }
+    // Guests never see community results, so there's nothing to fetch here.
+    setMethod(stored.method);
+    setReviewOrder(stored.ranking);
+    setStage('guest-published');
   }, [status, poll, pollId]);
 
   function chooseMethod(chosen) {
@@ -176,6 +191,16 @@ export default function RankPollPage() {
   async function handlePublish() {
     setPublishing(true);
     setError('');
+
+    if (status !== 'authenticated') {
+      // Guest: keep the ranking local, never call the publish endpoint or
+      // fetch community results — guests only see their own ranking.
+      setGuestItem(`fairsaynz_guest_rank_${pollId}`, { ranking: reviewOrder, method });
+      setStage('guest-published');
+      setPublishing(false);
+      return;
+    }
+
     try {
       const res = await fetch(`/api/polls/${pollId}/rank`, {
         method: 'POST',
@@ -213,18 +238,6 @@ export default function RankPollPage() {
     return (
       <main className="mx-auto max-w-2xl px-4 py-12">
         <div className="h-40 rounded-2xl bg-white/5 animate-pulse" />
-      </main>
-    );
-  }
-
-  if (status !== 'authenticated') {
-    return (
-      <main className="mx-auto max-w-2xl px-4 py-12 text-center">
-        <p className="text-slate-300">Sign in to rank this poll.</p>
-        <div className="mt-4 flex justify-center gap-3">
-          <Link href="/auth" className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500">Create account →</Link>
-          <Link href="/auth" className="rounded-lg border border-white/12 px-4 py-2 text-sm text-slate-300 hover:bg-white/5">Sign in</Link>
-        </div>
       </main>
     );
   }
@@ -400,7 +413,9 @@ export default function RankPollPage() {
               disabled={publishing}
               className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50"
             >
-              {publishing ? 'Publishing…' : 'Publish my ranking'}
+              {status === 'authenticated'
+                ? publishing ? 'Publishing…' : 'Publish my ranking'
+                : publishing ? 'Saving…' : 'See my results'}
             </button>
             <button
               onClick={() => {
@@ -473,6 +488,49 @@ export default function RankPollPage() {
               <p className="mt-3 text-xs text-slate-400">{publishResult.total} ranking{publishResult.total !== 1 ? 's' : ''} published</p>
             </>
           ) : null}
+
+          <Link href="/polls" className="mt-5 inline-block text-sm text-emerald-400 hover:underline">← Back to polls</Link>
+        </div>
+      )}
+
+      {stage === 'guest-published' && (
+        <div className="card rounded-2xl p-6">
+          <p className="mb-2 text-sm text-slate-300">Your ranking:</p>
+          <ol className="mb-5 space-y-1.5">
+            {reviewOrder.map((label, i) => (
+              <li key={label} className="flex items-center gap-3 rounded-lg border border-white/8 px-3 py-2">
+                <span className="w-5 text-right text-xs text-slate-500 tabular-nums">{i + 1}</span>
+                <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: colorFor(label) }} />
+                <span className="flex-1 text-sm text-slate-100">{label}</span>
+              </li>
+            ))}
+          </ol>
+
+          <p className="mb-1 text-xs text-slate-500">This preview isn&apos;t saved anywhere and disappears in an hour.</p>
+          <p className="mb-5 text-sm text-slate-300">
+            Want to publish your votes?{' '}
+            <Link href="/auth" className="font-semibold text-emerald-400 underline hover:text-emerald-300">
+              Sign up
+            </Link>{' '}
+            to have your say and see community results.
+          </p>
+
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={() => {
+                setMethod(null);
+                setEloState(null);
+                setCurrentPair(null);
+                setDirectPool([]);
+                setDirectRanked([]);
+                setReviewOrder([]);
+                setStage('method-choice');
+              }}
+              className="rounded-lg border border-white/12 px-4 py-2 text-sm text-slate-300 hover:bg-white/5"
+            >
+              Start over
+            </button>
+          </div>
 
           <Link href="/polls" className="mt-5 inline-block text-sm text-emerald-400 hover:underline">← Back to polls</Link>
         </div>
