@@ -10,7 +10,6 @@ const EVENTS = [
     date: '2026-10-17',
     title: '2026 NZ General Election',
     category: 'election',
-    status: 'upcoming',
     source: 'Electoral Commission',
     sourceUrl: 'https://elections.nz',
     description:
@@ -21,7 +20,6 @@ const EVENTS = [
     date: '2026-07-01',
     title: 'Close of Rolls — 2026 Election',
     category: 'election',
-    status: 'upcoming',
     source: 'Electoral Commission',
     description:
       'The electoral rolls close around 3 months before election day. Enrol early to ensure your vote counts. You can enrol online in minutes at elections.nz.',
@@ -31,7 +29,6 @@ const EVENTS = [
     date: '2026-05-21',
     title: 'Budget 2026',
     category: 'budget',
-    status: 'upcoming',
     source: 'Treasury / Parliament',
     sourceUrl: 'https://treasury.govt.nz',
     description:
@@ -42,7 +39,6 @@ const EVENTS = [
     date: '2025-10-11',
     title: '2025 Local Elections',
     category: 'election',
-    status: 'past',
     source: 'Electoral Commission',
     description:
       'New Zealanders voted for local mayors, councillors, regional councillors, and community boards across the country. Results determined local leadership for the 2025–2028 term.',
@@ -51,7 +47,6 @@ const EVENTS = [
     date: '2025-05-22',
     title: 'Budget 2025',
     category: 'budget',
-    status: 'past',
     source: 'Treasury',
     description:
       "The government's 2025 budget outlined fiscal priorities including health, infrastructure, and cost-of-living measures. Delivered by Finance Minister Nicola Willis.",
@@ -61,7 +56,6 @@ const EVENTS = [
     date: '2025-02-06',
     title: 'Waitangi Day — Treaty Debates',
     category: 'other',
-    status: 'past',
     source: 'Waitangi Tribunal',
     description:
       "Annual commemorations at Waitangi, with political leaders attending hui and addressing the nation. A focal point for debate on the Treaty of Waitangi principles and the relationship between the Crown and Māori.",
@@ -94,7 +88,7 @@ function formatDate(dateStr) {
 
 function ElectionCountdown() {
   const electionDate = new Date('2026-10-17T00:00:00+13:00');
-  const now = new Date('2026-06-01');
+  const now = new Date();
   const diffMs = electionDate - now;
   const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
   const diffWeeks = Math.floor(diffDays / 7);
@@ -130,10 +124,11 @@ function ElectionCountdown() {
 }
 
 export default function EventsPage() {
-  const upcoming = EVENTS.filter((e) => e.status === 'upcoming').sort(
+  const today = new Date();
+  const upcoming = EVENTS.filter((e) => new Date(e.date) >= today).sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   );
-  const past = EVENTS.filter((e) => e.status === 'past').sort(
+  const past = EVENTS.filter((e) => new Date(e.date) < today).sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
 

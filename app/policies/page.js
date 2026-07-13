@@ -45,56 +45,56 @@ const POLICIES = {
   housing: {
     national: {
       summary:
-        'Passed the Fast-track Approvals Act 2024 to speed up consenting for housing and infrastructure. Reformed the Resource Management Act (RMA) to remove barriers to building. Targets 1.5 million new homes over 30 years via deregulation rather than direct government building.',
-      source: 'https://www.national.org.nz/our-policies/housing',
+        'Passed the Fast-track Approvals Act 2024, which has enabled roughly 55,000 new homes across 44 approved projects. In December 2025 introduced the Planning Bill and Natural Environment Bill to replace the RMA entirely, forcing councils to zone for 30 years of housing demand upfront (new system expected live by 2029). Budget 2026 added a Flexible Fund for up to 770 social/affordable homes and a $400 million council "Incentives for Growth" fund through 2029/30.',
+      source: 'https://www.national.org.nz/policies/housing-growth',
       sourceLabel: 'National housing policy',
     },
     labour: {
       summary:
-        "Opposes the sale of Kāinga Ora (public housing) assets and the reduction of the public housing waitlist fund. Supports renters' rights legislation and warrant-of-fitness standards for rental properties. Wants to reverse cuts to emergency housing funding.",
-      source: 'https://www.labour.org.nz/housing',
-      sourceLabel: 'Labour housing policy',
+        "Would scrap the government's emergency-housing target and reverse its Income-Related Rent Subsidy and Accommodation Supplement changes, arguing they effectively subsidise landlords. Continues to oppose Kāinga Ora asset sales and sits alongside Labour's 28% capital gains tax on investment property (announced 28 October 2025), earmarked mainly to fund free GP visits rather than housing directly.",
+      source: 'https://www.rnz.co.nz/news/politics/642736/labour-pledges-to-scrap-emergency-housing-target-if-it-wins-election',
+      sourceLabel: 'RNZ — Labour housing pledges (2026)',
     },
     greens: {
       summary:
-        "The Green Party's 2024 housing policy calls for 30,000 new public and community homes per year, a rent freeze followed by rent controls tied to inflation, and a Warrant of Fitness for all rental properties. Would fund this through a wealth tax on net assets above $2 million.",
-      source: 'https://www.greens.org.nz/policies/housing',
-      sourceLabel: 'Green Party housing policy',
+        "Launched \"A Home for Everybody\" on 26 March 2026: a Renters' Rights Bill capping rent increases at 2% a year, ending no-cause evictions, and introducing a rental Warrant of Fitness. Also pledges tens of thousands of new public homes, reversing restored landlord interest deductibility, and a \"Home For Life\" rent-to-buy scheme (10,000 homes over 10 years), funded by the party's wealth tax.",
+      source: 'https://www.greens.org.nz/greens_announce_plan_to_end_homelessness_fix_housing_crisis',
+      sourceLabel: 'Green Party — A Home for Everybody (26 Mar 2026)',
     },
     act: {
       summary:
-        'Advocates eliminating all zoning restrictions and density limits to allow the market to determine housing supply. Supports repealing the Urban Development Act and removing council power to restrict building height or density. Would also require councils to compensate developers when restrictive rules reduce property value.',
-      source: 'https://www.act.org.nz/housing',
-      sourceLabel: 'ACT housing policy',
+        "Wants to repeal the RMA outright and replace it with a property-rights-based Urban Development Act plus a narrower Environmental Protection Act — going further than the coalition's own Planning Bill, which ACT has publicly criticised as insufficient to fix the housing crisis. Remains a governing partner backing that reform through Parliament in the meantime.",
+      source: 'https://www.act.org.nz/press-releases/rma-bill-won-t-solve-the-housing-crisis',
+      sourceLabel: 'ACT — RMA Bill criticism',
     },
     nzfirst: {
       summary:
-        "Supports building more homes in regions, not just major cities. Wants to restrict foreign ownership of residential property and prioritise housing for New Zealand citizens and permanent residents. Has supported the government's fast-track consenting approach.",
-      source: 'https://www.nzfirst.nz/policy',
-      sourceLabel: 'NZ First policy platform',
+        "Standing policy calls for a non-political Housing Commission and a Ministry for Infrastructure to unlock land for housing long-term, plus a dedicated seniors' housing plan given rising numbers of older renters. No freshly dated 2025–2026 announcement was found on this topic — this reflects the party's ongoing position rather than new campaign material.",
+      source: 'https://www.rnz.co.nz/news/politics/499599/winston-s-wishes-what-nz-first-is-campaigning-on',
+      sourceLabel: 'RNZ — NZ First policy platform',
     },
     tpm: {
       summary:
-        'Focuses on the Māori housing crisis — an estimated 30,000+ Māori households need homes. Supports papakāinga housing (communal Māori land housing), hapū-led housing developments, and Treaty-based housing funding. Opposed Kāinga Ora cuts, which disproportionately affect Māori.',
-      source: 'https://www.maoriparty.org.nz/housing',
-      sourceLabel: 'Te Pāti Māori housing policy',
+        '"Whānau Build" policy commits half of all new social housing to Māori whānau, who make up roughly half the social-housing waitlist, removes legal barriers to building on papakāinga land, and proposes a 2% tax on homes left vacant 3+ months a year. Also wants to stop freehold land sales to offshore buyers.',
+      source: 'https://www.maoriparty.org.nz/whanau_build',
+      sourceLabel: 'Te Pāti Māori — Whānau Build housing policy',
     },
     top: {
       summary:
-        'The Opportunity Party supports an evidence-based approach to housing supply — removing planning barriers, investing in infrastructure, and using land value taxation to discourage land banking. Aims to make homeownership accessible across income levels, not just the wealthy.',
-      source: 'https://www.opportunity.org.nz',
-      sourceLabel: 'The Opportunity Party platform',
+        'Centrepiece is a land value tax on urban land (reported around 1.75% in 2026 coverage) intended to curb land-banking, paired with a "Modern House Building Boom" plan for streamlined consenting of tiny homes, nationally consistent zoning, mixed-use zoning and low-cost construction loans to close what TOP estimates as an 80,000-home shortfall.',
+      source: 'https://www.opportunity.org.nz/affordable_housing',
+      sourceLabel: 'The Opportunity Party — housing policy',
     },
     nc: {
       summary:
-        "Conservative Party NZ supports market-led housing supply through deregulation and reducing red tape for builders. Opposes government-owned housing as a long-term solution, preferring private ownership. Wants to remove council planning restrictions that inflate land costs.",
-      source: 'https://www.conservatives.nz/',
+        "Housing policy is limited to a general commitment to cut red tape and regulatory barriers to increase supply over the long term, without a detailed costed programme comparable to other parties.",
+      source: 'https://www.conservatives.nz/policy',
       sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
-        'Housing is not a primary focus of the ALCP platform. The party notes that legalising and taxing cannabis would generate government revenue that could be directed toward public services including housing.',
-      source: 'https://www.alcp.org.nz',
+        'No dedicated housing policy. Argues legalising and taxing cannabis would generate revenue that could help fund housing and infrastructure without relying on selling assets to overseas investors, which it says inflates property prices.',
+      source: 'https://alcp.org.nz/policy/',
       sourceLabel: 'ALCP platform',
     },
   },
@@ -102,56 +102,56 @@ const POLICIES = {
   climate: {
     national: {
       summary:
-        "Committed to New Zealand's legislated net-zero by 2050 target but rescinded the previous government's Climate Emergency declaration. Reversed the ban on new offshore oil and gas exploration permits (2023). Supports the Emissions Trading Scheme (ETS) as the primary climate tool, with changes to reduce cost-of-living pressure on businesses.",
-      source: 'https://www.national.org.nz/our-policies/environment',
-      sourceLabel: 'National environment policy',
+        "In November 2025 amended the Climate Change Response Act so ETS settings only need to align with NZ's domestic 2050 net-zero law rather than its international Paris pledge, moved ETS reviews from annual to biennial, and pushed the Carbon Neutral Government Programme deadline from 2025 out to 2050. Parliament also passed an adjusted, more lenient biogenic methane target in December 2025.",
+      source: 'https://www.national.org.nz/news/20251104-hon-simon-watts-improving-new-zealand-climate-change-act',
+      sourceLabel: 'National/Beehive — Climate Change Act amendments (4 Nov 2025)',
     },
     labour: {
       summary:
-        'Originally declared a Climate Emergency (2020) and passed the Climate Change Response (Zero Carbon) Amendment Act. Supports 100% renewable electricity by 2030 and net-zero long-lived gases by 2050. In opposition, pushing to restore the ban on offshore oil and gas exploration and reverse ETS changes.',
-      source: 'https://www.labour.org.nz/climate',
-      sourceLabel: 'Labour climate policy',
+        'Opposes the coalition\'s removal of the offshore oil and gas exploration ban and has pledged to reinstate it, alongside a 100% renewable electricity target by 2030, a no-upfront-cost residential solar scheme, and phasing out coal-fired boilers. In February 2026 signalled it would work more closely with the Greens on climate policy during the campaign and in any future government.',
+      source: 'https://www.labour.org.nz/news-climatechange',
+      sourceLabel: 'Labour — climate policy',
     },
     greens: {
       summary:
-        'The most ambitious climate platform in Parliament. Under updated 2024–2025 policies, the Greens call for net-zero carbon by 2035 (15 years ahead of the legislated target), a just transition fund for workers in fossil fuel industries, keeping remaining coal and gas in the ground, and a climate charge on the agriculture sector.',
-      source: 'https://www.greens.org.nz/policies/climate-and-energy',
-      sourceLabel: 'Green Party climate policy (2024 update)',
+        'Commits to legally ending fossil fuel use and production by no later than 2035, banning new baseload fossil-fuel electricity generation so all new supply is renewable, and phasing out synthetic nitrogen fertiliser alongside reduced livestock stocking rates — explicitly aligned to a 1.5°C target.',
+      source: 'https://www.greens.org.nz/climate_change_policy',
+      sourceLabel: 'Green Party — Climate Change Policy',
     },
     act: {
       summary:
-        "Wants to repeal the Zero Carbon Act and withdraw NZ from its 2030 Paris Agreement targets. Argues that NZ's 0.17% share of global emissions means domestic action has negligible climate impact while imposing real economic costs. Supports removing ETS obligations from the agriculture sector.",
-      source: 'https://www.act.org.nz/climate',
-      sourceLabel: 'ACT climate policy',
+        "Its \"Better Climate Deal\" platform (detailed further 10 June 2026) proposes managing biogenic methane to a \"no additional warming\" standard rather than net-zero, keeping agriculture out of the ETS entirely, capping emissions in line with trading partners' actual reductions, and renegotiating — or potentially leaving — the Paris Agreement if a revised methane target isn't accepted.",
+      source: 'https://www.interest.co.nz/public-policy/138910/act-party-climate-policy-outlines-desire-revisit-new-zealands-emissions',
+      sourceLabel: 'interest.co.nz — ACT climate policy (10 Jun 2026)',
     },
     nzfirst: {
       summary:
-        'Sceptical of climate change policy that raises costs for farmers and businesses. Secured the repeal of the agricultural emissions pricing scheme as a coalition condition. Supports the offshore oil and gas permit reversal. Takes a cautious approach on international climate commitments.',
-      source: 'https://www.nzfirst.nz/policy',
-      sourceLabel: 'NZ First policy platform',
+        "Leader Winston Peters has campaigned since Fieldays (June 2026) for New Zealand to withdraw from the Paris Agreement entirely, calling it something the country \"can't afford\" given NZ's 0.17% share of global emissions, and opposes the Climate Change Commission's advisory role in favour of targets set directly by elected politicians — a position that goes further than current coalition government policy.",
+      source: 'https://www.nzherald.co.nz/nz/politics/election-2026-nz-first-leader-winston-peters-takes-on-national-own-government-policy-at-fieldays-would-ditch-paris-climate-agreement-questions-rates-cap/premium/H2EVD6MRPJFJHIJ2VM5GEMCBMM/',
+      sourceLabel: 'NZ Herald — Peters on Paris Agreement (Jun 2026)',
     },
     tpm: {
       summary:
-        'Frames climate change as a climate justice and indigenous rights issue. Supports an immediate moratorium on new fossil fuel extraction, Te Tiriti-based environmental governance, and reparations for Pacific communities bearing the worst impacts. Advocates 100% renewable energy.',
-      source: 'https://www.maoriparty.org.nz/environment',
-      sourceLabel: 'Te Pāti Māori environment policy',
+        'Opposes seabed mining and deep-sea oil and gas exploration, and frames climate action around protecting whenua and moana and investing in resilience for the most at-risk communities under a Te Tiriti lens. Has criticised government emissions budgets as too weak, though climate is not a headline plank of its 2026 campaign, which foregrounds health, housing and education.',
+      source: 'https://www.maoriparty.org.nz/policy',
+      sourceLabel: 'Te Pāti Māori — Policy hub',
     },
     top: {
       summary:
-        "The Opportunity Party's platform centres on ocean health and clean energy. Advocates for 100% renewable electricity, protection of NZ's marine environment, and investment in clean tech industries. Supports a transition away from fossil fuels driven by innovation rather than just regulation.",
-      source: 'https://www.opportunity.org.nz',
-      sourceLabel: 'The Opportunity Party platform',
+        '"Abundant Energy" plan seeks cross-party agreement to add 30GW of renewable generation by 2050 and consolidate 29 electricity distributors into no more than 8. On the ETS, wants agricultural emissions included, new pine forestry excluded from earning carbon credits, and sequestration funding redirected toward soils, wetlands and biodiversity.',
+      source: 'https://www.opportunity.org.nz/climate_action',
+      sourceLabel: 'The Opportunity Party — Climate policy',
     },
     nc: {
       summary:
-        "Conservative Party NZ is sceptical of climate alarmism and opposes policies that damage the economy or farming sector in the name of climate action. Does not support the Zero Carbon Act's targets as currently legislated. Believes adaptation is more practical than aggressive emissions reduction for a small country.",
-      source: 'https://www.conservatives.nz/',
+        "Commits broadly to \"conserving and enhancing the natural environment\" while supporting continued use of New Zealand's own fossil fuels and minerals, including domestic oil refining — i.e. opposing further restrictions on domestic extraction. No specific, dated 2025–2026 position on the ETS or the Net Zero 2050 target could be confirmed.",
+      source: 'https://www.conservatives.nz/policy',
       sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
-        'Cannabis cultivation and hemp farming are highlighted as sustainable land uses. The ALCP notes that industrial hemp absorbs CO₂ and can replace high-emission materials like plastics and textiles. Climate policy is not a primary focus beyond this.',
-      source: 'https://www.alcp.org.nz',
+        'No climate policy with numeric targets. Frames large-scale industrial hemp cultivation as a climate tool, citing its fast growth, drought resistance, soil-restoration properties and use as a biodegradable and biofuel alternative to plastics.',
+      source: 'https://alcp.org.nz/policy/',
       sourceLabel: 'ALCP platform',
     },
   },
@@ -159,56 +159,56 @@ const POLICIES = {
   health: {
     national: {
       summary:
-        'Abolished the Māori Health Authority and replaced it with a single national health body (Health New Zealand). Focused on reducing surgical waitlists and investing in cancer treatment. Reversed free prescriptions — a $5 co-payment now applies, except for under-14s and community services card holders.',
-      source: 'https://www.national.org.nz/our-policies/health',
-      sourceLabel: 'National health policy',
+        'Budget 2026 (28 May) added over $5.8 billion in new health operating funding across the forecast period, including a $1.37 billion annual uplift for frontline cost pressures, restored health targets with quarterly public reporting, expanded cancer-medicine funding, and free continuous glucose monitors for under-18s with type-1 diabetes. The Māori Health Authority, abolished in 2024, has not been reinstated and no Māori-specific funding stream has replaced it.',
+      source: 'https://www.national.org.nz/health',
+      sourceLabel: 'National health policy / Budget 2026',
     },
     labour: {
       summary:
-        'Introduced free prescriptions for all (2023), which National reversed. Supports rebuilding the public health system. In opposition, advocates restoring the Māori Health Authority, reversing prescription co-payments, and increasing mental health funding. Opposes privatisation of health services.',
-      source: 'https://www.labour.org.nz/health',
-      sourceLabel: 'Labour health policy',
+        'Centrepiece is a "Medicard" offering three free GP visits a year for everyone, free prescriptions from 1 July 2027, free maternity scans from July 2028 and free cervical screening, funded by Labour\'s proposed capital gains tax. Has also stood by an earlier pledge to reinstate a Māori Health Authority, though has not freshly restated it with 2026-specific detail.',
+      source: 'https://www.nzherald.co.nz/nz/politics/chris-hipkins-announces-labours-new-health-policy/HIPMAOPL2HJO4GQHOJ7GB5JSJI/',
+      sourceLabel: 'NZ Herald — Labour health policy',
     },
     greens: {
       summary:
-        'Supports universal free healthcare at point of use, including dental care. Calls for major investment in mental health and suicide prevention. Opposed abolition of the Māori Health Authority and supports kaupapa Māori health services. Advocates free prescriptions for all New Zealanders.',
-      source: 'https://www.greens.org.nz/policies/health',
-      sourceLabel: 'Green Party health policy',
+        'Campaigns for a fully funded public health system with better pay and conditions for health workers, free GP visits and prescriptions, and a free universal dental service. Broader fiscal policy would lift government revenue and spending specifically to fund universal health, education and social services rather than private alternatives.',
+      source: 'https://www.greens.org.nz/health_policy',
+      sourceLabel: 'Green Party — Health Policy',
     },
     act: {
       summary:
-        'Supports more competition and consumer choice in health services, including expanding private providers funded by the public system. Favours health savings accounts and reducing health bureaucracy. Supported abolishing the Māori Health Authority.',
+        'Wants Pharmac and Medsafe reform — a published medicines strategy, funding tied to productivity impact, and one-week approval for drugs already cleared by trusted overseas regulators — plus pharmacists taking on more primary care (skin checks, blood tests, managing long-term medication) to ease GP pressure. Backed abolishing the Māori Health Authority and wants further removal of ethnicity-based provisions from health legislation.',
       source: 'https://www.act.org.nz/health',
       sourceLabel: 'ACT health policy',
     },
     nzfirst: {
       summary:
-        'Focuses on rural health access — clinics, ambulance services and GP access in provincial areas. Supported free prescriptions and has raised concerns about health service cuts in smaller communities. Pushed for action on nurse and doctor shortages in regional NZ.',
-      source: 'https://www.nzfirst.nz/policy',
-      sourceLabel: 'NZ First policy platform',
+        "2026 focus is dominated by vaccine-mandate accountability — a select-committee inquiry into alleged Covid-vaccination injuries, compensation, and criticism of prior government advice on myocarditis risk in under-18s — alongside opposition to Health and Safety reform and renewed questioning of NZ's funding of the World Health Organization. Previously secured repeal of the Therapeutic Products Act as a coalition condition.",
+      source: 'https://www.nzfirst.nz/power_to_the_people_sotn_2026',
+      sourceLabel: 'NZ First — State of the Nation speech (23 Mar 2026)',
     },
     tpm: {
       summary:
-        'Strongly opposed abolition of the Māori Health Authority, designed to close health outcome gaps between Māori and non-Māori. Supports kaupapa Māori health services and Treaty-based health funding. Advocates for holistic Māori wellbeing (hauora) approaches and te reo Māori access to healthcare.',
-      source: 'https://www.maoriparty.org.nz/health',
-      sourceLabel: 'Te Pāti Māori health policy',
+        'Would rebuild a Māori-led health authority to replace the disestablished Te Aka Whai Ora, shift the system toward prevention rather than crisis response, and ensure services are culturally safe, accessible and accountable to whānau-centred models of wellbeing.',
+      source: 'https://www.maoriparty.org.nz/policy',
+      sourceLabel: 'Te Pāti Māori — Policy hub',
     },
     top: {
       summary:
-        "The Opportunity Party supports evidence-based, well-funded public health. Advocates for preventive health investment to reduce long-term costs. While healthcare isn't the centrepiece of their 2026 platform, they support accessible public services and oppose cuts that worsen health outcomes.",
-      source: 'https://www.opportunity.org.nz',
-      sourceLabel: 'The Opportunity Party platform',
+        '"Healthy People" policy argues every $1 spent on primary care saves over $13 downstream, and proposes a cross-party, decade-long health plan insulated from election cycles, more investment in prevention and digital health, better-funded ambulance and GP services, and reinstating lapsed Smokefree 2025 legislation. Full costed detail was still pending as of mid-2026.',
+      source: 'https://www.opportunity.org.nz/healthy_people',
+      sourceLabel: 'The Opportunity Party — Healthy People policy',
     },
     nc: {
       summary:
-        "Conservative Party NZ holds socially conservative health positions — opposes euthanasia (End of Life Choice Act), opposes gender-affirming care for minors, and supports parental rights in children's healthcare decisions. Supports a well-funded but lean public health system. Opposes mandatory vaccination.",
-      source: 'https://www.conservatives.nz/',
+        "No detailed, costed health policy is published. The closest relevant plank opposes \"medical coercion\" and mandates, an anti-mandate stance carried over from the pandemic era, rather than a broader health-system programme.",
+      source: 'https://www.conservatives.nz/policy',
       sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
-        'The primary health position of the ALCP is cannabis law reform — decriminalisation and regulation for medicinal and recreational use. Argues that the criminal approach to cannabis causes more harm than the drug itself. Supports a harm-reduction model for all drug use.',
-      source: 'https://www.alcp.org.nz',
+        'Treats cannabis and drug use as a public-health rather than criminal-justice issue, estimating reclassification could cut the prison population by roughly 10,000 people a year. Proposes a medicinal-cannabis card, funded drug education and research, and removing licensing barriers to hemp growing.',
+      source: 'https://alcp.org.nz/policy/',
       sourceLabel: 'ALCP platform',
     },
   },
@@ -273,113 +273,113 @@ const POLICIES = {
   treaty: {
     national: {
       summary:
-        'Opposed the ACT-led Treaty Principles Bill at second reading (after supporting it to select committee). Has reduced co-governance in public services and health. Describes its approach as "one standard of citizenship" while acknowledging Treaty obligations in narrow contexts.',
-      source: 'https://www.national.org.nz/our-policies/maori-affairs',
-      sourceLabel: 'National Treaty/Māori policy',
+        'As part of the National–NZ First coalition agreement, Cabinet is rewriting Treaty of Waitangi references across roughly 23 pieces of legislation — revealed 20 April 2026 — replacing the stronger "give effect to" duty with the weaker "take into account" standard. This follows the defeat of ACT\'s separate Treaty Principles Bill in April 2025 (which National only supported to select committee), and Luxon also faces pressure over a possible referendum on the Māori electoral seats.',
+      source: 'https://www.teaonews.co.nz/2026/04/20/analysis-government-set-to-reduce-treaty-in-legislation-to-lowest-possible-standard-what-it-means/',
+      sourceLabel: 'Te Ao Māori News — Treaty clause rewrite (20 Apr 2026)',
     },
     labour: {
       summary:
-        'Strong Treaty of Waitangi commitments — supports co-governance as a Treaty obligation, not a political choice. Established the Māori Health Authority and the He Puapua framework while in government (2017–2023). Strongly opposed the Treaty Principles Bill.',
-      source: 'https://www.labour.org.nz/maori',
-      sourceLabel: 'Labour Treaty/Māori policy',
+        "Hipkins maintains Māori did not cede sovereignty in 1840 and is open to further checks ensuring legislation honours the Treaty, but has explicitly ruled out supporting Te Pāti Māori's proposed Te Tiriti commissioner with veto power over Parliament. Labour has otherwise been relatively quiet on detailed Treaty/constitutional policy through 2025–2026, prioritising cost-of-living, housing and health instead.",
+      source: 'https://www.rnz.co.nz/news/politics/540965/labour-would-not-support-te-tiriti-commissioner-with-veto-right-hipkins',
+      sourceLabel: 'RNZ — Labour on Te Tiriti commissioner',
     },
     greens: {
       summary:
-        'Support full implementation of Te Tiriti o Waitangi and tino rangatiratanga. Have had Māori co-leaders and strong internal kaupapa Māori structures. Supported He Puapua and strongly opposed the Treaty Principles Bill. Support Māori electorates.',
-      source: 'https://www.greens.org.nz/policies/treaty-of-waitangi',
-      sourceLabel: 'Green Party Treaty policy',
+        'Treats Te Tiriti o Waitangi and He Whakaputanga as founding constitutional documents, affirms the Māori-language text as authoritative, and wants a fully resourced Waitangi Tribunal with binding decision-making power. Its "Hoki Whenua Mai" policy would stop future Public Works Act land takings and create a path to return previously taken whenua Māori, and in 2026 it has campaigned against the government\'s Treaty-clause rewrite alongside Labour and Te Pāti Māori.',
+      source: 'https://www.greens.org.nz/te_tiriti_policy',
+      sourceLabel: 'Green Party — Te Tiriti o Waitangi policy',
     },
     act: {
       summary:
-        "Introduced the Treaty Principles Bill (2023), seeking to redefine Treaty principles as equal rights for all citizens. The Bill passed its first reading with National support but did not progress. ACT wants to repeal all Treaty clauses from legislation and replace co-governance with equal citizenship.",
-      source: 'https://www.act.org.nz/treaty',
-      sourceLabel: 'ACT Treaty policy',
+        'Its Treaty Principles Bill, which sought to legally redefine Treaty principles subject to referendum, was voted down at second reading on 10 April 2025 with every other party opposed. Leader David Seymour says he remains committed to the underlying goal of equal legal rights and, as of late 2025, signalled ACT would pursue it through a different legislative vehicle in the 2026 campaign rather than reintroducing the same bill.',
+      source: 'https://www.rnz.co.nz/news/top/581907/david-seymour-promises-to-reignite-treaty-principles-debate-in-2026',
+      sourceLabel: 'RNZ — Seymour on reigniting Treaty debate (16 Dec 2025)',
     },
     nzfirst: {
       summary:
-        'Opposes co-governance and Treaty-based governance of public services. Wants a referendum on abolishing the seven Māori electorates. Secured the repeal of He Puapua as a coalition condition. Supports a "one law for all" approach.',
-      source: 'https://www.nzfirst.nz/policy',
-      sourceLabel: 'NZ First policy platform',
+        'Opposes co-governance outright — Peters\' March 2026 State of the Nation speech reiterated "one people, one law, one flag" — and is campaigning on a referendum to abolish the dedicated Māori electorates. Secured restoration of local referendums on Māori wards via the coalition agreement and is a co-driver, with National, of the 2026 Treaty-clause legislative rewrite.',
+      source: 'https://www.nzfirst.nz/power_to_the_people_sotn_2026',
+      sourceLabel: 'NZ First — State of the Nation speech (23 Mar 2026)',
     },
     tpm: {
       summary:
-        'Built on tino rangatiratanga — full Māori self-determination under Te Tiriti. Wants the Treaty to be the constitutional foundation of Aotearoa NZ, with Māori having equal authority with the Crown. Supports expanding Māori electorates. Strongly opposed any moves to diminish Treaty rights.',
-      source: 'https://www.maoriparty.org.nz/treaty',
-      sourceLabel: 'Te Pāti Māori Treaty policy',
+        'Platform, "Mana Motuhake," centres on Te Tiriti-based constitutional transformation and strengthened Māori political and governance structures, arguing that without constitutional change any gains can be undone by the next government. For 2026 is contesting all seven Māori electorates and has signalled reversing the government\'s Treaty-clause changes would be a bottom line in any coalition talks.',
+      source: 'https://www.maoriparty.org.nz/policy',
+      sourceLabel: 'Te Pāti Māori — Policy hub',
     },
     top: {
       summary:
-        "The Opportunity Party's platform does not prominently feature Treaty or Māori policy positions. The party acknowledges the importance of the Treaty and supports a respectful Crown-Māori relationship, but detailed policy in this area is not yet published.",
-      source: 'https://www.opportunity.org.nz',
-      sourceLabel: 'The Opportunity Party platform',
+        '"Honouring Te Tiriti" policy commits to repealing the Treaty Principles Bill and the Marine and Coastal Area Amendment Bill if either passes, embedding Aotearoa history and Te Tiriti education at all school levels, growing the te reo Māori teaching workforce, and pursuing more equitable Treaty settlements.',
+      source: 'https://www.opportunity.org.nz/honouring_te_tiriti',
+      sourceLabel: 'The Opportunity Party — Honouring Te Tiriti policy',
     },
     nc: {
       summary:
-        "Conservative Party NZ supports 'one law for all' — opposing Treaty-based co-governance, Treaty clauses in legislation, and separate Māori electorates. Believes Treaty settlement processes should be concluded and the country move to a single constitutional framework that treats all citizens equally.",
-      source: 'https://www.conservatives.nz/',
+        'No standalone Treaty or Māori-specific policy is published. The closest related plank, "One Nation," emphasises unified national representation over group-based rights, implying opposition to co-governance and Māori-specific representation, though a dedicated policy page could not be confirmed in full.',
+      source: 'https://www.conservatives.nz/policy',
       sourceLabel: 'Conservative Party NZ policy',
     },
     alcp: {
       summary:
-        "The ALCP notes that Māori are disproportionately criminalised under current cannabis laws, making drug law reform a Treaty justice issue. The party supports removing that inequity. Broader Treaty policy positions are not a stated focus of the party's platform.",
-      source: 'https://www.alcp.org.nz',
-      sourceLabel: 'ALCP platform',
+        'The party\'s constitution states support for "the principles of partnership embodied in the Treaty of Waitangi," but it has no developed Treaty policy platform beyond this founding statement — its focus remains almost entirely on cannabis law reform.',
+      source: 'https://elections.nz/assets/Party-files/the-cannabis-party-rules-and-constitution.pdf',
+      sourceLabel: 'ALCP — Rules and Constitution (Elections NZ filing)',
     },
   },
 
   immigration: {
     national: {
       summary:
-        'Increased the Accredited Employer Work Visa cap and streamlined skilled migrant pathways. Supports immigration for economic growth and skills shortages in health, construction, and tech. Has tightened lower-skilled temporary visa categories while keeping pathways open for high-value migrants.',
-      source: 'https://www.national.org.nz/our-policies/immigration',
-      sourceLabel: 'National immigration policy',
+        "Under Immigration Minister Erica Stanford, introduced the multi-entry \"Parent Boost\" visa (opened 29 Sept 2025) letting migrants' parents stay 5–10 years, the Immigration (Enhanced Risk Management) Amendment Bill (18 March 2026) extending deportation liability to 20 years for residence-class visa holders with serious convictions, and Skilled Migrant Category changes from 24 August 2026 simplifying wage settings. Frames its approach as \"quality over quantity\" — prioritising skilled migrants while tightening compliance.",
+      source: 'https://www.national.org.nz/news/20260318-hon-erica-stanford-immigration-bill-to-hold-people-accountable-for-serious-offending',
+      sourceLabel: 'National / Immigration NZ — Immigration Bill & Skilled Migrant changes',
     },
     labour: {
       summary:
-        "Supports managed immigration tied to skills shortages and regional needs. In government, temporarily reduced numbers during COVID then reopened borders. In opposition, has criticised exploitation risks for migrant workers under National's approach and wants stronger worker protections.",
-      source: 'https://www.labour.org.nz/immigration',
-      sourceLabel: 'Labour immigration policy',
+        'Has not published a detailed, finalised immigration policy as of mid-2026. In May 2026 Hipkins accused Luxon of "embracing the anti-migrant rhetoric" of his coalition partners, arguing NZ shouldn\'t have to choose between migration and business viability, and favours balancing skills-based migration with stronger enforcement against migrant-worker exploitation.',
+      source: 'https://www.rnz.co.nz/news/top/595198/christopher-luxon-embracing-anti-migrant-rhetoric-of-coalition-partners-hipkins',
+      sourceLabel: 'RNZ — Hipkins on migration rhetoric (May 2026)',
     },
     greens: {
       summary:
-        'Supports a humane, rights-based immigration system. Wants to end immigration detention (or use it as an absolute last resort), restore appeal rights removed from deportees, and provide clearer pathways to residency for long-term migrants. Opposes deportation to unsafe countries.',
-      source: 'https://www.greens.org.nz/policies/immigration',
-      sourceLabel: 'Green Party immigration policy',
+        'Standing policy calls for a humane, Tiriti-based system: progressively raising the refugee quota toward 5,000, a residency pathway for long-term temporary migrants, equal pay and conditions for migrant workers, and a proposed "Pacific Passport" for climate-displaced Pacific peoples.',
+      source: 'https://www.greens.org.nz/immigration_policy',
+      sourceLabel: 'Green Party — Immigration Policy',
     },
     act: {
       summary:
-        'Wants immigration driven purely by economic contribution — a points-based system with minimal family reunification and strict refugee quotas. Supports reducing overall immigration numbers and removing low-skill temporary work visas. Supports citizenship only after long-term residency and economic contribution.',
-      source: 'https://www.act.org.nz/immigration',
-      sourceLabel: 'ACT immigration policy',
+        'Unveiled a six-point immigration toughening plan on 3 May 2026: English-language requirements for all work-visa holders (seasonal workers exempt), a $6-per-day infrastructure surcharge on temporary work visas, a five-year welfare stand-down for new residents, annual review of skill-shortage visa categories, extended deportation powers, and a dedicated overstayer enforcement unit including gig-platform visa checks.',
+      source: 'https://www.nzherald.co.nz/nz/politics/election-2026-act-reveals-immigration-campaign-polices/WTABGHRF5JACTK2HZ5AEH74EJ4/',
+      sourceLabel: 'NZ Herald — ACT immigration policy (3 May 2026)',
     },
     nzfirst: {
       summary:
-        'Calls for strict immigration controls and significant reductions in overall numbers. Prioritises NZ citizens and permanent residents for jobs. Opposes fast-track work visas in sectors where NZers could be trained. Wants tighter checks on student visa abuse.',
-      source: 'https://www.nzfirst.nz/policy',
-      sourceLabel: 'NZ First policy platform',
+        'Pushes to substantially cut net migration until infrastructure catches up. Signature 2026 policy, first announced September 2025, is a mandatory "Kiwi values statement" new migrants must sign committing to democracy, free speech and other stated NZ values, and Peters has accused National of "covertly" loosening settings via the India free-trade agreement.',
+      source: 'https://www.rnz.co.nz/news/political/572423/winston-peters-reheats-policy-of-getting-migrants-to-abide-by-nz-values',
+      sourceLabel: 'RNZ — NZ First "values statement" policy (7 Sept 2025)',
     },
     tpm: {
       summary:
-        'Takes a humanitarian approach — supports a robust refugee intake, family reunification, and an end to immigration detention. Wants recognition of Pacific peoples\' special relationship with NZ and simpler pathways for Pacific immigrants. Opposes exploitation of migrant workers.',
-      source: 'https://www.maoriparty.org.nz/immigration',
-      sourceLabel: 'Te Pāti Māori immigration policy',
+        "Frames immigration through Te Tiriti o Waitangi, arguing Māori should have genuine partnership input into population-growth decisions so migration doesn't further push Māori out of housing and economic participation. No standalone, dated immigration policy document is published.",
+      source: 'https://www.maoriparty.org.nz/policy',
+      sourceLabel: 'Te Pāti Māori — Policy hub',
     },
     top: {
       summary:
-        "The Opportunity Party supports immigration that serves New Zealand's skills needs and economic goals, including in clean tech and innovation. Supports clear and fair immigration pathways. Detailed immigration policy for the 2026 election is not yet published.",
-      source: 'https://www.opportunity.org.nz',
-      sourceLabel: 'The Opportunity Party platform',
+        "No immigration policy has been published as of mid-2026 — it isn't yet among the finalised sections of TOP's policy platform, with the party saying more detail will come closer to the election.",
+      source: 'https://www.rnz.co.nz/news/politics/642464/explainer-what-is-the-opportunity-party-and-what-are-its-policies',
+      sourceLabel: 'RNZ — Explainer: TOP policies (2026)',
     },
     nc: {
       summary:
-        'Conservative Party NZ supports strict immigration controls, prioritising people who hold compatible values with NZ society as well as economic skills. Wants reduced overall immigration numbers, stronger enforcement of visa conditions, and faster deportation of those who breach them.',
-      source: 'https://www.conservatives.nz/',
-      sourceLabel: 'Conservative Party NZ policy',
+        "No current, dated immigration policy could be confirmed — the party's most recent policy announcement (6 July 2026) covered finance, trade, foreign affairs and defence but not immigration.",
+      source: 'https://www.scoop.co.nz/stories/PO2607/S00041/conservative-party-new-policies-announcement.htm',
+      sourceLabel: 'Scoop — Conservative Party NZ policy announcement (6 Jul 2026)',
     },
     alcp: {
       summary:
-        'Immigration is not a focus of the ALCP platform. The party is primarily single-issue (cannabis legalisation) and does not publish detailed immigration policy positions.',
-      source: 'https://www.alcp.org.nz',
+        "Not a general immigration platform. Its policy document argues cannabis convictions in other jurisdictions shouldn't bar people from migrating to New Zealand, citing a past high-profile deportation case as an example of perceived injustice.",
+      source: 'https://alcp.org.nz/policy/',
       sourceLabel: 'ALCP platform',
     },
   },
@@ -387,56 +387,56 @@ const POLICIES = {
   education: {
     national: {
       summary:
-        'Introduced a structured literacy and numeracy curriculum from 2025, mandating evidence-based phonics in primary schools. Reversed the previous curriculum refresh to focus on "back to basics." Extended free school lunches to all primary students. Supports charter (Partnership) schools.',
-      source: 'https://www.national.org.nz/our-policies/education',
-      sourceLabel: 'National education policy',
+        'Structured literacy has been mandatory in all state primary schools since Term 1 2025. In 2026 confirmed NCEA Level 1 will be abolished in favour of a new Year 11 Foundational Award, with new Year 12/13 qualifications and A–E grading rolling out from 2028. The Education and Training (System Reform) Amendment Bill, passed 24 June 2026, also gives charter schools 20-year contracts and restructures the Teaching Council under tighter ministerial control.',
+      source: 'https://www.rnz.co.nz/news/political/595424/government-confirms-ncea-replacement-details',
+      sourceLabel: 'RNZ — NCEA replacement confirmed (2026)',
     },
     labour: {
       summary:
-        'Introduced the free school lunches programme. Passed a new national curriculum including compulsory NZ history. In opposition, Labour opposes charter schools and the curriculum rollback. Supports early childhood education investment and pay equity for teachers.',
-      source: 'https://www.labour.org.nz/education',
-      sourceLabel: 'Labour education policy',
+        "Pledged in April 2026 to reinstate school boards' Treaty obligations and reverse the coalition's curriculum and testing changes. Its most concrete 2026 policy, announced 28 June, expands Apprenticeship Boost back to two years from 2028, adds new eligible trades, and offers a $1,000 toolkit grant for apprentices — projected to grow beneficiaries from 9,000 to 27,000 by 2030/31.",
+      source: 'https://www.rnz.co.nz/news/politics/633845/election-26-labour-proposes-apprenticeship-boost-expansion',
+      sourceLabel: 'RNZ — Labour Apprenticeship Boost expansion (28 Jun 2026)',
     },
     greens: {
       summary:
-        'Supports free early childhood education from age 2, free tertiary education, and student loan debt cancellation. Wants significant teacher pay rises. Opposes charter schools. Advocates for te reo Māori immersion (kura kaupapa) funding and equity in school resourcing.',
-      source: 'https://www.greens.org.nz/policies/education',
-      sourceLabel: 'Green Party education policy',
+        'Opposes the government\'s NCEA replacement as a step backward, and has pledged to reinstate fees-free tertiary education after the government confirmed on 9 May 2026 that the scheme ends after 2026 enrolments. Also proposes capping early-childhood fees at $10 a day on top of existing free hours, and a $315 million funding boost for inclusive education.',
+      source: 'https://www.rnz.co.nz/news/politics/594728/green-party-criticises-government-s-outrageous-decision-to-scrap-fees-free-tertiary-education',
+      sourceLabel: 'RNZ — Greens on scrapping fees-free tertiary (9 May 2026)',
     },
     act: {
       summary:
-        "Supports charter (Partnership) schools and has overseen their return under the current government. Advocates school choice, transparent school performance data, and parental rights in education. Opposes what it describes as politically motivated curriculum content.",
-      source: 'https://www.act.org.nz/education',
-      sourceLabel: 'ACT education policy',
+        "Driving force behind charter (partnership) schools, now numbering 14 after three more opened Term 1 2026, and secured the 20-year charter contracts and tighter ministerial control of the Teaching Council in the June 2026 reform bill. Future priorities include per-student \"Student Education Accounts,\" published school league tables, and performance-based teacher pay.",
+      source: 'https://waateanews.com/2026/05/28/act-pushes-charter-schools-expansion-as-seymour-eyes-budget-backing/',
+      sourceLabel: 'Waatea News — ACT charter schools expansion (28 May 2026)',
     },
     nzfirst: {
       summary:
-        'Supports rural and regional school investment. Has backed the structured literacy approach and reduced curriculum overload. Wants tertiary vocational training expanded — particularly trades and technical skills. Generally supportive of the current government\'s education direction.',
-      source: 'https://www.nzfirst.nz/policy',
-      sourceLabel: 'NZ First policy platform',
+        'Takes credit within the coalition for scrapping gender-inclusive Relationships and Sexuality Education guidelines and ending puberty blockers for minors. Its most significant 2026 move was pushing to end the fees-free university scheme — confirmed 9 May 2026 — with funding redirected toward trades and vocational training instead.',
+      source: 'https://www.1news.co.nz/2026/05/09/end-of-fees-free-scheme-confirmed-after-peters-budget-leak/',
+      sourceLabel: '1News — End of fees-free scheme confirmed (9 May 2026)',
     },
     tpm: {
       summary:
-        'Prioritises te reo Māori immersion education — wants full government funding for kura kaupapa Māori and wharekura from early childhood through secondary. Supports free tertiary education and student loan cancellation. Wants the NZ history curriculum retained and strengthened. Opposes charter schools.',
-      source: 'https://www.maoriparty.org.nz/education',
-      sourceLabel: 'Te Pāti Māori education policy',
+        'Policy rests on properly resourcing kaupapa Māori education, including a proposed independent Māori Standards Authority to oversee te reo funding and cultural-competency standards, and embedding mātauranga Māori and fairly paid Māori cultural leadership roles across the mainstream system.',
+      source: 'https://www.maoriparty.org.nz/education_training',
+      sourceLabel: 'Te Pāti Māori — Education & Training policy',
     },
     top: {
       summary:
-        "The Opportunity Party supports evidence-based education with a focus on innovation, digital literacy, and equipping students for a changing economy. Backs investment in teachers and early childhood education. Detailed education policy for 2026 is still being developed.",
-      source: 'https://www.opportunity.org.nz',
-      sourceLabel: 'The Opportunity Party platform',
+        '"Future-fit Education" is listed among TOP\'s policy areas but detailed content had not been published as of mid-2026. The one confirmed element is support for teaching Aotearoa New Zealand history, including the Treaty of Waitangi, at all school levels, and growing the number of te reo Māori teachers.',
+      source: 'https://www.opportunity.org.nz/policy',
+      sourceLabel: 'The Opportunity Party — Policy hub',
     },
     nc: {
       summary:
-        'Conservative Party NZ strongly supports parental rights in education — including the right to withdraw children from content parents object to on religious or values grounds. Opposes gender ideology being taught in schools. Supports traditional curricula, phonics, and structured numeracy. Backs school choice.',
+        'No detailed, dated education policy is published. General messaging opposes what it calls "destructive ideologies" in institutions including education and has previously opposed gender-diversity content in the curriculum, but no specific costed programme could be confirmed.',
       source: 'https://www.conservatives.nz/',
-      sourceLabel: 'Conservative Party NZ policy',
+      sourceLabel: 'Conservative Party NZ — party website',
     },
     alcp: {
       summary:
-        'The ALCP supports evidence-based drug and harm-reduction education in schools — replacing "just say no" approaches with factual information about drug risks. Broader education policy is not a focus of the party platform.',
-      source: 'https://www.alcp.org.nz',
+        'Education content is entirely drug-policy focused — redirecting money spent on cannabis prohibition and incarceration into drug education and harm-reduction programmes, age-restricted regulation to discourage youth use, and a proposed Drugs Policy Council for consistent public information.',
+      source: 'https://alcp.org.nz/policy/',
       sourceLabel: 'ALCP platform',
     },
   },
@@ -568,16 +568,17 @@ export default function PoliciesPage() {
       {/* Footer note */}
       <div className="mt-16 rounded-2xl border border-blue-500/20 bg-blue-500/5 px-6 py-5">
         <p className="text-xs text-blue-200 leading-relaxed">
-          <strong>Sources &amp; currency:</strong> Economy &amp; Tax summaries were re-checked in July 2026 against
-          each party&apos;s current policy and 2025–2026 reporting, and updated accordingly — including Labour&apos;s
-          capital gains tax, the Green Party&apos;s revised wealth-tax threshold and new tax measures, National&apos;s
-          Budget 2026 fiscal targets, ACT&apos;s actual two-rate tax structure, and Te Pāti Māori&apos;s specific tax
-          and wage figures. The other topics (Housing, Climate, Health, Treaty, Immigration, Education) still reflect
-          each party&apos;s position as of mid-2025 and have not yet been re-verified for the 2026 election cycle.
-          Mana Movement and Democracy NZ have been removed from these comparisons after deregistering with the
-          Electoral Commission in 2021 and 2024 respectively. New Conservative is now Conservative Party NZ, renamed
-          January 2026. Outside-Parliament parties publish varying levels of policy detail — where limited, this is
-          noted in the summary. Always cross-check with the party&apos;s own website before forming a view.
+          <strong>Sources &amp; currency:</strong> All topics were re-checked in July 2026 against each party&apos;s
+          current policy and 2025–2026 reporting — including National&apos;s NCEA replacement and Treaty-clause
+          legislative rewrite, Labour&apos;s capital gains tax and Apprenticeship Boost expansion, the Green
+          Party&apos;s Renters&apos; Rights Bill and revised wealth-tax threshold, ACT&apos;s immigration and climate
+          policies, NZ First&apos;s &quot;Kiwi values statement&quot; and Paris Agreement stance, and Te Pāti
+          Māori&apos;s Whānau Build housing policy. Some parties — particularly The Opportunity Party, Conservative
+          Party NZ and ALCP — publish limited or undeveloped policy detail on several topics; where that&apos;s the
+          case, it&apos;s noted directly in the summary rather than inferred. Mana Movement and Democracy NZ have
+          been removed from these comparisons after deregistering with the Electoral Commission in 2021 and 2024
+          respectively. New Conservative is now Conservative Party NZ, renamed January 2026. Always cross-check with
+          the party&apos;s own website before forming a view.
         </p>
       </div>
     </main>
