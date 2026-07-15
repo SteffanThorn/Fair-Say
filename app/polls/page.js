@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { POLLS } from '@/lib/polls';
 import PollResultsFilter from '@/components/PollResultsFilter';
 import DiditUpgradeNudge from '@/components/DiditUpgradeNudge';
+import AllocationPollCard from '@/components/AllocationPollCard';
 import { getGuestItem, setGuestItem } from '@/lib/guestStorage';
 
 const BADGE_LABELS = {
@@ -63,6 +64,11 @@ function PollCard({ poll, credentialTier: filterTier, isAuthenticated }) {
   const [voting, setVoting] = useState(false);
   const [error, setError] = useState('');
   const [resultsView, setResultsView] = useState('collective'); // 'collective' | 'individual'
+  const [expandedOption, setExpandedOption] = useState(null);
+
+  function toggleExpanded(label) {
+    setExpandedOption((prev) => (prev === label ? null : label));
+  }
 
   const fetchResults = useCallback(async () => {
     try {
@@ -179,14 +185,36 @@ function PollCard({ poll, credentialTier: filterTier, isAuthenticated }) {
       ) : !voted ? (
         <div className="space-y-2">
           {poll.options.map((option) => (
-            <button
+            <div
               key={option.label}
-              onClick={() => handleVote(option.label)}
-              disabled={voting}
-              className="w-full rounded-lg border border-white/10 px-4 py-2.5 text-left text-sm text-slate-200 transition-colors hover:border-white/25 hover:bg-white/5 hover:text-white disabled:opacity-50"
+              className="rounded-lg border border-white/10 overflow-hidden transition-colors hover:border-white/25"
             >
-              {option.label}
-            </button>
+              <div className="flex items-stretch">
+                <button
+                  onClick={() => handleVote(option.label)}
+                  disabled={voting}
+                  className="flex-1 min-w-0 px-4 py-2.5 text-left text-sm text-slate-200 hover:bg-white/5 hover:text-white disabled:opacity-50"
+                >
+                  {option.label}
+                </button>
+                {option.description && (
+                  <button
+                    type="button"
+                    onClick={() => toggleExpanded(option.label)}
+                    aria-expanded={expandedOption === option.label}
+                    aria-label={`More information about ${option.label}`}
+                    className="shrink-0 border-l border-white/10 px-3 text-slate-400 hover:bg-white/5 hover:text-white"
+                  >
+                    {expandedOption === option.label ? '▲' : 'ⓘ'}
+                  </button>
+                )}
+              </div>
+              {option.description && expandedOption === option.label && (
+                <p className="border-t border-white/8 bg-white/3 px-4 py-2.5 text-xs leading-relaxed text-slate-400">
+                  {option.description}
+                </p>
+              )}
+            </div>
           ))}
         </div>
       ) : !isAuthenticated ? (
@@ -240,18 +268,38 @@ function PollCard({ poll, credentialTier: filterTier, isAuthenticated }) {
                 const pct = total > 0 ? Math.round((count / total) * 100) : 0;
                 const isChosen = voted === option.label;
                 return (
-                  <div key={option.label} className="relative rounded-lg overflow-hidden border border-white/8">
-                    <div
-                      className="absolute inset-y-0 left-0 transition-all duration-500"
-                      style={{ width: `${pct}%`, backgroundColor: option.color, opacity: 0.18 }}
-                    />
-                    <div className="relative flex items-center justify-between px-4 py-2.5">
-                      <span className={`text-sm ${isChosen ? 'font-semibold text-white' : 'text-slate-300'}`}>
-                        {isChosen && <span className="mr-1.5">✓</span>}
-                        {option.label}
-                      </span>
-                      <span className="text-xs font-medium text-slate-400 tabular-nums">{pct}%</span>
+                  <div key={option.label} className="rounded-lg overflow-hidden border border-white/8">
+                    <div className="relative">
+                      <div
+                        className="absolute inset-y-0 left-0 transition-all duration-500"
+                        style={{ width: `${pct}%`, backgroundColor: option.color, opacity: 0.18 }}
+                      />
+                      <div className="relative flex items-center justify-between px-4 py-2.5">
+                        <span className={`text-sm ${isChosen ? 'font-semibold text-white' : 'text-slate-300'}`}>
+                          {isChosen && <span className="mr-1.5">✓</span>}
+                          {option.label}
+                        </span>
+                        <span className="flex items-center gap-2">
+                          <span className="text-xs font-medium text-slate-400 tabular-nums">{pct}%</span>
+                          {option.description && (
+                            <button
+                              type="button"
+                              onClick={() => toggleExpanded(option.label)}
+                              aria-expanded={expandedOption === option.label}
+                              aria-label={`More information about ${option.label}`}
+                              className="text-slate-400 hover:text-white"
+                            >
+                              {expandedOption === option.label ? '▲' : 'ⓘ'}
+                            </button>
+                          )}
+                        </span>
+                      </div>
                     </div>
+                    {option.description && expandedOption === option.label && (
+                      <p className="border-t border-white/8 bg-white/3 px-4 py-2.5 text-xs leading-relaxed text-slate-400">
+                        {option.description}
+                      </p>
+                    )}
                   </div>
                 );
               })}
@@ -577,6 +625,8 @@ export default function PollsPage() {
             {POLLS.map((poll) =>
               poll.type === 'ranked' ? (
                 <RankedPollCard key={poll.id} poll={poll} credentialTier={filterTier} isAuthenticated={isAuthenticated} />
+              ) : poll.type === 'allocation' ? (
+                <AllocationPollCard key={poll.id} poll={poll} credentialTier={filterTier} isAuthenticated={isAuthenticated} />
               ) : (
                 <PollCard key={poll.id} poll={poll} credentialTier={filterTier} isAuthenticated={isAuthenticated} />
               )

@@ -5,17 +5,8 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { getPollById } from '@/lib/polls';
-import { createEloState, pickNextPair, recordComparison, getRankingFromState, TOTAL_PAIRS } from '@/lib/ranking';
+import { createEloState, pickNextPair, recordComparison, getRankingFromState, TOTAL_PAIRS, shuffle } from '@/lib/ranking';
 import { getGuestItem, setGuestItem } from '@/lib/guestStorage';
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 function nextBlockTarget(comparisonsCount) {
   if (comparisonsCount > 0 && comparisonsCount % 50 === 0) return comparisonsCount;
