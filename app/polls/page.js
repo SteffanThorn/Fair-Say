@@ -538,45 +538,6 @@ export default function PollsPage() {
         </p>
       </div>
 
-      {/* ── Tier choice – always visible ── */}
-      <div className="mb-8 grid gap-4 sm:grid-cols-2">
-        {/* Email – weak say */}
-        <div className="card rounded-2xl p-6 flex flex-col">
-          <div className="mb-4 text-3xl">📧</div>
-          <h2 className="text-lg font-bold text-white">Email</h2>
-          <p className="mt-0.5 text-sm text-slate-400">for a fair say</p>
-          <p className="mt-3 flex-1 text-xs leading-relaxed text-slate-500">
-            Quick to set up with just an email address. Your vote is counted in community results. Anyone can participate.
-          </p>
-          <div className="mt-5 flex flex-col gap-2">
-            <Link href="/auth" className="rounded-lg bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-emerald-500">
-              Create free account →
-            </Link>
-            <Link href="/auth" className="rounded-lg border border-white/12 px-4 py-2 text-center text-sm text-slate-400 hover:bg-white/5">
-              Sign in
-            </Link>
-          </div>
-        </div>
-
-        {/* ID Proof – strong say */}
-        <div className="card rounded-2xl border-emerald-500/20 p-6 flex flex-col" style={{background:'rgba(16,185,129,0.04)'}}>
-          <div className="mb-4 text-3xl">🪪</div>
-          <h2 className="text-lg font-bold text-white">NZ Citizen</h2>
-          <p className="mt-0.5 text-sm text-emerald-300">for a citizen say</p>
-          <p className="mt-3 flex-1 text-xs leading-relaxed text-slate-500">
-            Verify your NZ identity to give your vote stronger weight. Results can be filtered to show verified citizens only — so your voice counts as distinctly Kiwi.
-          </p>
-          <div className="mt-5">
-            <Link href="/account/verify" className="block rounded-lg border border-emerald-500/40 bg-emerald-500/12 px-4 py-2.5 text-center text-sm font-medium text-emerald-100 hover:bg-emerald-500/20">
-              Verify your identity →
-            </Link>
-          </div>
-          <p className="mt-3 text-xs text-slate-600 italic">
-            * First 500 ID verifications per month are free. When the monthly quota is reached, verification reopens the following month.
-          </p>
-        </div>
-      </div>
-
       {isLoadingSession ? (
         <div className="grid gap-5 lg:grid-cols-2">
           {POLLS.map((poll) => (
@@ -634,6 +595,45 @@ export default function PollsPage() {
           </div>
         </>
       )}
+
+      {/* ── Tier choice – always visible ── */}
+      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        {/* Email – weak say */}
+        <div className="card rounded-2xl p-6 flex flex-col">
+          <div className="mb-4 text-3xl">📧</div>
+          <h2 className="text-lg font-bold text-white">Email</h2>
+          <p className="mt-0.5 text-sm text-slate-400">for a fair say</p>
+          <p className="mt-3 flex-1 text-xs leading-relaxed text-slate-500">
+            Quick to set up with just an email address. Your vote is counted in community results. Anyone can participate.
+          </p>
+          <div className="mt-5 flex flex-col gap-2">
+            <Link href="/auth" className="rounded-lg bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-emerald-500">
+              Create free account →
+            </Link>
+            <Link href="/auth" className="rounded-lg border border-white/12 px-4 py-2 text-center text-sm text-slate-400 hover:bg-white/5">
+              Sign in
+            </Link>
+          </div>
+        </div>
+
+        {/* ID Proof – strong say */}
+        <div className="card rounded-2xl border-emerald-500/20 p-6 flex flex-col" style={{background:'rgba(16,185,129,0.04)'}}>
+          <div className="mb-4 text-3xl">🪪</div>
+          <h2 className="text-lg font-bold text-white">NZ Citizen</h2>
+          <p className="mt-0.5 text-sm text-emerald-300">for a citizen say</p>
+          <p className="mt-3 flex-1 text-xs leading-relaxed text-slate-500">
+            Verify your NZ identity to give your vote stronger weight. Results can be filtered to show verified citizens only — so your voice counts as distinctly Kiwi.
+          </p>
+          <div className="mt-5">
+            <Link href="/account/verify" className="block rounded-lg border border-emerald-500/40 bg-emerald-500/12 px-4 py-2.5 text-center text-sm font-medium text-emerald-100 hover:bg-emerald-500/20">
+              Verify your identity →
+            </Link>
+          </div>
+          <p className="mt-3 text-xs text-slate-600 italic">
+            * First 500 ID verifications per month are free. When the monthly quota is reached, verification reopens the following month.
+          </p>
+        </div>
+      </div>
 
       <section className="mt-10 rounded-2xl border border-white/8 bg-white/3 px-6 py-5">
         <h3 className="mb-2 font-semibold text-white">Want to see your MP's voting record?</h3>
